@@ -1,3 +1,0 @@
-- New Health System
-- Health Item 3%
-- timebomb 24% instead of 27%

@@ -1,3 +1,0 @@
-- Fixed Issue where item ids 4 and 2 were mixed
-- Fixed Tile bug with item loading
-- Fixed extra grass layer above background

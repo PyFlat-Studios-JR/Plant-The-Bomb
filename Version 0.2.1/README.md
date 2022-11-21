@@ -25,8 +25,9 @@
     - Place Smoke Bomb
 
 # Changelog:
-- Fixed Grass gen Issue
-- Added Level Selection Screen
+- New Health System
+- Health Item 3%
+- timebomb 24% instead of 27%
 
 # How To Play:
 - You are the player with the brown hair

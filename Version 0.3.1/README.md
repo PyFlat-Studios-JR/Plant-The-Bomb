@@ -25,8 +25,7 @@
     - Place Smoke Bomb
 
 # Changelog:
-- Fixed Grass gen Issue
-- Added Level Selection Screen
+- Adding Enemy Health Bars
 
 # How To Play:
 - You are the player with the brown hair

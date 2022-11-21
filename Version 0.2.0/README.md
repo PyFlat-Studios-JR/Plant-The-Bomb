@@ -25,8 +25,8 @@
     - Place Smoke Bomb
 
 # Changelog:
-- Fixed Grass gen Issue
-- Added Level Selection Screen
+- Adding Enemy System
+- Update of Map file Generation
 
 # How To Play:
 - You are the player with the brown hair
@@ -38,7 +38,6 @@
 - +Fire: Your explosion range increased by one
 - Dynamite: You now have a dynamite you can place, but these explode a range 5*5, so run
 - Time Bomb: Now you have a time bomb, if you place them you can let them explode like in the keybinds explained
-- Heart: The heart gives you extra life, you now can survive an explosion of your bombs, or you can take damage from enemys
 - Smoke Granade: Useless (Will be removed in the Version 2.0)
 - Ghost: If you collect a ghost, you get one of a few curses, but you have to find out by yourself what they do
 - You can also bomb every item away if you want

@@ -25,8 +25,9 @@
     - Place Smoke Bomb
 
 # Changelog:
-- Fixed Grass gen Issue
-- Added Level Selection Screen
+- Fixed Issue where item ids 4 and 2 were mixed
+- Fixed Tile bug with item loading
+- Fixed extra grass layer above background
 
 # How To Play:
 - You are the player with the brown hair

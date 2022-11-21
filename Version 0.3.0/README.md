@@ -25,8 +25,11 @@
     - Place Smoke Bomb
 
 # Changelog:
-- Fixed Grass gen Issue
-- Added Level Selection Screen
+- Fixed Issue where dynamite used on never exploded empty blocks generated items
+- Dynamite now does 2 Damage
+- Switched Id's for empty spaces from 4 to -1 **WARNING** all json files have to be regenerated to work
+- Removed debug prints to increase performance
+- Added Map loading during run with different starting values
 
 # How To Play:
 - You are the player with the brown hair
