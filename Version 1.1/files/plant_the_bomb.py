@@ -42,6 +42,7 @@ def init_login():
         login.geometry("250x100")
         login.resizable(0,0)
         login.title("Login")
+        login.protocol("WM_DELETE_WINDOW", end_all)
     welcome = Label(login, text = "Enter Username and Password", font="Calibri 11")
     welcome.place(x=35, y=0)
     #Username 
@@ -978,6 +979,7 @@ def select_level():
         lvs = Tk()
         lvs.geometry("160" + 'x' + "160" + '+10+10')
         lvs.resizable(0,0)
+        lvs.protocol("WM_DELETE_WINDOW", end_all)
     ex = Button(lvs,activebackground="red",bg="red",text="Q", command=lambda:kill_game())
     ex.place(x=130,y=10,width=20,height=20)
     lvs1 = levelbutton(0,0,0)
@@ -1060,6 +1062,8 @@ def load_game():
                         lvcls[i-1] = "green"
         return True
         #print("Load Succesfull")
+def end_all():
+    os._exit(0)
 #Main
 p = 0
 #load_level(1,1,2,3,"showcase.json")
@@ -1069,6 +1073,7 @@ load_cheatcodes()
 setup_keybind()
 #select_level()
 #Mainloop
+master.protocol("WM_DELETE_WINDOW", end_all)
 while True:
     master.update_idletasks()
     master.update()
