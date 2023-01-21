@@ -880,6 +880,7 @@ def select_level():
         lvs = Tk()
         lvs.geometry("160" + 'x' + "160" + '+10+10')
         lvs.resizable(0,0)
+        lvs.protocol("WM_DELETE_WINDOW", end_all)
     ex = Button(lvs,activebackground="red",bg="red",text="Q", command=lambda:kill_game())
     ex.place(x=130,y=10,width=20,height=20)
     lvs1 = levelbutton(0,0,0)
@@ -900,6 +901,9 @@ def unlock_next():
                 select_level()
                 return
     select_level()
+def end_all():
+    os._exit(0)
+master.protocol("WM_DELETE_WINDOW", end_all)
 #Main
 p = 0
 #load_level(1,1,2,3,"showcase.json")

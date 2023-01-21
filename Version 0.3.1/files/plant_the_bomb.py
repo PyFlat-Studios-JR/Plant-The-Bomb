@@ -659,6 +659,9 @@ def load_level(s_bombs, s_exp, s_range,ph, Map):
     generate_game()
     p=0
     p = Player(start, w, data, player_health)
+def end_all():
+    os._exit(0)
+master.protocol("WM_DELETE_WINDOW", end_all)
 #Main
 p = 0
 load_level(1,1,2,3,"map.json")

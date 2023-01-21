@@ -502,6 +502,9 @@ def use_time():
     global dynamite_used
     dynamite_used = True
     print("Used DYN")"""
+def end_all():
+    os._exit(0)
+master.protocol("WM_DELETE_WINDOW", end_all)
 while True:
     master.update_idletasks()
     master.update()
