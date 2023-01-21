@@ -10,8 +10,6 @@ echo performing check for required modules
 for /F "delims=;" %%i in (requirements.txt) do (
 python -c "import pkgutil; import os; os.system('echo %%i: OK' if pkgutil.find_loader('%%i') else 'echo %%i: MISSING')"
 )
-choice /C YN /M "Perform automatic installation now?"
-if %errorlevel%==1 (
 echo installing required modules...
 for /F "delims=;" %%i in (requirements.txt) do (
 pip -q -q -q install %%i
@@ -20,18 +18,13 @@ echo installed %%i
 echo Installation successfull
 echo OK > status.txt
 echo proceeding to start game
-)
-:skip
-goto start
-pause
-exit
 :start
 echo off
-title Plant the Bomb Console
+title Plan The Bomb Console
 cls
 echo **INFO**
 echo This Screen has no meaning, just minimize it
-echo Running Bomberman v.1.1
+echo Running Plant The Bomb v.1.1
 python plant_the_bomb.py
 cls
 echo Process terminated
