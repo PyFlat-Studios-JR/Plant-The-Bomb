@@ -14,17 +14,17 @@
     - Place Smoke Bomb
 
 # How To Play:
-- You are the player with the brown hair
-- Your main target is to kill all enemys (red hair)
-- You can kill them with bombs, dynamite and time bombs
-- But these items damage you too
-- If you hit one of the brick walls with the bomb, there is a chance, that an item drops out of it
-- +Bomb: If you collected +Bomb you can place multiple Bombs at a time
-- +Fire: Your explosion range increased by one
-- Dynamite: You now have a dynamite you can place, but these explode a range 5*5, so run
-- Time Bomb: Now you have a time bomb, if you place them you can let them explode like in the keybinds explained
-- Smoke Granade: Useless (Will be removed in the Version 2.0)
-- Ghost: If you collect a ghost, you get one of a few curses, but you have to find out by yourself what they do
-- You can also bomb every item away if you want
-- In the up you see your inventory, so you have an overview about your items
+- You are the player with brown hair
+- Your main goal is to kill all the enemies (red hair).
+- You can kill them with bombs, dynamite and time bombs.
+- But these items will also harm you
+- If you hit a wall with the bomb, there is a chance that an item will fall out of it
+- +Bomb: If you have collected *+Bomb*, you can place several bombs at once
+- +Fire: Your explosion range has been increased by one
+- Dynamite: You now have one dynamite you can place, but these explode in a range of 5*5, so run
+- Time Bomb: You now have a time bomb, when you place it you can explode it as explained in the keybinds
+- Smoke Grenade: Useless (will be removed in version 2.0)
+- Ghost: When you collect a ghost, you get one of several curses, but you have to figure out for yourself what they do
+- You can also bomb away any item if you want to
+- Above you can see your inventory, so you have an overview of your items
 - Have fun
