@@ -4,15 +4,27 @@ import time
 import random
 import os
 import pathlib
-
+import functools
+lvs = None
+solved = False
+lid = 0
+lvcls = ["white","red","red","red","null"]
+lvls = ["active","disabled","disabled","disabled","null"]
+maps = ["level1.json","debug.json", "showcase.json","glitch.json"]
+levels = [False,False,False,False]
+global_bombs= 1
+global_exp  = 2
+global_health = 1
 path = str(pathlib.Path(__file__).parent.absolute()) + "/textures/"
 files = os.listdir(path)
 addpath = "textures/"
+master = 0
+w = 0
+inv = 0
 master = Tk()
 master.title("Plant The Bomb")
 width = 25*20
 height = 25*20
-player_health = 1
 master.geometry((str(width) + 'x' + str(height + 80)) + '+10+10')
 master.resizable(0,0)
 w = Canvas(master, width=width, height = height)
@@ -21,6 +33,8 @@ w.place(x = 0, y = 80)
 inv = Canvas(master,width=width, height =80)
 inv.pack(expand=YES, fill= BOTH)
 inv.place(x = 0, y = 0)
+    
+player_health = 1
 textures = []
 for i in range(0, len(files)):
     textures.append(PhotoImage(file=addpath + files[i]))  
@@ -57,7 +71,7 @@ smoke_used = False
 curse_life = 0
 exp_range = 2
 #TODO
-file = "map.json"
+file = "glitch.json"
 data = json.loads(open(file, "r").read())["world"]
 #//TODO
 enemy = []
@@ -216,8 +230,9 @@ class Player():
     def damage(self):
         update_item(5, 1, 1)
         if colita[5] <= 0:
-            print("U ded")
-            quit()
+            update_item(5, 1, 2)
+            select_level()
+            return
 class Bomb():
     def __init__(self,position):
         self.x,self.y = position
@@ -531,7 +546,7 @@ def exp_time():
                 bombs[i].life = 0
 def update_frame():
     exp()
-    global curse_life, long_fuse, short_fuse, short_exp, poop_mode, data, Enemy, entity
+    global curse_life, long_fuse, short_fuse, short_exp, poop_mode, data, Enemy, entity, solved
     if curse_life <= 0:
         long_fuse = False
         short_fuse = False
@@ -547,9 +562,12 @@ def update_frame():
     global bombs, exp_range
     update_item(0, 2, exp_range-1)
     update_item(1,2, len(bombs))
-    if not (True in enemy) and len(enemy)>0:
-        print("Ya Win")
-        quit()
+    if not (True in enemy) and len(enemy)>0 and not solved:
+        solved = True
+        unlock_next()
+def kill_all():
+    global enemy
+    enemy = [False]
 def setup_keybind():
     global master
     master.bind('w', lambda event: p.move_up(w))
@@ -561,12 +579,13 @@ def setup_keybind():
     master.bind('t', lambda event: use_time())
     master.bind('#', lambda event: exp_time())
     master.bind('m', lambda event: use_smoke())
-    #master.bind("r", lambda event: load_level(1,1,2,3,"debug.json"))
+    master.bind("e", lambda event: select_level())
+    master.bind("k", lambda event: kill_all())
 def generate_game():
-    global data, tile, start
+    global data, tile, start, lvs, solved
     for i in range(0, len(data)):
         for j in range(0, len(data[i])):
-            if j % 2 == 0 or i % 2 == 0:
+            if j % 2 == 0 and i % 2 == 0 or j % 2 != 0 and i % 2 != 0:
                 w.create_image(i*20+10, j*20 +10,  image=textures[9])
             else:
                 w.create_image(i*20+10, j*20 +10,  image=textures[10])
@@ -582,7 +601,7 @@ def generate_game():
             elif (data[i][j]["id"] == 2):
                 global start
                 start = (i,j) 
-                apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[10]))
+                apd.append(None)
             elif (data[i][j]["id"] == 3):
                 apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[15]))
             elif (data[i][j]["id"] == -1):
@@ -620,31 +639,24 @@ def generate_game():
         for j in range (0, len(data[i])):
             if type(data[i][j]) != type(1):
                 data[i][j] = data[i][j]["id"]
+    master.deiconify()
+    solved = False
+    if (lvs != None):
+        lvs.destroy()
+        lvs = None
 #setup Global variables
-def select_level():
-    level_sel = Tk()
-    level_sel.geometry('380x120')
-    level_sel.resizable(0, 0)
-    level_sel.configure(bg="#696969")
-    leng = 3
-    buttons = []
-    level_text = Label(level_sel, text = "Level Auswählen", font="Calibri 15", bg="#696969", fg="white")
-    level_text.place(x=120, y=15)
-    level_sel.title("Level Auswählen")
-    for i in range(leng):
-        buttons.append(Button(level_sel, text=i+1, bg="white", fg="#696969"))
-        buttons[i].place(x=((380/(leng+1))*(i+1)), y=60, width=20, height=20)
-    
-
-    
-def load_level(s_bombs, s_exp, s_range,ph, Map):
-    global long_fuse, short_fuse, short_exp, sonic_speed, snail_speed, poop_mode, dynamite_used, smoke_used, timebomb_used
+def load_level(s_bombs, s_exp, s_range,ph, Map, i):
+    global long_fuse, short_fuse, short_exp, sonic_speed, snail_speed, poop_mode, dynamite_used, smoke_used, timebomb_used, lid
     long_fuse, short_fuse, short_exp, sonic_speed, snail_speed, poop_mode, dynamite_used, smoke_used, timebomb_used = (False,False,False,False,False,False,False,False,False)
     global bombs,exps,items,curse_life,exp_range
+    lid = i
     items = [None]
     bombs = [None]*s_bombs
     exps = [None]*s_exp
     curse_life = 0
+    update_item(2, 2, 0)
+    update_item(3, 2, 0)
+    update_item(4, 2, 0)
     exp_range = s_range
     global enemy, entity,tile,data,  player_health,w,master,p
     enemy = []
@@ -656,15 +668,53 @@ def load_level(s_bombs, s_exp, s_range,ph, Map):
     w = Canvas(master, width=width, height = height)
     w.pack(expand=YES, fill= BOTH)
     w.place(x = 0, y = 80)
-    generate_game()
     p=0
+    generate_game()
     p = Player(start, w, data, player_health)
+def kill_game():
+    master.destroy()
+    lvs.destroy()
+    quit()
+class levelbutton(Button):
+    def __init__(self,i,x,y):
+        global lvs, lvcls, lvls, lid, levels
+        super().__init__(lvs,text=str(i+1),activebackground=lvcls[i],bg=lvcls[i],state=lvls[i],command=functools.partial(load_level,global_bombs,global_bombs,global_exp,global_health,maps[i], i))
+        self.place(x=x*30+10,y=y*30+10,width=20,height=20)
+def select_level():
+    master.withdraw()
+    global lvls, lvcls, lvs, textures
+    if lvs == None:
+        lvs = Tk()
+        lvs.geometry("160" + 'x' + "160" + '+10+10')
+        lvs.resizable(0,0)
+        lvs.protocol("WM_DELETE_WINDOW", end_all)
+    ex = Button(lvs,activebackground="red",bg="red",text="Q", command=lambda:kill_game())
+    ex.place(x=130,y=10,width=20,height=20)
+    lvs1 = levelbutton(0,0,0)
+    lvs2 = levelbutton(1,1,0)
+    lvs3 = levelbutton(2,2,0)
+    lvs3 = levelbutton(3,3,0) 
+    """lvs5 = Button(lvs,bg="whitee",state="active",command=functools.partial(load_level,1,1,2,3,maps[0]))
+    lvs5.place(x=130,y=10,width=20,height=20)"""
+def unlock_next():
+    global lvls, lvcls,lid, levels
+    if not levels[lid]:
+        for i in range (0, len(lvls)):
+            if lvls[i] != "active":
+                lvls[i] = "active"
+                lvcls[i] = "white"
+                lvcls[i-1] = "green"
+                levels[lid] = True
+                select_level()
+                return
+    select_level()
 def end_all():
     os._exit(0)
 master.protocol("WM_DELETE_WINDOW", end_all)
 #Main
 p = 0
-load_level(1,1,2,3,"map.json")
+#load_level(1,1,2,3,"showcase.json")
+select_level()
 setup_keybind()
 #select_level()
 #Mainloop
