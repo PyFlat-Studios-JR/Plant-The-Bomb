@@ -8,8 +8,72 @@ import pathlib
 import functools
 import hashlib
 from pathlib import *
-import resources.crypto as crypto
-import resources.Pic_Txt as sm
+from cryptography.fernet import Fernet
+import base64
+from PIL import Image, ImageDraw
+
+class sm():
+    def num_to_pic(values, name):
+        ar = values
+        wert = (round(len(ar)/10))+1
+        img = Image.new('RGB', (10, wert), color = 'white')
+        ar.append((255,255,255))
+        while len(ar)%10 != 0:
+            ar.append((0,0,0))
+        for g in range(10):
+            ar.append((0,0,0))
+        i=0
+        p=0
+        while i < wert:
+            for j in range(0,10):
+                draw = ImageDraw.Draw(img)
+                draw.point((j, i), fill=ar[p])
+                p += 1
+            i += 1
+                
+        img.save(name + '.png')
+
+    def pic_to_num(filename):
+        im = Image.open(filename + '.png',"r")
+        result = []
+        for j in range(im.height):
+            for i in range(im.width):
+                result.append(im.getpixel((i,j)))
+                r,g,b = result[len(result)-1]
+                if r == 255 and g == 255 and b == 255:
+                    result.pop()
+                    return result
+        return result
+
+class crypto():
+    def encode(text, key):
+        key = hashlib.md5(key.encode()).hexdigest()
+        key = key.encode("ascii")
+        key = base64.b64encode(key)
+        msg = text
+        msg = msg.encode()
+        f = Fernet(key)
+        ciphertext = f.encrypt(msg)
+        ciphertext = ciphertext.decode()
+        return ciphertext
+    def decode(text, kkey):
+        key = hashlib.md5(kkey.encode()).hexdigest()
+        key = key.encode("ascii")
+        key = base64.b64encode(key)
+        msg = text
+        msg = msg.encode()
+        f = Fernet(key)
+        try:
+            cleartext = f.decrypt(msg)
+        except Exception as ex:
+            print(type(ex))
+            print(ex)
+            print("An Error has ocurred")
+            return None
+        cleartext = cleartext.decode()
+        return cleartext
+
+
 login = None
 User = "Jonas"
 Pass = "Minecraft"
