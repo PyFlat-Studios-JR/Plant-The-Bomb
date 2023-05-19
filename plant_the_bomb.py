@@ -14,12 +14,11 @@ dynamite_used = False
 timebomb_used = False
 curse_life = 0
 exp_range = 2
-file = "Map2.json"
+file = "Map1.json"
 data = json.loads(open(file, "r").read())["world"]
 path = str(pathlib.Path(__file__).parent.absolute()) + "/textures/"
 files = os.listdir(path)
 addpath = "textures/"
-print(files)
 
 tile = []
 master = Tk()
@@ -341,7 +340,7 @@ class explosion():
                     w.delete(tile[tmp_x][tmp_y])
                     data[tmp_x][tmp_y] = -1
                     items[i] = None
-                    print(items)
+                    #print(items)
                     return True
         return False
 master.bind('w', lambda event: p.move_up(w))
@@ -465,14 +464,14 @@ class Item():
         if (self.reg):
             items.append(self)
             self.idx = len(items)-1
-        print(items)
+        #print(items)
     def collect(self):
         global items, data, tile,w, bombs, exps, exp_range
         #Clean up data
         items[self.idx] = None
         w.delete(tile[self.x][self.y])
         data[self.x][self.y] = -1
-        print(items)
+        #print(items)
         #Code that actually does something
         if (self.iid == 2):
             get_Curse()
