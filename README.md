@@ -1,5 +1,5 @@
 # Credits:
-- Some textures are from Freepik.com
+- Some textures are from <a href="https://de.freepik.com/">Freepik.com</a>
 
 # Control:
 1. Key: W, A, S, D
