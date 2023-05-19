@@ -43,7 +43,7 @@ enemy = []
 entity = []
 tile = []
 master = Tk()
-master.title("Plant The Bomb")
+master.title("Plant_The_Bomb")
 width = len(data)*20
 height = len(data)*20
 master.geometry((str(width) + 'x' + str(height + 80)) + '+10+10')
@@ -79,11 +79,10 @@ for i in range(0, len(files)):
 
 files[0]
                     
-colit = [textures[8], textures[4], textures[13],textures[6], textures[14]]
+colit = [textures[8], textures[4], textures[13],textures[6], textures[14], textures[18]]
 colita = []
 text = []
 print(textures)
-colit = [textures[8], textures[4], textures[13],textures[6], textures[14]]
 for j in range(1, len(colit) + 1):
     a = (width -(len(colit)*20))/(len(colit)+1)
     if j == 1:
@@ -145,11 +144,12 @@ for i in range (0, len(data)):
         data[i][j] = data[i][j]["id"]
 print(data)
 class Player():
-    def __init__(self, pos, w, m):
+    def __init__(self, pos, w, m, health):
         self.m = m
         self.x, self.y = pos
         self.obj = w.create_image(self.x*20+10, self.y*20 +10,  image=textures[11])
         self.f = [0,3,6]
+        update_item(5, 2, health)
     def move_up(self, w):
         if self.m[self.x][self.y - 1] in self.f :
             return
@@ -197,6 +197,11 @@ class Player():
             if items[i] != None:
                 if items[i].x == self.x   and  items[i].y == self.y:
                     items[i].collect()
+    def damage(self):
+        update_item(5, 1, 1)
+        if colita[5] <= 0:
+            print("U ded")
+            quit()
 class Bomb():
     def __init__(self,position):
         self.x,self.y = position
@@ -267,8 +272,7 @@ class explosion():
         global data, tile, w, entity
         for i in range (self.x, self.x+self.r):
             if (i == p.x and self.y == p.y):
-                print("U DED")
-                quit()
+                p.damage()
             if (data[i][self.y]== 0):
                 return
             if (data[i][self.y] in self.destr):
@@ -295,8 +299,7 @@ class explosion():
         global data, tile, w, p
         for i in range (self.y, self.y+self.r):
             if (self.x == p.x and i == p.y):
-                print("U DED")
-                quit()
+                p.damage()
             if (data[self.x][i] == 0):
                 return
             if (data[self.x][i] in self.destr):
@@ -323,8 +326,7 @@ class explosion():
         global data, tile, w, p
         for i in range (0, self.r):
             if (self.x == p.x and self.y-i == p.y):
-                print("U DED")
-                quit()
+                p.damage()
             if (data[self.x][self.y - i] == 0):
                 return
             if (data[self.x][self.y - i] in self.destr):
@@ -351,8 +353,7 @@ class explosion():
         global data, tile, w, p
         for i in range (0, self.r):
             if (self.x-i == p.x and self.y == p.y):
-                print("U DED")
-                quit()
+                p.damage()
             if (data[self.x-i][self.y] == 0):
                 return
             if (data[self.x-i][self.y] in self.destr):
@@ -382,8 +383,7 @@ class explosion():
                 if i < len(data) and i >= 0 and j < len(data) and j >= 0:
                     self.c.append(w.create_image(i*20+10, j*20 +10,  image=textures[8]))
                     if (i == p.x and j == p.y):
-                        print("U DED")
-                        quit()
+                        p.damage()
                     if data[i][j] != 0 and data[i][j] != 6:
                         if not self.check_item((i,j)):
                             w.delete(tile[i][j])
@@ -445,7 +445,7 @@ master.bind('t', lambda event: use_time())
 master.bind('#', lambda event: exp_time())
 master.bind('c', lambda event: get_Curse())
 master.bind('m', lambda event: use_smoke())
-p = Player(start, w, data)
+p = Player(start, w, data, 10)
 master.resizable(0,0)
 bombs = [None]
 exps  = [None]
@@ -531,8 +531,10 @@ class Item():
         self.seed = random.randint(0,1000)
         if (self.seed < 30):
             self.iid = 3 #3 % Dynamite
-        elif (self.seed >= 30 and self.seed  < 300):
-            self.iid = 2 #27% Timed Bomb
+        elif (self.seed >= 30 and self.seed < 60):
+            self.iid = 6 #3 % Health+
+        elif (self.seed >= 60 and self.seed  < 300):
+            self.iid = 2 #24% Timed Bomb
         elif (self.seed >= 300 and self.seed < 550):
             self.iid = 0 #25% bomb+
         elif (self.seed >= 550 and self.seed < 800):
@@ -553,6 +555,8 @@ class Item():
             self.image = textures[14]
         elif (self.iid == 5):
             self.image = textures[13]
+        elif (self.iid == 6):
+            self.image = textures[19]
         self.x,self.y = pos
         self.reg = True
         if self.iid == 5:
@@ -590,6 +594,8 @@ class Item():
             update_item(4,0, 1)
         elif self.iid == 5:
             update_item(2,0,1)
+        elif self.iid == 6:
+            update_item(5,0,1)
 def use_dynamite():
     global colit, colita, dynamite_used
     if (colita[3] > 0 and not dynamite_used):
