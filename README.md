@@ -1,10 +1,6 @@
 # Credits:
 - Some textures are from Freepik.com
 
-# Requirements:
-- Python 3
-- Pip
-
 # Control:
 1. Key: W, A, S, D
     - Move Up,Left,Down,Right
