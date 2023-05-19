@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import messagebox
 import json
 import time
 import random
@@ -7,18 +8,114 @@ import pathlib
 import functools
 import hashlib
 from pathlib import *
+import resources.crypto as crypto
+import resources.Pic_Txt as sm
+login = None
+User = "Jonas"
+Pass = "Minecraft"
+lvcls = ["white","red","red","red","null"]
+lvls = ["active","disabled","disabled","disabled","null"]
+levels = [True,False,False,False,False]    
+def to_bin(value, length):
+    bits = []
+    for i in range (0, length):
+        x = length-i-1
+        if value >= 2**x:
+            value -= 2**x
+            bits.append(1)
+        else:
+            bits.append(0)
+    return bits
+def to_dez(value):
+    length = len(value)
+    dez = 0
+    for i in range (0, length):
+        x = length-1-i
+        if value[i] == 1:
+            dez += 2**x
+    return dez
+def init_login():
+    global login
+    master.withdraw()
+    if login == None:
+        login = Tk()
+        login.geometry("250x100")
+        login.resizable(0,0)
+        login.title("Login")
+        login.protocol("WM_DELETE_WINDOW", end_all)
+    welcome = Label(login, text = "Enter Username and Password", font="Calibri 11")
+    welcome.place(x=35, y=0)
+    #Username 
+    ulabel = Label(login, text = "Username:", font="Calibri 9")
+    ulabel.place(x=0,y=20)
+    username = Entry(login, font="Calibri")
+    username.place(x=65, y=20, width = 185, height = 20)
+    #Password
+    plabel = Label(login, text = "Password:", font="Calibri 9")
+    plabel.place(x=0,y=40)
+    password = Entry(login,  show="*", font="Calibri")
+    password.place(x=65, y=40, width = 185, height = 20)
+    submit = Button(login, text="Submit", font="Calibri", command = lambda: [try_login()])
+    submit.place(x=10,y=65, width = 230, height = 30)
+    def try_login():
+        global User, Pass
+        usr = username.get()
+        uus = usr
+        pas = password.get()
+        if len(pas) < 8:
+            messagebox.showwarning("ERROR", "Password has to contain at least 8 Digits")
+            return
+        usr = hashlib.md5(usr.encode()).hexdigest()
+        file = Path("saves/"+usr+".png")
+        if file.is_file():
+            User = uus
+            Pass = pas
+            #messagebox.showwarning("ERROR", "Username is ")
+            if load_game():
+                login.destroy()
+                select_level()
+                return
+            else:
+                messagebox.showwarning("ERROR", "Invalid password")
+            return
+        else:
+            confirm = messagebox.askquestion("WARNING", "You CANNOT change or recover your USERNAME or PASSWORD after registering!!! \n Continue?")
+            if confirm == "yes":
+                messagebox.showinfo("REGISTER", "You have been registered")
+                User = uus
+                Pass = pas
+                save_game()
+                login.destroy()
+                select_level()
+            else:
+                return
 lvs = None
 solved = False
 lid = 0
+def load_cheatcodes():
+    a = Path("dev_tools/login_skip.txt")
+    if a.is_file():
+        st = open("dev_tools/login_skip.txt").read()
+        g = st.split(":")
+        a = hashlib.md5(g[0].encode()).hexdigest()
+        b = hashlib.md5(g[1].encode()).hexdigest()
+        c = hashlib.md5(st.encode()).hexdigest()
+        if b == "d18f636dc1504501adb741a6a7d46a3c" and a == "e6ec07b0c4424af7e7011c7d0c70c102" and c == "5357a0264faefde7dba49479a6cf59af":
+            global login
+            login.destroy()
+            select_level()
+        else:
+            print(a,b,c)
+            return
+            
+    else:
+        return
 locked_items = [False,False,False,False,False,False,False]
 texts = []
 scripts = [None]
 scriptdata = []
-lvcls = ["white","red","red","red","null"]
-lvls = ["active","disabled","disabled","disabled","null"]
 path = str(pathlib.Path(__file__).parent.absolute()) + "/maps/"
 maps = ["maps/tutorial.json","maps/level1.json","maps/level2.json","maps/level3.json"]
-levels = [False,False,False,False]
 global_bombs= 1
 global_exp  = 2
 global_health = 1
@@ -40,7 +137,6 @@ w.place(x = 0, y = 80)
 inv = Canvas(master,width=width, height =80)
 inv.pack(expand=YES, fill= BOTH)
 inv.place(x = 0, y = 0)
-    
 player_health = 1
 textures = []
 for i in range(0, len(files)):
@@ -221,6 +317,7 @@ class Enemy():
         self.attack_countdown_max = 25
         self.movement_countdown = self.movement_countdown_max
         self.attack_countdown = self.attack_countdown_max
+        self.stored_location = -1
         self.panic = 0
     def damage(self):
         self.health -= 1
@@ -286,7 +383,8 @@ class Enemy():
             return
         else:
             w.move(self.obj, x*20, y*20)
-            data[self.x][self.y] = -1
+            data[self.x][self.y] = self.stored_location
+            self.stored_location = data[self.x+x][self.y +y]
             data[self.x+x][self.y +y] = 6
             self.y += y
             self.x += x
@@ -562,7 +660,7 @@ class explosion():
                     if (i == p.x and j == p.y):
                         p.damage()
                         p.damage()
-                    if data[i][j] != 0 and data[i][j] != 6:
+                    if data[i][j] != 0 and data[i][j] != 6 and data[i][j] != 4:
                         if not self.check_item((i,j)):
                             w.delete(tile[i][j])
                             g = data[i][j] != 5 and data[i][j] != -1
@@ -748,7 +846,6 @@ def kill_all():
         else:
             return
     else:
-        print("lol")
         return
 def setup_keybind():
     global master
@@ -776,6 +873,7 @@ def setup_keybind():
     master.bind("e", lambda event: select_level())
     master.bind("E", lambda event: select_level())
     master.bind("k", lambda event: kill_all())
+    master.bind("l", lambda event: save_game())
 def generate_game():
     global data, tile, start, lvs, solved, scripts, scriptdata, texts
     for i in range(0, len(data)):
@@ -802,7 +900,7 @@ def generate_game():
                 apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[7]))
             elif (data[i][j]["id"] == 2):
                 global start
-                start = (i,j) 
+                start = (i,j)
                 apd.append(None)
             elif (data[i][j]["id"] == 3):
                 apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[15]))
@@ -865,6 +963,7 @@ def load_level(s_bombs, s_exp, s_range,ph, Map, i):
     generate_game()
     p = Player(start, w, data, player_health)
 def kill_game():
+    save_game()
     master.destroy()
     lvs.destroy()
     quit()
@@ -891,26 +990,90 @@ def select_level():
     lvs5.place(x=130,y=10,width=20,height=20)"""
 def unlock_next():
     global lvls, lvcls,lid, levels
-    if not levels[lid]:
-        for i in range (0, len(lvls)):
-            if lvls[i] != "active":
-                lvls[i] = "active"
-                lvcls[i] = "white"
-                lvcls[i-1] = "green"
-                levels[lid] = True
-                select_level()
-                return
+    for i in range (0, len(levels)):
+        if not levels[i] and not levels[lid+1] :
+            lvls[i] = "active"
+            lvcls[i] = "white"
+            if False not in levels:
+                lvcls[len(lvcls)-1] = "green"
+            levels[i] = True
+            lvcls[i-1] = "green"
+            select_level()
+            return
     select_level()
+def biin(text):
+    e = []
+    for i in range (0, len(text)):
+        g = to_bin(ord(text[i]), 8)
+        e = e + g
+    return e
+def save_game():
+    global levels, global_exp, global_bombs,global_health
+    level_stats = levels
+    player_stats = {"Health":global_health, "Range":global_exp, "Bombs":global_bombs}
+    g = {"Completion":levels, "PlayerData":player_stats}
+    f = json.dumps(g) # Convert Object into json-String
+    print(f)
+    out = crypto.encode(f, Pass)
+    if len(out) % 3 != 0:
+        while len(out) % 3 != 0:
+            out = out + "#"
+    colors = []
+    for i in range (0, len(out)):
+        colors.append(ord(out[i]))
+    rgb_values = []
+    for i in range (0, int(len(colors)/3)):
+        f = (colors[i*3], colors[i*3+1], colors[i*3+2])
+        rgb_values.append(f)
+    sm.num_to_pic(rgb_values, "saves/" + hashlib.md5(User.encode()).hexdigest())
+    return rgb_values
+def load_game():
+    #Read DATA HERE !!!
+    rgb_values = sm.pic_to_num("saves/" + hashlib.md5(User.encode()).hexdigest())
+    colors = []
+    for i in range (0, len(rgb_values)):
+        r,g,b = rgb_values[i]
+        colors.append(r)
+        colors.append(g)
+        colors.append(b)
+    bi = ""
+    for i in range (0, len(colors)):
+        bi = bi + chr(colors[i])
+    res = crypto.decode(bi, Pass)
+    if res == None:
+        print("Key is invalid or Save corruptet")
+        return False
+    else:
+        pson = json.loads(res)
+        global levels, global_bombs, global_exp, global_health, lvcls, lvls
+        levels = pson["Completion"]
+        print(levels)
+        global_bombs = pson["PlayerData"]["Bombs"]
+        global_exp = pson["PlayerData"]["Range"]
+        global_health = pson["PlayerData"]["Health"]
+        lvcls = ["white","red","red","red","null"]
+        lvls = ["active","disabled","disabled","disabled","null"]
+        for i in range (0, len(levels)):
+            if levels[i]:
+                lvcls[i] = "white"
+                lvls[i] = "active"
+                if i != 0:
+                    if levels[i-1]:
+                        lvcls[i-1] = "green"
+        return True
+        #print("Load Succesfull")
 def end_all():
     os._exit(0)
-master.protocol("WM_DELETE_WINDOW", end_all)
 #Main
 p = 0
 #load_level(1,1,2,3,"showcase.json")
-select_level()
+#select_level()
+init_login()
+load_cheatcodes()
 setup_keybind()
 #select_level()
 #Mainloop
+master.protocol("WM_DELETE_WINDOW", end_all)
 while True:
     master.update_idletasks()
     master.update()
