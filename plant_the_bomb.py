@@ -5,13 +5,19 @@ import random
 import os
 import pathlib
 import functools
+import hashlib
+from pathlib import *
 lvs = None
 solved = False
 lid = 0
+locked_items = [False,False,False,False,False,False,False]
+texts = []
+scripts = [None]
+scriptdata = []
 lvcls = ["white","red","red","red","null"]
 lvls = ["active","disabled","disabled","disabled","null"]
 path = str(pathlib.Path(__file__).parent.absolute()) + "/maps/"
-maps = ["maps/level1.json","maps/debug.json","maps/showcase.json","maps/glitch.json"]
+maps = ["maps/tutorial.json","maps/level1.json","maps/level2.json","maps/level3.json"]
 levels = [False,False,False,False]
 global_bombs= 1
 global_exp  = 2
@@ -80,10 +86,49 @@ enemy = []
 entity = []
 tile = []
 #setup Texture System
-
+class script():
+    def __init__(self, pos, cmd, args, stable, s):
+        global scripts, locked_items
+        self.x,self.y = pos
+        self.cmd = cmd
+        self.args = args
+        self.stable = stable
+        st = False
+        self.s = s
+        if self.s:
+            for i in range (0, len(scripts)):
+                if scripts[i] == None:
+                    self.idx = i
+                    st = True
+            if not st:
+                scripts.append(None)
+                self.idx = len(scripts)-1
+            scripts[self.idx] = self
+    def run(self):
+        global scripts,p,w
+        if self.s:
+            if not self.stable:
+                scripts[self.idx] = None
+        if self.cmd == 1:
+            p.tp(self.args[0],self.args[1])
+        elif self.cmd == 2:
+            update_item(self.args[0],self.args[2],self.args[1])
+        elif self.cmd == 3:
+            if self.args[1] == 1:
+                locked_items[self.args[0]] = True
+            else:
+                locked_items[self.args[0]] = False
+        elif self.cmd == 4:
+            change_message(texts[self.args[0]], 1)
+def get_vector(root,top):
+    rx,ry = root
+    tx,ty = top
+    vx = tx - rx
+    vy = ty - ry
+    return (vx,vy)
 class Item():
-    def __init__(self, pos, sed):
-        global items
+    def __init__(self, pos, sed, bf):
+        global items, locked_items
         self.seed = sed
         if (self.seed < 30):
             self.iid = 3 #3 % Dynamite #check
@@ -99,6 +144,11 @@ class Item():
             self.iid = 2 #20%  Curse #check ?????????????????
         elif (self.seed >= 950):
             self.iid = 5 #5% Smoke Bomb cause its useless
+        if locked_items[self.iid] == True and not bf:
+            self.exists = False
+            return
+        else:
+            self.exists = True
         if (self.iid == 0):
             self.image = textures[0]
         elif (self.iid == 1):
@@ -150,18 +200,28 @@ class Item():
         elif self.iid == 6:
             update_item(5,0,1)
 class Enemy():
-    def __init__(self, pos, type, health, extra1, extra2, w):
+    def __init__(self, pos, tpe, health, extra1, extra2, w):
         global enemy
+        self.f = [0,3,6, 4]
         enemy.append(True)
         self.x, self.y = pos
         #Multiple Texures for multiple Types
-        self.obj = w.create_image(self.x*20+10, self.y*20+10, image=textures[20])
-        self.hitbox = [(0,0)] #Multiple for Multiple Types
+        if tpe == 2:
+            self.obj = w.create_image(self.x*20+10, self.y*20+10, image=textures[20])
+            self.hitbox = [(0,0),(1,0),(-1,0),(0,1),(0,-1)] #Multiple for Multiple Types
+        else:
+            self.obj = w.create_image(self.x*20+10, self.y*20+10, image=textures[20])
+            self.hitbox = [(0,0)] #Multiple for Multiple Types
         self.health = health
         self.reg = len(enemy)-1 
         self.healthbar = w.create_rectangle(self.x*20,self.y*20+18,self.x*20+20,self.y*20+20, fill="black", outline=None)
         self.maxhealth = health
         self.life = 0
+        self.movement_countdown_max = 10
+        self.attack_countdown_max = 25
+        self.movement_countdown = self.movement_countdown_max
+        self.attack_countdown = self.attack_countdown_max
+        self.panic = 0
     def damage(self):
         self.health -= 1
         self.update_health()
@@ -169,8 +229,84 @@ class Enemy():
         if (self.health <= 0):
             w.delete(self.obj)
             enemy[self.reg] = False
+            entity[self.reg] = None
             data[self.x][self.y] = -1
             w.delete(self.healthbar)
+    def move(self):
+        global w, data, p
+        px = p.x
+        py = p.y
+        target_vec = (px-self.x,py-self.y)
+        vx, vy = target_vec
+        if vx != 0:
+            if vx >0:
+                x = 1
+            else:
+                x = -1
+        else:
+            x = 0
+        if vy != 0:
+            if vy >0:
+                y = 1
+            else:
+                y = -1
+        else:
+            y = 0
+        if data[self.x+x][self.y] not in self.f and  not (self.x+x == p.x and self.y == p.y):
+            y = 0
+        elif data[self.x][self.y+y] not in self.f and  not (self.x == p.x and self.y+y == p.y):
+            x = 0
+        if data[self.x+x][self.y +y] in self.f and not (self.x+x == p.x and self.y+y == p.y) and not data[self.x+x][self.y+y] == 6:
+            self.panic = 3
+        if self.x+x == p.x and self.y + y == p.y:
+            panic = 0
+        if self.panic > 0:
+            di = [(0,1),(0,-1),(1,0),(-1,0)]
+            random.shuffle(di)
+            if len(di) > 0:
+                x,y = di[len(di)-1]
+                di.pop()
+            if data[self.x+x][self.y +y] in self.f or (self.x+x == p.x and self.y+y == p.y):
+                random.shuffle(di)
+                if len(di) > 0:
+                    x,y = di[len(di)-1]
+                    di.pop()
+            if data[self.x+x][self.y +y] in self.f or (self.x+x == p.x and self.y+y == p.y):
+                random.shuffle(di)
+                if len(di) > 0:
+                    x,y = di[len(di)-1]
+                    di.pop()
+            if data[self.x+x][self.y +y] in self.f or (self.x+x == p.x and self.y+y == p.y):
+                random.shuffle(di)
+                if len(di) > 0:
+                    x,y = di[len(di)-1]
+                    di.pop()
+            self.panic -= 1
+        if data[self.x+x][self.y +y] in self.f or (self.x+x == p.x and self.y+y == p.y):
+            return
+        else:
+            w.move(self.obj, x*20, y*20)
+            data[self.x][self.y] = -1
+            data[self.x+x][self.y +y] = 6
+            self.y += y
+            self.x += x
+    def update(self):
+        if (self.movement_countdown > 0):
+            self.movement_countdown -= 1
+        if self.movement_countdown <= 0:
+            self.movement_countdown = self.movement_countdown_max
+            self.move()
+        if (self.attack_countdown >0):
+            self.attack_countdown -= 1
+        if (self.attack_countdown <=0):
+            self.attack_countdown = self.attack_countdown_max
+            self.attack()
+    def attack(self):
+        global p
+        for i in range (0, len(self.hitbox)):
+            x,y = self.hitbox[i]
+            if p.x == self.x + x and p.y == self.y + y:
+                p.damage()
     def update_health(self):
         perc = self.health / self.maxhealth
         pix = perc * 20
@@ -191,8 +327,15 @@ class Player():
         self.m = m
         self.x, self.y = pos
         self.obj = w.create_image(self.x*20+10, self.y*20 +10,  image=textures[11])
-        self.f = [0,3,6]
+        self.f = [0,3,6, 4]
         update_item(5, 2, health)
+    def tp(self, x,y):
+        global w
+        vx, vy = get_vector((self.x*20+10,self.y*20+10),(x*20+10,y*20+10))
+        w.move(self.obj, vx,vy)
+        self.x = x
+        self.y = y
+        self.check_item()
     def move_up(self, w):
         if self.m[self.x][self.y - 1] in self.f :
             return
@@ -224,11 +367,15 @@ class Player():
     def check_kill(self):
         return 0
     def check_item(self):
-        global items
+        global items, scripts
         for i in range (0, len(items)):
             if items[i] != None:
                 if items[i].x == self.x   and  items[i].y == self.y:
                     items[i].collect()
+        for i in range (0, len(scripts)):
+            if scripts[i] != None:
+                if scripts[i].x == self.x   and  scripts[i].y == self.y:
+                    scripts[i].run()
     def damage(self):
         update_item(5, 1, 1)
         if colita[5] <= 0:
@@ -314,17 +461,17 @@ class explosion():
                     f = random.randint(0,1)
                     if (f == 1 and g):
                         data[i][self.y] = 5
-                        item = Item((i,self.y),random.randint(0,1000))
-                        tile[i][self.y] = w.create_image(i*20+10, self.y*20 +10,  image=item.image)
+                        item = Item((i,self.y),random.randint(0,1000),False)
+                        if item.exists:
+                            tile[i][self.y] = w.create_image(i*20+10, self.y*20 +10,  image=item.image)
                 return
             else:
                 self.c.append(w.create_image(i*20+10, self.y*20 +10,  image=textures[8]))
                 if data[i][self.y] == 6:
                     for k in range (0, len(entity)):
-                        if i == entity[k].x and self.y == entity[k].y:
-                            entity[k].damage()
-                else: 
-                    data[i][self.y] = -1
+                        if entity[k] != None:
+                            if i == entity[k].x and self.y == entity[k].y:
+                                entity[k].damage()
     def explode_down(self):
         global data, tile, w, p
         for i in range (self.y, self.y+self.r):
@@ -341,17 +488,17 @@ class explosion():
                     f = random.randint(0,1)
                     if (f == 1 and g):
                         data[self.x][i] = 5
-                        item = Item((self.x,i),random.randint(0,1000))
-                        tile[self.x][i] = w.create_image(self.x*20+10, i*20 +10,  image=item.image)
+                        item = Item((self.x,i),random.randint(0,1000),False)
+                        if item.exists:
+                            tile[self.x][i] = w.create_image(self.x*20+10, i*20 +10,  image=item.image)
                 return
             else:
                 self.c.append(w.create_image(self.x*20+10, i*20 +10,  image=textures[8]))
                 if data[self.x][i] == 6:
                     for k in range (0, len(entity)):
-                        if self.x == entity[k].x and i == entity[k].y:
-                            entity[k].damage()
-                else: 
-                    data[self.x][i] = -1
+                        if entity[k] != None:
+                            if self.x == entity[k].x and i == entity[k].y:
+                                entity[k].damage()
     def explode_up(self):
         global data, tile, w, p
         for i in range (0, self.r):
@@ -368,17 +515,17 @@ class explosion():
                     f = random.randint(0,1)
                     if (f == 1 and g):
                         data[self.x][self.y-i] = 5
-                        item = Item((self.x,self.y-i),random.randint(0,1000))
-                        tile[self.x][self.y-i] = w.create_image(self.x*20+10, (self.y-i)*20 +10,  image=item.image)
+                        item = Item((self.x,self.y-i),random.randint(0,1000),False)
+                        if item.exists:
+                            tile[self.x][self.y-i] = w.create_image(self.x*20+10, (self.y-i)*20 +10,  image=item.image)
                 return
             else:
                 self.c.append(w.create_image(self.x*20+10, (self.y-i)*20 +10,  image=textures[8]))
                 if data[self.x][self.y-i] == 6:
                     for k in range (0, len(entity)):
-                        if self.x == entity[k].x and self.y-i == entity[k].y:
-                            entity[k].damage()
-                else: 
-                    data[self.x][self.y - i] = -1
+                        if entity[k] != None:
+                            if self.x == entity[k].x and self.y-i == entity[k].y:
+                                entity[k].damage()
     def explode_left(self):
         global data, tile, w, p
         for i in range (0, self.r):
@@ -395,17 +542,17 @@ class explosion():
                     f = random.randint(0,1)
                     if (f == 1 and g):
                         data[self.x-i][self.y] = 5
-                        item = Item((self.x-i,self.y),random.randint(0,1000))
-                        tile[self.x-i][self.y] = w.create_image((self.x-i)*20+10, self.y*20 +10,  image=item.image)
+                        item = Item((self.x-i,self.y),random.randint(0,1000),False)
+                        if item.exists:
+                            tile[self.x-i][self.y] = w.create_image((self.x-i)*20+10, self.y*20 +10,  image=item.image)
                 return
             else:
                 self.c.append(w.create_image((self.x-i)*20+10, self.y*20 +10,  image=textures[8]))
                 if data[self.x-i][self.y] == 6:
                     for k in range (0, len(entity)):
-                        if self.x-i == entity[k].x and self.y == entity[k].y:
-                            entity[k].damage()
-                else: 
-                    data[self.x-i][self.y] = -1
+                        if entity[k] != None:
+                            if self.x-i == entity[k].x and self.y == entity[k].y:
+                                entity[k].damage()
     def explode_square(self):
         global data,tile,w,p
         for i in range (self.x-3,self.x+3):
@@ -423,29 +570,45 @@ class explosion():
                             f = random.randint(0,1)
                             if (f == 1 and g):
                                 data[i][j] = 5
-                                item = Item((i,j),random.randint(0,1000))
-                                tile[i][j] = w.create_image(i*20+10, j*20 +10,  image=item.image)
+                                item = Item((i,j),random.randint(0,1000), False)
+                                if item.exists:
+                                    tile[i][j] = w.create_image(i*20+10, j*20 +10,  image=item.image)
                     elif data[i][j] == 6:
                         for k in range (0, len(entity)):
-                            if i == entity[k].x and j == entity[k].y:
-                                entity[k].damage()
-                                entity[k].damage()
+                            if entity[k] != None:
+                                if i == entity[k].x and j == entity[k].y:
+                                    if entity[k] != None:
+                                        entity[k].damage()
+                                    if entity[k] != None:
+                                        entity[k].damage()
     def generate_smoke(self):
-        global data, tile, w, p
+        global data, tile, w, p, entity
         for i in range (self.x-3,self.x+4):
             for j in range (self.y-3,self.y+4):
                 if i < len(data) and i >= 0 and j < len(data) and j >= 0:
                     if i == self.x-3 or i == self.x+3 or j == self.y-3 or j == self.y+3:
                         self.c.append(w.create_image(i*20+10,j*20+10, image = textures[16]))
+                        for k in range (0,len(entity)):
+                            if entity[k] != None:
+                                if entity[k].x == i and entity[k].y == j:
+                                    entity[k].panic = 10
         for i in range (self.x-2,self.x+3):
             for j in range (self.y-2,self.y+3):
                 if i < len(data) and i >= 0 and j < len(data) and j >= 0:
                     if i == self.x-2 or i == self.x+2 or j == self.y-2 or j == self.y+2:
                         self.c.append(w.create_image(i*20+10,j*20+10, image = textures[17]))
+                        for k in range (0,len(entity)):
+                            if entity[k] != None:
+                                if entity[k].x == i and entity[k].y == j:
+                                    entity[k].panic = 30
         for i in range (self.x-1,self.x+2):
             for j in range (self.y-1,self.y+2):
                 if i < len(data) and i >= 0 and j < len(data) and j >= 0:
                     self.c.append(w.create_image(i*20+10,j*20+10, image = textures[12]))
+                    for k in range (0,len(entity)):
+                            if entity[k] != None:
+                                if entity[k].x == i and entity[k].y == j:
+                                    entity[k].panic = 50
     def tick_down(self, idx):
         global w, exps
         if (self.life > 0):
@@ -531,7 +694,9 @@ def change_message(text, mode):
     if mode == 0:
         inv.itemconfigure(message, state = "hidden")
     elif mode == 1:
-        inv.itemconfigure(message, text = text, state = "normal")       
+        inv.itemconfigure(message, text = text, state = "normal")
+    else:
+        print("ERROR Falsche Übergabe-Werte")
 def update_item(pos, mode, val):
     if mode == 0:
         colita[pos] += val
@@ -560,6 +725,7 @@ def update_frame():
     for i in range (0,len(entity)):
         if entity[i] != None:
             entity[i].tick_down()
+            entity[i].update()
     if (poop_mode):
         plant()
     global bombs, exp_range
@@ -569,29 +735,62 @@ def update_frame():
         solved = True
         unlock_next()
 def kill_all():
-    global enemy
-    enemy = [False]
+    ff = Path("dev_tools/token.txt")
+    if ff.is_file():
+        st = open("dev_tools/token.txt", "r").read()
+        g = st.split(":")
+        a = hashlib.md5(g[0].encode()).hexdigest()
+        b = hashlib.md5(g[1].encode()).hexdigest()
+        c = hashlib.md5(st.encode()).hexdigest()
+        if b == "32fd40d699533c83a25a49367f09e299" and a == "d42f9269536867e69b0bf0a815a13f37" and c == "04d3326fff2d27ddbca62e70d0ea7352":
+            global enemy
+            enemy = [False]
+        else:
+            return
+    else:
+        print("lol")
+        return
 def setup_keybind():
     global master
     master.bind('w', lambda event: p.move_up(w))
+    master.bind('W', lambda event: p.move_up(w))
+    master.bind('<Up>', lambda event: p.move_up(w))
     master.bind('s', lambda event: p.move_down(w))
+    master.bind('S', lambda event: p.move_down(w))
+    master.bind('<Down>', lambda event: p.move_down(w))
     master.bind('a', lambda event: p.move_left(w))
+    master.bind('A', lambda event: p.move_left(w))
+    master.bind('<Left>', lambda event: p.move_left(w))
     master.bind('d', lambda event: p.move_right(w))
+    master.bind('D', lambda event: p.move_right(w))
+    master.bind('<Right>', lambda event: p.move_right(w))
     master.bind('<space>', lambda event: plant())
     master.bind('y', lambda event: use_dynamite())
+    master.bind('Y', lambda event: use_dynamite())
     master.bind('t', lambda event: use_time())
+    master.bind('T', lambda event: use_time())
     master.bind('#', lambda event: exp_time())
+    master.bind('\'', lambda event: exp_time())
     master.bind('m', lambda event: use_smoke())
+    master.bind('M', lambda event: use_smoke())
     master.bind("e", lambda event: select_level())
+    master.bind("E", lambda event: select_level())
     master.bind("k", lambda event: kill_all())
 def generate_game():
-    global data, tile, start, lvs, solved
+    global data, tile, start, lvs, solved, scripts, scriptdata, texts
     for i in range(0, len(data)):
         for j in range(0, len(data[i])):
             if j % 2 == 0 and i % 2 == 0 or j % 2 != 0 and i % 2 != 0:
                 w.create_image(i*20+10, j*20 +10,  image=textures[9])
             else:
                 w.create_image(i*20+10, j*20 +10,  image=textures[10])
+    for i in range (0, len(scriptdata)):
+        g = scriptdata[i]
+        if g["tr"] == 0:
+            sc = script((0,0),g["cmd"],g["args"],False,False)
+            sc.run()
+        elif g["tr"] == -1:
+            a = script((g["x"],g["y"]),g["cmd"],g["args"],g["stable"],True)
     #Load Map          
     for i in range (0, len(data)):
         apd = []
@@ -607,31 +806,16 @@ def generate_game():
                 apd.append(None)
             elif (data[i][j]["id"] == 3):
                 apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[15]))
+            elif (data[i][j]["id"] == 4):
+                apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[24]))
             elif (data[i][j]["id"] == -1):
                 apd.append(None)
             elif (data[i][j]["id"] == 5):
                 ob  = data[i][j]["objectData"]
-                if ob["id"] == 0:
-                    item = Item((i,j), 320)
-                    apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
-                elif ob["id"] == 1:
-                    item = Item((i,j), 560)
-                    apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
-                elif ob["id"] == 4:
-                    item = Item((i,j), 70)
-                    apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
-                elif ob["id"] == 3:
-                    item = Item((i,j), 10)
-                    apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
-                elif ob["id"] == 2:
-                    item = Item((i,j), 820)
-                    apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
-                elif ob["id"] == 5:
-                    item = Item((i,j), 960)
-                    apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
-                elif ob["id"] == 6:
-                    item = Item((i,j), 40)
-                    apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
+                f = ob["start"]
+                t = ob["fin"]
+                item = Item((i,j), random.randint(f,t), True)
+                apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
             elif (data[i][j]["id"] == 6):
                 apd.append(None)
                 ob = data[i][j]["objectData"]
@@ -649,13 +833,17 @@ def generate_game():
         lvs = None
 #setup Global variables
 def load_level(s_bombs, s_exp, s_range,ph, Map, i):
+    change_message("",1)
     global long_fuse, short_fuse, short_exp, sonic_speed, snail_speed, poop_mode, dynamite_used, smoke_used, timebomb_used, lid
     long_fuse, short_fuse, short_exp, sonic_speed, snail_speed, poop_mode, dynamite_used, smoke_used, timebomb_used = (False,False,False,False,False,False,False,False,False)
-    global bombs,exps,items,curse_life,exp_range
+    global bombs,exps,items,curse_life,exp_range, scriptdata, scripts, locked_items, texts
+    texts = []
+    locked_items = [False,False,False,False,False,False,False]
     lid = i
     items = [None]
     bombs = [None]*s_bombs
     exps = [None]*s_exp
+    scripts = [None]
     curse_life = 0
     update_item(2, 2, 0)
     update_item(3, 2, 0)
@@ -667,6 +855,8 @@ def load_level(s_bombs, s_exp, s_range,ph, Map, i):
     tile = []
     file = Map
     data = json.loads(open(file, "r").read())["world"]
+    scriptdata = json.loads(open(file, "r").read())["scripts"]
+    texts = json.loads(open(file, "r").read())["texts"]
     player_health = ph
     w = Canvas(master, width=width, height = height)
     w.pack(expand=YES, fill= BOTH)
@@ -701,8 +891,6 @@ def select_level():
     lvs5.place(x=130,y=10,width=20,height=20)"""
 def unlock_next():
     global lvls, lvcls,lid, levels
-    print(lvls)
-    print(lvcls)
     if not levels[lid]:
         for i in range (0, len(lvls)):
             if lvls[i] != "active":

@@ -25,6 +25,7 @@
 - Time Bomb: You now have a time bomb, when you place it you can explode it as explained in the keybinds
 - Smoke Grenade: Useless (will be removed in version 2.0)
 - Ghost: When you collect a ghost, you get one of several curses, but you have to figure out for yourself what they do
+- Water: You can't step on or walk over water, but the explosions will reach the other side if your range is long enough.
 - You can also bomb away any item if you want to
 - Above you can see your inventory, so you have an overview of your items
 - Have fun
