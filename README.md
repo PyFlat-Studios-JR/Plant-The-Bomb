@@ -5,10 +5,6 @@
 - Python 3
 - Pip
 
-# Run:
-- Move the Un-Zipped Folder to your Favourite location
-- Execute the .py file
-
 # Control:
 1. Key: W, A, S, D
     - Move Up,Left,Down,Right
