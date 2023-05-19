@@ -4,7 +4,24 @@ import time
 import random
 import os
 import pathlib
-
+def to_bin(value, length):
+    bits = []
+    for i in range (0, length):
+        x = length-i-1
+        if value >= 2**x:
+            value -= 2**x
+            bits.append(1)
+        else:
+            bits.append(0)
+    return bits
+def to_dez(value):
+    length = len(value)
+    dez = 0
+    for i in range (0, length):
+        x = length-1-i
+        if value[i] == 1:
+            dez += 2**x
+    return dez
 long_fuse = False
 short_fuse = False
 short_exp = False
@@ -16,20 +33,37 @@ timebomb_used = False
 smoke_used = False
 curse_life = 0
 exp_range = 2
-file = "Map1.json"
+file = "test.json"
 data = json.loads(open(file, "r").read())["world"]
 path = str(pathlib.Path(__file__).parent.absolute()) + "/textures/"
 files = os.listdir(path)
 addpath = "textures/"
 print(files)
-
+enemy = []
+entity = []
 tile = []
 master = Tk()
 master.title("Plant The Bomb")
 width = len(data)*20
 height = len(data)*20
 master.geometry((str(width) + 'x' + str(height + 80)) + '+10+10')
-
+class Enemy():
+    def __init__(self, pos, type, health, extra1, extra2, w):
+        global enemy
+        enemy.append(True)
+        self.x, self.y = pos
+        #Multiple Texures for multiple Types
+        self.obj = w.create_image(self.x*20+10, self.y*20+10, image=textures[20])
+        self.hitbox = [(0,0)] #Multiple for Multiple Types
+        self.health = health
+        self.reg = len(enemy)-1
+    def damage(self):
+        self.health -= 1
+        global w, enemy
+        if (self.health <= 0):
+            w.delete(self.obj)
+            enemy[self.reg] = False
+            data[self.x][self.y] = -1
 
 w = Canvas(master, width=width, height = height)
 w.pack(expand=YES, fill= BOTH)
@@ -88,26 +122,34 @@ for i in range(0, len(data)):
         else:
             w.create_image(i*20+10, j*20 +10,  image=textures[10])
             
+print (data)
 for i in range (0, len(data)):
     apd = []
     for j in range (0, len(data[i])):
-        if (data[i][j] == 0):
+        if (data[i][j]["id"] == 0):
             apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[7]))
-        elif (data[i][j] == 2):
+        elif (data[i][j]["id"] == 2):
             start = (i,j)
             apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[10]))
-        elif (data[i][j] == 3):
+        elif (data[i][j]["id"] == 3):
             apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[15]))
-        elif (data[i][j] == 4):
+        elif (data[i][j]["id"] == 4):
             apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[10]))
+        elif (data[i][j]["id"] == 6):
+            apd.append(None)
+            ob = data[i][j]["objectData"]
+            entity.append(Enemy((i,j), ob["id2"], ob["health"], ob["extra1"], ob["extra2"], w))
     tile.append(apd)
-
+for i in range (0, len(data)):
+    for j in range (0, len(data[i])):
+        data[i][j] = data[i][j]["id"]
+print(data)
 class Player():
     def __init__(self, pos, w, m):
         self.m = m
         self.x, self.y = pos
         self.obj = w.create_image(self.x*20+10, self.y*20 +10,  image=textures[11])
-        self.f = [0,3]
+        self.f = [0,3,6]
     def move_up(self, w):
         if self.m[self.x][self.y - 1] in self.f :
             return
@@ -164,6 +206,8 @@ class Bomb():
             self.c = w.create_image(self.x*20+10, self.y*20 +10,  image=textures[14])
         elif dynamite_used:
             self.c = w.create_image(self.x*20+10, self.y*20 +10,  image=textures[6])
+        elif smoke_used:
+            self.c = w.create_image(self.x*20+10, self.y*20 +10,  image=textures[13])
         else:
             self.c = w.create_image(self.x*20+10, self.y*20 +10,  image=textures[4])
         if (short_fuse):
@@ -220,12 +264,12 @@ class explosion():
             self.explode_up()
             self.explode_left()
     def explode_right(self):
-        global data, tile, w
+        global data, tile, w, entity
         for i in range (self.x, self.x+self.r):
             if (i == p.x and self.y == p.y):
                 print("U DED")
                 quit()
-            if (data[i][self.y] == 0):
+            if (data[i][self.y]== 0):
                 return
             if (data[i][self.y] in self.destr):
                 self.c.append(w.create_image(i*20+10, self.y*20 +10,  image=textures[8]))
@@ -241,6 +285,11 @@ class explosion():
                 return
             else:
                 self.c.append(w.create_image(i*20+10, self.y*20 +10,  image=textures[8]))
+                if data[i][self.y] == 6:
+                    for k in range (0, len(entity)):
+                        if i == entity[k].x and self.y == entity[k].y:
+                            entity[k].damage()
+                            return
                 data[i][self.y] = -1
     def explode_down(self):
         global data, tile, w, p
@@ -264,6 +313,11 @@ class explosion():
                 return
             else:
                 self.c.append(w.create_image(self.x*20+10, i*20 +10,  image=textures[8]))
+                if data[self.x][i] == 6:
+                    for k in range (0, len(entity)):
+                        if self.x == entity[k].x and i == entity[k].y:
+                            entity[k].damage()
+                            return
                 data[self.x][i] = -1
     def explode_up(self):
         global data, tile, w, p
@@ -287,6 +341,11 @@ class explosion():
                 return
             else:
                 self.c.append(w.create_image(self.x*20+10, (self.y-i)*20 +10,  image=textures[8]))
+                if data[self.x][self.y-i] == 6:
+                    for k in range (0, len(entity)):
+                        if self.x == entity[k].x and self.y-i == entity[k].y:
+                            entity[k].damage()
+                            return
                 data[self.x][self.y - i] = -1
     def explode_left(self):
         global data, tile, w, p
@@ -310,6 +369,11 @@ class explosion():
                 return
             else:
                 self.c.append(w.create_image((self.x-i)*20+10, self.y*20 +10,  image=textures[8]))
+                if data[self.x-i][self.y] == 6:
+                    for k in range (0, len(entity)):
+                        if self.x-i == entity[k].x and self.y == entity[k].y:
+                            entity[k].damage()
+                            return
                 data[self.x-i][self.y] = -1
     def explode_square(self):
         global data,tile,w,p
@@ -320,7 +384,7 @@ class explosion():
                     if (i == p.x and j == p.y):
                         print("U DED")
                         quit()
-                    if data[i][j] != 0:
+                    if data[i][j] != 0 and data[i][j] != 6:
                         if not self.check_item((i,j)):
                             w.delete(tile[i][j])
                             g = data[i][j] != 5 and data[i][j] != -1
@@ -330,6 +394,10 @@ class explosion():
                                 data[i][j] = 5
                                 item = Item((i,j))
                                 tile[i][j] = w.create_image(i*20+10, j*20 +10,  image=item.image)
+                    elif data[i][j] == 6:
+                        for k in range (0, len(entity)):
+                            if i == entity[k].x and j == entity[k].y:
+                                entity[k].damage()
     def generate_smoke(self):
         global data, tile, w, p
         for i in range (self.x-3,self.x+4):
@@ -409,7 +477,7 @@ def exp():
             exps[i].tick_down(i)
 def update_frame():
     exp()
-    global curse_life, long_fuse, short_fuse, short_exp, poop_mode, data
+    global curse_life, long_fuse, short_fuse, short_exp, poop_mode, data, Enemy
     if curse_life <= 0:
         long_fuse = False
         short_fuse = False
@@ -423,6 +491,9 @@ def update_frame():
     global bombs, exp_range
     update_item(0, 2, exp_range-1)
     update_item(1,2, len(bombs))
+    if not (True in enemy):
+        print("Ya Win")
+        quit()
 def init_frame():
    change_message("Hello World", 1)
 init_frame()
