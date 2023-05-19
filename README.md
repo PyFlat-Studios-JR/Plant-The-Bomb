@@ -15,7 +15,6 @@
 
 # How To Play:
 - You are the player with the brown hair
-- Eneyms coming in the next Update
 - If you hit one of the brick walls with the bomb, there is a chance, that an item drops out of it
 - +Bomb: If you collected +Bomb you can place multiple Bombs at a time
 - +Fire: Your explosion range increased by one
