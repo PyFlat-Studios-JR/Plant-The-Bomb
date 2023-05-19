@@ -21,10 +21,6 @@
 5. Key: M
     - Place Smoke Bomb
 
-# Changelog:
-- Added new Texture System
-- Changing Font
-
 # How To Play:
 - You are the player with the brown hair
 - Eneyms coming in the next Update
