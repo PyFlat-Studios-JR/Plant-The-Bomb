@@ -10,7 +10,8 @@ solved = False
 lid = 0
 lvcls = ["white","red","red","red","null"]
 lvls = ["active","disabled","disabled","disabled","null"]
-maps = ["level1.json","debug.json", "showcase.json","glitch.json"]
+path = str(pathlib.Path(__file__).parent.absolute()) + "/maps/"
+maps = ["maps/level1.json","maps/debug.json","maps/showcase.json","maps/glitch.json"]
 levels = [False,False,False,False]
 global_bombs= 1
 global_exp  = 2
@@ -71,8 +72,9 @@ smoke_used = False
 curse_life = 0
 exp_range = 2
 #TODO
-file = "glitch.json"
-data = json.loads(open(file, "r").read())["world"]
+file = ""
+data =0
+#json.loads(open(file, "r").read())["world"]
 #//TODO
 enemy = []
 entity = []
@@ -495,13 +497,14 @@ def use_dynamite():
         plant()
 def use_time():
     global colit, colita, timebomb_used
-    if (colita[4] > 0 and not timebomb_used):
+    if (colita[4] > 0 and not timebomb_used and None in bombs):
         update_item(4,1,1)
         timebomb_used = True
         plant()
 def use_smoke():
-    global colit, colita, smoke_used
+    global colit, colita, smoke_used, exps
     if (colita[2] > 0 and not smoke_used):
+        exps.append(None)
         update_item(2,1,1)
         smoke_used = True
         plant()
@@ -698,6 +701,8 @@ def select_level():
     lvs5.place(x=130,y=10,width=20,height=20)"""
 def unlock_next():
     global lvls, lvcls,lid, levels
+    print(lvls)
+    print(lvcls)
     if not levels[lid]:
         for i in range (0, len(lvls)):
             if lvls[i] != "active":
