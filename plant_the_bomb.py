@@ -22,6 +22,80 @@ def to_dez(value):
         if value[i] == 1:
             dez += 2**x
     return dez
+class Item():
+    def __init__(self, pos, sed):
+        global items
+        self.seed = sed
+        if (self.seed < 30):
+            self.iid = 3 #3 % Dynamite #check
+        elif (self.seed >= 30 and self.seed < 60):
+            self.iid = 6 #3 % Health+ #check
+        elif (self.seed >= 60 and self.seed  < 300):
+            self.iid = 4 #24% Timed Bomb
+        elif (self.seed >= 300 and self.seed < 550):
+            self.iid = 0 #25% bomb+  #check
+        elif (self.seed >= 550 and self.seed < 800):
+            self.iid = 1 #25% exp + (oder umgekehrt) #check
+        elif (self.seed >= 800 and self.seed < 950):
+            self.iid = 2 #20%  Curse #check ?????????????????
+        elif (self.seed >= 950):
+            self.iid = 5 #5% Smoke Bomb cause its useless
+        if (self.iid == 0):
+            self.image = textures[0]
+        elif (self.iid == 1):
+            self.image = textures[1]
+        elif (self.iid == 2):
+            self.image = textures[2]
+        elif (self.iid == 3):
+            self.image = textures[6]
+        elif (self.iid == 4):
+            self.image = textures[14]
+        elif (self.iid == 5):
+            self.image = textures[13]
+        elif (self.iid == 6):
+            self.image = textures[19]
+        self.x,self.y = pos
+        self.reg = True
+        if self.iid == 5:
+            if len(exps) < len(bombs) + colita[2]:
+                exps.append(None)
+        for i in range (0, len(items)):
+            if (items[i] == None):
+                items[i] = self
+                self.reg = False
+                self.idx = i
+                break;
+        if (self.reg):
+            items.append(self)
+            self.idx = len(items)-1
+        #print(items)
+    def collect(self):
+        global items, data, tile,w, bombs, exps, exp_range
+        #Clean up data
+        items[self.idx] = None
+        w.delete(tile[self.x][self.y])
+        data[self.x][self.y] = -1
+        #print(items)
+        #Code that actually does something
+        if (self.iid == 2):
+            get_Curse()
+        elif (self.iid == 0):
+            bombs.append(None)
+            exps.append(None)
+        elif (self.iid == 1):
+            exp_range += 1
+            print(exp_range)
+        elif (self.iid == 3):
+            update_item(3,0, 1)
+        elif (self.iid == 4):
+            update_item(4,0, 1)
+        elif self.iid == 5:
+            update_item(2,0,1)
+        elif self.iid == 6:
+            update_item(5,0,1)
+bombs = [None]
+exps  = [None]
+items = [None]
 long_fuse = False
 short_fuse = False
 short_exp = False
@@ -33,7 +107,7 @@ timebomb_used = False
 smoke_used = False
 curse_life = 0
 exp_range = 2
-file = "test.json"
+file = "map4.json"
 data = json.loads(open(file, "r").read())["world"]
 path = str(pathlib.Path(__file__).parent.absolute()) + "/textures/"
 files = os.listdir(path)
@@ -43,7 +117,7 @@ enemy = []
 entity = []
 tile = []
 master = Tk()
-master.title("Plant_The_Bomb")
+master.title("Plant The Bomb")
 width = len(data)*20
 height = len(data)*20
 master.geometry((str(width) + 'x' + str(height + 80)) + '+10+10')
@@ -133,7 +207,30 @@ for i in range (0, len(data)):
         elif (data[i][j]["id"] == 3):
             apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[15]))
         elif (data[i][j]["id"] == 4):
-            apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[10]))
+            apd.append(None)
+        elif (data[i][j]["id"] == 5):
+            ob  = data[i][j]["objectData"]
+            if ob["id"] == 0:
+                item = Item((i,j), 320)
+                apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
+            elif ob["id"] == 1:
+                item = Item((i,j), 560)
+                apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
+            elif ob["id"] == 4:
+                item = Item((i,j), 70)
+                apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
+            elif ob["id"] == 3:
+                item = Item((i,j), 10)
+                apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
+            elif ob["id"] == 2:
+                item = Item((i,j), 820)
+                apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
+            elif ob["id"] == 5:
+                item = Item((i,j), 960)
+                apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
+            elif ob["id"] == 6:
+                item = Item((i,j), 40)
+                apd.append(w.create_image(i*20+10, j*20 +10,  image=item.image))
         elif (data[i][j]["id"] == 6):
             apd.append(None)
             ob = data[i][j]["objectData"]
@@ -284,7 +381,7 @@ class explosion():
                     f = random.randint(0,1)
                     if (f == 1 and g):
                         data[i][self.y] = 5
-                        item = Item((i,self.y))
+                        item = Item((i,self.y),random.randint(0,1000))
                         tile[i][self.y] = w.create_image(i*20+10, self.y*20 +10,  image=item.image)
                 return
             else:
@@ -311,7 +408,7 @@ class explosion():
                     f = random.randint(0,1)
                     if (f == 1 and g):
                         data[self.x][i] = 5
-                        item = Item((self.x,i))
+                        item = Item((self.x,i),random.randint(0,1000))
                         tile[self.x][i] = w.create_image(self.x*20+10, i*20 +10,  image=item.image)
                 return
             else:
@@ -338,7 +435,7 @@ class explosion():
                     f = random.randint(0,1)
                     if (f == 1 and g):
                         data[self.x][self.y-i] = 5
-                        item = Item((self.x,self.y-i))
+                        item = Item((self.x,self.y-i),random.randint(0,1000))
                         tile[self.x][self.y-i] = w.create_image(self.x*20+10, (self.y-i)*20 +10,  image=item.image)
                 return
             else:
@@ -365,7 +462,7 @@ class explosion():
                     f = random.randint(0,1)
                     if (f == 1 and g):
                         data[self.x-i][self.y] = 5
-                        item = Item((self.x-i,self.y))
+                        item = Item((self.x-i,self.y),random.randint(0,1000))
                         tile[self.x-i][self.y] = w.create_image((self.x-i)*20+10, self.y*20 +10,  image=item.image)
                 return
             else:
@@ -392,7 +489,7 @@ class explosion():
                             f = random.randint(0,1)
                             if (f == 1 and g):
                                 data[i][j] = 5
-                                item = Item((i,j))
+                                item = Item((i,j),random.randint(0,1000))
                                 tile[i][j] = w.create_image(i*20+10, j*20 +10,  image=item.image)
                     elif data[i][j] == 6:
                         for k in range (0, len(entity)):
@@ -432,7 +529,7 @@ class explosion():
                     w.delete(tile[tmp_x][tmp_y])
                     data[tmp_x][tmp_y] = -1
                     items[i] = None
-                    print(items)
+                    #print(items)
                     return True
         return False
 master.bind('w', lambda event: p.move_up(w))
@@ -443,13 +540,9 @@ master.bind('<space>', lambda event: plant())
 master.bind('y', lambda event: use_dynamite())
 master.bind('t', lambda event: use_time())
 master.bind('#', lambda event: exp_time())
-master.bind('c', lambda event: get_Curse())
 master.bind('m', lambda event: use_smoke())
 p = Player(start, w, data, 10)
 master.resizable(0,0)
-bombs = [None]
-exps  = [None]
-items = [None]
 def exp_time():
     global bombs
     for i in range (0, len(bombs)):
@@ -525,77 +618,7 @@ def get_Curse():
         poop_mode = True
         print("Ya Poop")
     curse_life = 250
-class Item():
-    def __init__(self, pos):
-        global items
-        self.seed = random.randint(0,1000)
-        if (self.seed < 30):
-            self.iid = 3 #3 % Dynamite
-        elif (self.seed >= 30 and self.seed < 60):
-            self.iid = 6 #3 % Health+
-        elif (self.seed >= 60 and self.seed  < 300):
-            self.iid = 2 #24% Timed Bomb
-        elif (self.seed >= 300 and self.seed < 550):
-            self.iid = 0 #25% bomb+
-        elif (self.seed >= 550 and self.seed < 800):
-            self.iid = 1 #25% exp + (oder umgekehrt)
-        elif (self.seed >= 800 and self.seed < 950):
-            self.iid = 4 #20% VIRUS
-        elif (self.seed >= 950):
-            self.iid = 5 #5% Smoke Bomb cause its useless
-        if (self.iid == 0):
-            self.image = textures[0]
-        elif (self.iid == 1):
-            self.image = textures[1]
-        elif (self.iid == 2):
-            self.image = textures[2]
-        elif (self.iid == 3):
-            self.image = textures[6]
-        elif (self.iid == 4):
-            self.image = textures[14]
-        elif (self.iid == 5):
-            self.image = textures[13]
-        elif (self.iid == 6):
-            self.image = textures[19]
-        self.x,self.y = pos
-        self.reg = True
-        if self.iid == 5:
-            if len(exps) < len(bombs) + colita[2]:
-                exps.append(None)
-        for i in range (0, len(items)):
-            if (items[i] == None):
-                items[i] = self
-                self.reg = False
-                self.idx = i
-                break;
-        if (self.reg):
-            items.append(self)
-            self.idx = len(items)-1
-        print(items)
-    def collect(self):
-        global items, data, tile,w, bombs, exps, exp_range
-        #Clean up data
-        items[self.idx] = None
-        w.delete(tile[self.x][self.y])
-        data[self.x][self.y] = -1
-        print(items)
-        #Code that actually does something
-        if (self.iid == 2):
-            get_Curse()
-        elif (self.iid == 0):
-            bombs.append(None)
-            exps.append(None)
-        elif (self.iid == 1):
-            exp_range += 1
-            print(exp_range)
-        elif (self.iid == 3):
-            update_item(3,0, 1)
-        elif (self.iid == 4):
-            update_item(4,0, 1)
-        elif self.iid == 5:
-            update_item(2,0,1)
-        elif self.iid == 6:
-            update_item(5,0,1)
+
 def use_dynamite():
     global colit, colita, dynamite_used
     if (colita[3] > 0 and not dynamite_used):
