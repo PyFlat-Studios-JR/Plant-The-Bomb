@@ -142,14 +142,34 @@ class Enemy():
         self.obj = w.create_image(self.x*20+10, self.y*20+10, image=textures[20])
         self.hitbox = [(0,0)] #Multiple for Multiple Types
         self.health = health
-        self.reg = len(enemy)-1
+        self.reg = len(enemy)-1 
+        self.healthbar = w.create_rectangle(self.x*20,self.y*20+18,self.x*20+20,self.y*20+20, fill="black", outline=None)
+        self.maxhealth = health
+        self.life = 0
     def damage(self):
         self.health -= 1
+        self.update_health()
         global w, enemy
         if (self.health <= 0):
             w.delete(self.obj)
             enemy[self.reg] = False
             data[self.x][self.y] = -1
+            w.delete(self.healthbar)
+    def update_health(self):
+        perc = self.health / self.maxhealth
+        pix = perc * 20
+        pix = round(pix)
+        if self.healthbar != None:
+            w.delete(self.healthbar)
+            self.healthbar = None
+        self.healthbar = w.create_rectangle(self.x*20,self.y*20+18,self.x*20+pix,self.y*20+20, fill="black", outline="black")
+        self.life = 50
+    def tick_down(self):
+        if (self.life > 0):
+            self.life -= 1
+        if self.life <= 0:
+            w.delete(self.healthbar)
+            self.healthbar = None
 class Player():
     def __init__(self, pos, w, m, health):
         self.m = m
@@ -511,7 +531,7 @@ def exp_time():
                 bombs[i].life = 0
 def update_frame():
     exp()
-    global curse_life, long_fuse, short_fuse, short_exp, poop_mode, data, Enemy
+    global curse_life, long_fuse, short_fuse, short_exp, poop_mode, data, Enemy, entity
     if curse_life <= 0:
         long_fuse = False
         short_fuse = False
@@ -519,6 +539,9 @@ def update_frame():
         poop_mode = False
     else:
         curse_life -= 1
+    for i in range (0,len(entity)):
+        if entity[i] != None:
+            entity[i].tick_down()
     if (poop_mode):
         plant()
     global bombs, exp_range
@@ -552,7 +575,7 @@ def generate_game():
         apd = []
         for j in range (0, len(data[i])):
             if (data[i][j] == None):
-                apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[7]))
+                apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[21]))
                 data[i][j] = 0
             elif (data[i][j]["id"] == 0):
                 apd.append(w.create_image(i*20+10, j*20 +10,  image=textures[7]))
@@ -598,7 +621,22 @@ def generate_game():
             if type(data[i][j]) != type(1):
                 data[i][j] = data[i][j]["id"]
 #setup Global variables
+def select_level():
+    level_sel = Tk()
+    level_sel.geometry('380x120')
+    level_sel.resizable(0, 0)
+    level_sel.configure(bg="#696969")
+    leng = 3
+    buttons = []
+    level_text = Label(level_sel, text = "Level Auswählen", font="Calibri 15", bg="#696969", fg="white")
+    level_text.place(x=120, y=15)
+    level_sel.title("Level Auswählen")
+    for i in range(leng):
+        buttons.append(Button(level_sel, text=i+1, bg="white", fg="#696969"))
+        buttons[i].place(x=((380/(leng+1))*(i+1)), y=60, width=20, height=20)
+    
 
+    
 def load_level(s_bombs, s_exp, s_range,ph, Map):
     global long_fuse, short_fuse, short_exp, sonic_speed, snail_speed, poop_mode, dynamite_used, smoke_used, timebomb_used
     long_fuse, short_fuse, short_exp, sonic_speed, snail_speed, poop_mode, dynamite_used, smoke_used, timebomb_used = (False,False,False,False,False,False,False,False,False)
@@ -628,7 +666,7 @@ master.protocol("WM_DELETE_WINDOW", end_all)
 p = 0
 load_level(1,1,2,3,"map.json")
 setup_keybind()
-
+#select_level()
 #Mainloop
 while True:
     master.update_idletasks()
