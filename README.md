@@ -1,4 +1,4 @@
-<div align=center><h1><img src=https://github.com/PyFlat-Studios-JR/Plant-The-Bomb/blob/main/.github/plantthebomb.ico>Plant-The-Bomb<img src=https://github.com/PyFlat-Studios-JR/Plant-The-Bomb/blob/main/.github/plantthebomb.ico></h1></div>
+<div align=center><h1>Plant-The-Bomb</h1></div>
 
 # Credits:
 - Some textures are from <a href="https://de.freepik.com/">Freepik.com</a>
