@@ -26,6 +26,12 @@
 - Smoke Grenade: Useless (will be removed in version 2.0)
 - Ghost: When you collect a ghost, you get one of several curses, but you have to figure out for yourself what they do
 - Water: You can't step on or walk over water, but the explosions will reach the other side if your range is long enough.
+- Shield: You no are immune against bombs for ?? seconds
+- Nuke: Like dynamite only bigger, explosion range ??*??
 - You can also bomb away any item if you want to
 - Above you can see your inventory, so you have an overview of your items
 - Have fun
+
+# Maps
+- Create your own maps with the [PTB-Map-Builder](https://github.com/PyFlat-Studios-JR/PTB-Map-Builder)
+- If you want to use custom maps you have to use the __*.py*__ version not the __*.exe*__
