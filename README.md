@@ -1,3 +1,5 @@
+<div align=center>Plant-The-Bomb</div>
+
 # Credits:
 - Some textures are from <a href="https://de.freepik.com/">Freepik.com</a>
 
