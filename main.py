@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 import resources.crypto as crypto
-import resources.better_compressor as comp
+import resources.compressor as comp
 import pathlib, os, time, json, random,functools,hashlib
 class trigger():
     def __init__(self,s,l,t,x,y):
@@ -196,7 +196,7 @@ class display():
         self.frame.title("Plant the Beta")
         self.width = sizeX*20
         self.height = sizeY*20
-        self.canvas = Canvas(self.frame, width=self.width, height = self.height)
+        self.canvas = Canvas(self.frame, width=self.width, height = self.height, highlightthickness=0)
         self.canvas.pack(expand=YES, fill= BOTH)
         self.canvas.place(x = 0, y = 80)
         self.updateTasks = []
@@ -1053,11 +1053,12 @@ class world():
         c = comp.compressor()
         c.load("maps/"+path+".ptb")
         c.decompress()
-        content, s = c.get_data()
+        content, s, z = c.get_data()
         self.sl = scriptLoader(s,self)
         data = content["world"]
         self.name = path
         self.texts = content["texts"]
+        print(self.texts)
         self.display.inventory.textdata = self.texts
         for x in range (0, int(self.width/20)):
             for y in range (0, int(self.height/20)):
@@ -1248,12 +1249,12 @@ class login():
         g = usr
         h = pas
         self.args = (g,h,content,a,b,c)
-        #print(self.args)
+        #print(self.args)sd
         self.g = game(*self.args)
 #PreInit, static, just load once at startup
 tagManager.append(-1,["air"])#air
 tagManager.append(0,["solid","blocking"]) #bedrock
-tagManager.append(3,["solid","blocking","breakable","drops"]) #brick 
+tagManager.append(3,["solid","blocking","breakable","drops"]) #brick ss
 tagManager.append(2,["solid","alive","player"]) #player todo
 tagManager.append(6,["solid","alive","update"]) #enemy
 tagManager.append(5,["blocking","breakable","item"]) #item

@@ -51,14 +51,34 @@ class compressor():
                     print("[WARNING] Could not find or load texts")
         else:
             print("[ERROR] Unrecognizable File Format")
-        #print("Loaded File: " + file)
-    def insert_normal(self, world, scripts=b"", texts=""):
+        print("Loaded File: " + file)
+    def insert_normal(self, world, scripts=None,texts=None):
+        if scripts == None:
+            scripts = b"\x00\x0d"
+        if texts == None:
+            try:
+                texts = world["texts"]
+            except KeyError:
+                texts = "::"
         self.scripts = scripts
         self.data = world
         for i in range (0, len(self.data["world"])):
             for j in range (0, len(self.data["world"][i])):
-                self.data[i][j]["id"] += 1
-        self.texts = texts
+                self.data["world"][i][j]["id"] += 1
+        if type(texts) == type(""):
+            texts = texts.split("\n")
+            ntxt = ""
+            for t in texts:
+                ntxt += t + "::"
+            self.texts = ntxt
+        elif type(texts) == type([]):
+            ntxt = ""
+            for t in texts:
+                ntxt += t + "::"
+            self.texts = ntxt
+        else:
+            self.texts = "::"
+        #self.texts = texts
         self.mode = 0
     def insert_comp(self, comp):
         self.data = comp
@@ -106,7 +126,7 @@ class compressor():
         key_part_3 = (a).to_bytes(1, "big")
         key_part_4 = (h).to_bytes(4, "big")
         self.key = key_part_1 + key_part_2 + key_part_3 + key_part_4
-        #print("Generated Key : " + str(self.key))
+        print("Generated Key : " + str(self.key))
     def compress(self):
         if self.mode != 0:
             print("[ERROR] System set to decompression mode: Invalid data")
@@ -138,12 +158,13 @@ class compressor():
                     bin_enemy += util.transform_to_bin(self.data["world"][i][j]["objectData"]["health"],int.from_bytes(self.key[5:],"big"))
                 if self.data["world"][i][j]["id"] == 6:
                     debug_c_item += 1
-                    b_i = ""
-                    b_i += util.transform_to_bin(self.data["world"][i][j]["objectData"]["start"],10)
-                    b_i += util.transform_to_bin(self.data["world"][i][j]["objectData"]["fin"],10)
-                    #print(b_i)
-                    bin_items += b_i
+                    v = ""
+                    v += util.transform_to_bin(self.data["world"][i][j]["objectData"]["start"],10)
+                    v += util.transform_to_bin(self.data["world"][i][j]["objectData"]["fin"],10)
+                    #print(v)
+                    bin_items += v
         bin_result = bin_world + bin_items + bin_enemy
+        #print(bin_result)
         while len(bin_result) % 8 != 0:
             bin_result = bin_result + "0"
         result += self.key
@@ -185,6 +206,7 @@ class compressor():
                 count_enemy += 1
             if bid == 5:
                 count_item += 1
+       # print(count_enemy, count_item)
         ex_size_enemy = count_enemy * (key_enemy_t+key_enemy_h+key_enemy_a)
         ex_size_item = count_item * 20
         ex_size_total = ex_size_enemy + ex_size_item + ex_size_world
@@ -229,7 +251,6 @@ class compressor():
                 idx_enemy_parse += 1
             elif int_block == 5:
                 bin_item_part = bin_item[idx_item_parse*20:(idx_item_parse+1)*20]
-                #print(bin_item_part)
                 bin_item_part_start = bin_item_part[0:10]
                 bin_item_part_fin = bin_item_part[10:]
                 int_item_part_start = util.transform_to_int(bin_item_part_start)
@@ -255,15 +276,21 @@ class compressor():
         ctext = ""
         script_first = 0
         for i in range (0, len(byte_block_text_and_script)):
+            #print(ctext)
             if chr(byte_block_text_and_script[i]) == ":" and chr(byte_block_text_and_script[i+1]) == ":":
                 if byte_block_text_and_script[i+2] == 0:
+                    texts.append(ctext)
+                    ctext = ""
+                    print("LOL",texts)
                     script_first = i+2
                     break
                 texts.append(ctext)
                 ctext = ""
-            ctext += chr(byte_block_text_and_script[i])
+            elif chr(byte_block_text_and_script[i]) != ":":
+                ctext += chr(byte_block_text_and_script[i])
         if texts == [""]:
             texts = []
+        self.texts = texts
         #print(script_first)
         self.scripts = byte_block_text_and_script[script_first:]
         self.result = {
@@ -272,10 +299,16 @@ class compressor():
             }
         #World done
     def get_data(self):
-        return (self.result, self.scripts)
+        return (self.result, self.scripts, self.texts)
     def set_key(self, key):
         self.key = key
-    def save(self):
+    def save(self, path = None):
+        if path != None:
+            n = ""
+            pp = path.split(".")
+            for i in range (0, len(pp)-1):
+                n += pp[i] + "."
+            self.name = n
         if self.result == None:
             print("[ERROR] No data found to save")
             return False
@@ -307,7 +340,13 @@ class util():
     def transform_to_int(data):
         t = "0b" + data
         return int(t, 2)
-#c = compressor()
-#c.load("../maps/tut_t1.json")
-#c.compress()
-#c.save()
+
+"""
+cmp = compressor()
+cmp.insert_normal(json.loads(open("test.json").read()),b"\x00\x05\x01\x01\x00\x0d","test\ntest\ntest")
+cmp.compress()
+dc = compressor()
+dc.insert_comp(cmp.result)
+dc.decompress()
+print(dc.get_data()[2])
+"""
