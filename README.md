@@ -1,4 +1,4 @@
-<div align=center>Plant-The-Bomb</div>
+<h1 align=center>Plant-The-Bomb</h1>
 
 # Credits:
 - Some textures are from <a href="https://de.freepik.com/">Freepik.com</a>
