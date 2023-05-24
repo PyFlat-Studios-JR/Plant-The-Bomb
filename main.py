@@ -1,161 +1,237 @@
 from tkinter import *
 from tkinter import messagebox
 import resources.crypto as crypto
-import resources.compressor as comp
-import pathlib, os, time, json, random,functools,hashlib
-class trigger():
-    def __init__(self,s,l,t,x,y):
+import resources.better_compressor as comp
+import pathlib
+import os
+import time
+import json
+import random
+import functools
+import hashlib
+
+if not os.path.isdir("saves"):
+    os.mkdir("saves")
+
+
+class trevent():
+    def __init__(self, code, x, y):
         self.x = x
         self.y = y
-        self.t = t #01 => on_step 02 => on_collect
-        self.l = l #location pointer is set to on event
-        self.s = s #scriptloader
-        self.collection = False
-    def check_collection(self):
-        if self.t == 1:
-            self.run()
-            return
-        if self.t == 2 and not self.collection:
-            self.run()
-            self.collection = True
-            return
-    def run(self):
-        self.s.pointer = self.l
-        self.s.run_script()
+        self.code = code
+class trigger():
+    def __init__(self, sl, line, event, posx, posy, stable, igpos):
+        self.sl  = sl
+        self.event = event
+        self.posx = posx
+        self.posy = posy
+        self.stable = stable
+        self.used = False
+        self.igpos = igpos
+        self.line = line
+    def _collect(self, event):
+        if self.event == event.code:
+            if not self.used:
+                if self.igpos or (self.posx == event.x and self.posy == event.y):
+                    if not self.stable:
+                        self.used = True
+                    return [True, self.line + 1]
+        return [False]
 class scriptLoader():
-    def __init__(self, script, world):
-        #init world for data collection 
-        #IMPROTANT: Initialize scripts AFTER player loading
+    def __init__(self, world, source):
         self.world = world
-        #load script source
-        self.source = script
-        #initialize scripts
-        self.ram = [0]*256 #initialze RAM
-        self.pointer = 0   #Initialze pointer 
-        #Load trigger events
-        self.triggers = []
-        self.load_triggers()
-    def on_init(self):
-        #Execute command ONLY ONCE ON WORLD LOAD
-        for i in range (0, len(self.triggers)):
-            if self.triggers[i].t == 3:
-                self.triggers[i].run()
-    def load_triggers(self):
-        for i in range (0, len(self.source)):
-            if self.source[i] == 0:
-                #if programm detects a command initiator, proceed
-                if self.source[i+1] == 7:
-                    #trigger instruction detected
-                    self.triggers.append(trigger(self, i+5, self.source[i+2],self.source[i+3],self.source[i+4]))#jump mark is set after script command
-        #hopefully this will work?
-    def run_script(self):
-        #This method is invoked after hitting a trigger
-        #print("Invoked script")
-        running = True
-        while running:
-            #print(self.source[self.pointer])
-            if self.source[self.pointer] == 0:
-                if self.source[self.pointer+1] == 1: #tp command (tp <x> <y>)
-                    tx = self.ram[self.source[self.pointer+2]]
-                    ty = self.ram[self.source[self.pointer+3]]
-                    px = self.world.p.x
-                    py = self.world.p.y
-                    vx = tx - px
-                    vy = ty - py
-                    self.world.p.move(vx,vy)
-                    self.pointer += 4
-                elif self.source[self.pointer+1] == 2: #edit _ inv command (edit_inv <slot> <amount>)
-                    if self.source[self.pointer+2] == 1:
-                        self.world.p.inventory["total"] = self.ram[self.source[self.pointer+3]]
-                    elif self.source[self.pointer+2] == 2:
-                        self.world.p.inventory["exp_range"] = self.ram[self.source[self.pointer+3]]
-                    elif self.source[self.pointer+2] == 3:
-                        self.world.p.inventory["dynamite"] = self.ram[self.source[self.pointer+3]]
-                    elif self.source[self.pointer+2] == 4:
-                        self.world.p.inventory["timed_bombs"] = self.ram[self.source[self.pointer+3]]
-                    self.world.p.paint_inv()
-                    self.pointer += 4
-                elif self.source[self.pointer+1] == 3: #edit health
-                    #print("edit health")
-                    self.world.p.health = self.ram[self.source[self.pointer+2]]
-                    self.world.p.paint_inv()
-                    self.pointer += 3
-                elif self.source[self.pointer+1] == 4: #compare
-                    #compare <dest> <v1> <m> <v2>
-                    if self.source[self.pointer+4] == 1:
-                        # >
-                        if self.ram[self.source[self.pointer+3]] > self.ram[self.source[self.pointer+5]]:
-                            self.ram[self.source[self.pointer+2]] = 1
-                        else:
-                            self.ram[self.source[self.pointer+2]] = 0
-                    elif self.source[self.pointer+4] == 2:
-                        # <
-                        if self.ram[self.source[self.pointer+3]] < self.ram[self.source[self.pointer+5]]:
-                            self.ram[self.source[self.pointer+2]] = 1
-                        else:
-                            self.ram[self.source[self.pointer+2]] = 0
-                    else:
-                        if self.ram[self.source[self.pointer+3]] == self.ram[self.source[self.pointer+5]]:
-                            self.ram[self.source[self.pointer+2]] = 1
-                        else:
-                            self.ram[self.source[self.pointer+2]] = 0
-                    self.pointer += 6
-                elif self.source[self.pointer+1] == 5: #set variable to value command
-                    #print("Set")
-                    self.ram[self.source[self.pointer+2]] = self.source[self.pointer+3]
-                    self.pointer += 4
-                elif self.source[self.pointer+1] == 6: #get
-                    if self.source[self.pointer+3] == 1:
-                        if self.source[self.pointer+4] == 1:
-                            self.ram[self.source[self.pointer+2]] = self.world.p.inventory["total"]
-                        elif self.source[self.pointer+4] == 2:
-                            self.ram[self.source[self.pointer+2]] = self.world.p.inventory["exp_range"]
-                        elif self.source[self.pointer+4] == 3:
-                            self.ram[self.source[self.pointer+2]] = self.world.p.inventory["dynamite"]
-                        elif self.source[self.pointer+4] == 4:
-                            self.ram[self.source[self.pointer+2]] = self.world.p.inventory["timed_bombs"]
-                        elif self.source[self.pointer+4] == 5:
-                            self.ram[self.source[self.pointer+2]] = self.world.p.health
-                    self.pointer += 5
-                elif self.source[self.pointer+1] == 8: #if <!condition> <jump>
-                    if self.ram[self.source[self.pointer+2]]==0:
-                        self.pointer += self.source[self.pointer+3]+4 #jump mark is relative to 00-byte after method execution
-                    else:
-                        self.pointer += 4
-                elif self.source[self.pointer+1] == 9: #jump (if without condition)
-                    self.pointer += self.source[self.pointer+2]+3
-                elif self.source[self.pointer+1] == 10:
-                    #print("add")
-                    self.ram[self.source[self.pointer+4]] = self.ram[self.source[self.pointer+3]] + self.ram[self.source[self.pointer+2]]
-                    self.pointer += 5
-                elif self.source[self.pointer+1] == 11:
-                    #print("sub")
-                    self.ram[self.source[self.pointer+4]] = self.ram[self.source[self.pointer+3]] - self.ram[self.source[self.pointer+2]]
-                    self.pointer += 5
-                elif self.source[self.pointer+1] == 12:
-                    #print("mult")
-                    self.ram[self.source[self.pointer+4]] = self.ram[self.source[self.pointer+3]] * self.ram[self.source[self.pointer+2]]
-                    self.pointer += 5
-                elif self.source[self.pointer+1] == 13:
-                    #print("RETURN")
-                    running = False
-                elif self.source[self.pointer+1] == 14: #show text
-                    self.world.display.inventory.showText(self.source[self.pointer+2])
-                    self.pointer += 3
-                elif self.source[self.pointer+1] == 15: #drawImage RAM
-                    self.ram[self.source[self.pointer+2]] = self.world.display.drawImage(self.ram[self.source[self.pointer+4]],self.ram[self.source[self.pointer+5]],self.ram[self.source[self.pointer+3]])
-                    self.pointer += 6
-                elif self.source[self.pointer+1] == 16: #drawImage RAM
-                    self.ram[self.source[self.pointer+2]] = self.world.display.drawImage(self.source[self.pointer+4],self.source[self.pointer+5],self.source[self.pointer+3])
-                    self.pointer += 6
-                elif self.source[self.pointer+1] == 17:
-                    self.world.display.remove(self.ram[self.source[self.pointer+2]])
-                    self.pointer += 3
-                elif self.source[self.pointer+1] == 18:
-                    self.world.win()
-                    self.pointer += 2
+        self.source = source[1:]
+        source = source[1:]
+        self.lines = []
+        self.commands = []
+        self.ram = [0]*65536
+        self.parser = {"position": 0, "running":False}
+        self.trigger_list = []
+        self._postInit()
+        i = 0
+        ainf = "0"
+        while i< len(source):
+            cmd = source[i]
+            for k in range (len(self.commands)):
+                element = self.commands[k]
+                if element["byte"] == cmd and type(cmd) == int:
+                    ainf = element["arginf"]
+            ll = 1
+            print("INF",ainf)
+            for j in range (len(ainf)):
+                if ainf[j] == "$" or ainf[j] == "§":
+                    ll += 1
+                elif ainf[j] == "*":
+                    ll += 2
+            print("LL", ll)
+            self.lines.append(source[i:i+ll])
+            i += ll
+        self._find_triggers()
+    def _get_trigger(self,trtp, x,y, l):
+        #1: on_init
+        #2: on_step
+        #3: on_collect
+        #4: on_destroy
+        #5: on_explode
+        trl = [(self,l,"on_init",x,y,False,True),(self,l,"on_step",x,y,True,False),(self, l, "on_collect", x, y, False, False),(self, l, "on_destroy", x,y,False,False),(self,l,"on_explode",x,y,True,False)]
+        return trl[trtp]
+    def _find_triggers(self):
+        for i in range (len(self.lines)):
+            if self.lines[i][0] == 1:
+                self.trigger_list.append(trigger(*self._get_trigger(self.lines[i][1],self.lines[i][2],self.lines[i][3],i)))
+    def event(self, event):
+        for tr in self.trigger_list:
+            reply = tr._collect(event)
+            if True in reply:
+                self.parser["position"] = reply[1]
+                self._psr_start()
+    def _register_command(self, br, method, arginf):
+        self.commands.append({"byte":br,"method":method,"arginf":arginf})
+    def _postInit(self):
+        self._register_command(0, self._waste, "$"*50)
+        self._register_command(1, self._waste, "§$$")    #trigger command (waste method)    trg §type $x $y
+        self._register_command(2, self.end, "")           #exit command                      ext
+        self._register_command(3, self.add, "***")        #addition command                  add *num1 *num2 *result
+        self._register_command(4, self.sub, "***")        #subtraction command               sub *num1 *num2 *result
+        self._register_command(5, self.mul, "***")        #multiplication commandm           mul *num1 *num2 *result
+        self._register_command(6, self.div, "***")        #divide command (result is rounded)div *num1 *num2 *result
+        self._register_command(7, self.set, "*$")         #set command                       set *adress $number
+        self._register_command(8, self.nul, "*")          #set adress to 0                   nul *adress
+        self._register_command(9, self.get, "*§")           #get command                     get *adress $item
+        self._register_command(10, self.set_global, "*§")  #set command (world)               set_global *adress $item
+        self._register_command(11,self.win,"")            #win
+        self._register_command(12,self.loose,"")          #loose
+        self._register_command(13,self.draw_image,"****")     #draw image to screen              drI *stor *x *y *image 
+        self._register_command(14,self.draw_rect,"******")      #draw rectangle to scrren          drR *stor *x *y *color_R *color_G *color_B
+        self._register_command(15,self.draw_clear,"*")    #clear graphics                    clr *adress
+        self._register_command(16,self.compare,"*§**"),     #compare a with op to b and save c comp *a §op *c => *c
+        self._register_command(17,self.jmp, "**")           #jump x lines if cond is > 0  using * for jump lines, to allow for 2 byte input but more realistically it is constant
+        self._register_command(18,self.set_flag, "§$")        #apply an flag to your very world setFlag §flag $value
+        self._register_command(19,self.tp,"**")             #tp *x *y -- teleports the palyer
+    def _waste(self, *args):
+        return None
+    def _exec(self, line):
+        cmd = line[0]
+        for c in self.commands:
+            if c["byte"] == cmd:
+                cmd = c
+                break
+        if type (cmd) == int:
+            raise RuntimeError("Could not find command for byte {}".format(cmd))
+        exc_arg_length = 0
+        for c in cmd["arginf"]:
+            if c == "*":
+                exc_arg_length += 2
             else:
-                self.pointer += 1
+                exc_arg_length += 1
+        if exc_arg_length > len(line) - 1:
+            raise RuntimeError("Exspected {}, got {} args".format(exc_arg_length, len(line)-1))
+        args = ()
+        b = 1
+        for c in cmd["arginf"]:
+            if b in range (len(line)):
+                if c == "*":
+                    args = args + (255*line[b] + line[b+1],)
+                    b += 2
+                else:
+                    args = args + (line[b],)
+                    b += 1
+        print(cmd, args)
+        cmd["method"](*args)
+    def _psr_start(self):
+        self.parser["running"] = True
+        while self.parser["running"]:
+            line = self.lines[self.parser["position"]]
+            self._exec(line)
+            self.parser["position"] += 1
+    def end(self):
+        self.parser["running"] = False
+    def add(self, a, b, c):
+        self.ram[c] = self.ram[a] + self.ram[b]
+    def sub(self, a, b, c):
+        self.ram[c] = self.ram[a] - self.ram[b]
+    def mul(self, a, b, c):
+        self.ram[c] = self.ram[a] * self.ram[b]
+    def div(self, a, b, c):
+        self.ram[c] = round(self.ram[a]/self.ram[b])
+    def set(self, adress, value):
+        print(adress,value)
+        self.ram[adress] = value
+    def nul(self, adress):
+        self.ram[adress] = 0
+    def get(self, adress, item):
+        #itemlist:
+        #0: ERRNO (NONE)
+        #1: player health
+        #2: player (total)
+        #3: player(exp_range)
+        #4: player (dynamite)
+        #5: player (timed_bombs)
+        #6: player (damage)
+        #7: player (nukes)
+        it = [0, self.world.p.health, self.world.p.inventory["total"], self.world.p.inventory["exp_range"], self.world.p.inventory["dynamite"], self.world.p.inventory["timed_bombs"], self.world.p.inventory["damage"], self.world.p.inventory["nukes"]]
+        self.ram[adress] = it[item]
+        self.world.p.paint_inv()
+    def set_global(self,adress,item):
+        it = [0, self.world.p.health, self.world.p.inventory["total"], self.world.p.inventory["exp_range"], self.world.p.inventory["dynamite"], self.world.p.inventory["timed_bombs"], self.world.p.inventory["damage"], self.world.p.inventory["nukes"]]
+        it[item] = self.ram[adress]
+        self.world.p.paint_inv()
+    def win(self):
+        self.world.win()
+    def loose(self):
+        self.world.loose()
+    def draw_image(self, stor, x, y, i):
+        self.ram[stor] = self.world.display.drawImage(x,y,i)
+    def draw_rect(self, stor, x,y,r,g,b):
+        r = hex(r)[2:]
+        while len(r) < 2:
+            r = "0" + r
+        g = hex(g)[2:]
+        while len(g) < 2:
+            g = "0" + g
+        b = hex(b)[2:]
+        while len(r) < 2:
+            b = "0" + b
+        self.ram[stor] = self.world.display.canvas.create_rectangle(x*20,y*20,x*20+20,y*20+20,width=0,fill="#" + r + g + b)
+    def draw_clear(self, adress):
+        self.world.display.remove(self.ram[adress])
+    def compare(self, a, op, b, c): #Save 0 if false, save 1 if true
+        a = self.ram[a]
+        b = self.ram[b]
+        ops = [None, ">","<","==","<=",">="]
+        op = ops[op]
+        self.ram[c] = 0
+        if op == ">":
+            if a > b:
+                self.ram[c] = 1
+        if op == "<":
+            if a < b:
+                self.ram[c] = 1
+        if op == "==":
+            if a == b:
+                self.ram[c] = 1
+        if op == "<=":
+            if a <= b:
+                self.ram[c] = 1
+        if op == ">=":
+            if a >= b:
+                self.ram[c] = 1
+    def jmp(self, rel_line, cond):
+        if self.ram[cond] > 0:
+            self.parser["position"] += (rel_line-1)
+    def set_flag(self, flag, value):
+        val = True if value != 0 else False
+        flags = [None,"drop_items"]
+        flag = [flags][flag]
+        self.world.setFlag(flag,val)
+    def tp(self, x, y):
+        x0 = self.world.p.x
+        y0 = self.world.p.y
+        x = self.ram[x]
+        y = self.ram[y]
+        vx = x - x0
+        vy = y - y0
+        self.world.p.move(vx,vy)
 class ATTACK():
     def callType(i):
         TYPE_0 = [(0,0)]
@@ -193,7 +269,7 @@ class display():
         self.frame = Tk()
         self.frame.geometry(str(sizeX*20) + "x" + str(sizeY*20 + 80)) #TODO: add Item Interface
         self.frame.resizable(0,0)
-        self.frame.title("Plant the Beta")
+        self.frame.title("Plant the Bomb v.2.0.0")
         self.width = sizeX*20
         self.height = sizeY*20
         self.canvas = Canvas(self.frame, width=self.width, height = self.height, highlightthickness=0)
@@ -261,7 +337,7 @@ class block():
         self.display.remove(self.texture)
         if "drops" in self.tags:
             a = random.randint(0,1)
-            if a == 1:
+            if a == 1 and self.world.flags["drop_items"]:
                 self.world.replace_block(self.x,self.y,item(self.world,self.display,self.x,self.y,0,1000))
             else:
                 if doVoid:
@@ -690,8 +766,6 @@ class player(block):
             self.selector = 0
         self.edit_bc(self.selectable[self.selector])
     def move(self, vx,vy):
-        if self.curse_overlay != None:
-            self.display.canvas.move(self.curse_overlay,vx*20,vy*20)
         if "solid" not in self.world.blocks[self.x+vx][self.y+vy].tags:
             if "item" in self.world.blocks[self.x+vx][self.y+vy].tags:
                 self.world.blocks[self.x+vx][self.y+vy].collect(self)
@@ -701,14 +775,14 @@ class player(block):
                 self.world.replace_block(self.x,self.y,block(self.world,self.display,self.x,self.y,self.ctype,textureManager.get(self.ctype)))
             if self.nuke_overlay != None:
                 self.display.canvas.move(self.nuke_overlay, vx*20,vy*20)
+            if self.curse_overlay != None:
+                self.display.canvas.move(self.curse_overlay,vx*20,vy*20)
             self.display.move(self.texture,vx,vy)
             self.x += vx
             self.y += vy
             self.replace = True
-            if self.world.sl != None:
-                for i in range (0, len(self.world.sl.triggers)):
-                    if self.world.sl.triggers[i].x == self.x and self.world.sl.triggers[i].y == self.y:
-                        self.world.sl.triggers[i].check_collection()
+            self.world.sl.event(trevent("on_step", self.x,self.y))
+            self.world.sl.event(trevent("on_collect", self.x,self.y))
     def update(self):
         if self.curse_cooldown > 0 and self.curse_overlay == None:
             if self.curse == "shield":
@@ -860,6 +934,8 @@ class EXPLOSION():
                     world.blocks[cx][cy].remove()
                     if solid and m != 0:
                         fresults.append(display.drawImage(cx,cy,9))
+                        world.sl.event(trevent("on_explode", cx,cy))
+                        world.sl.event(trevent("on_destroy", cx,cy))
                         return fresults
                 if "blocking" in world.blocks[cx][cy].tags and m!=0:
                     return fresults
@@ -867,6 +943,8 @@ class EXPLOSION():
                     world.blocks[cx][cy].fuse = 1
                 try:
                     fresults.append(display.drawImage(cx,cy,9))
+                    world.sl.event(trevent("on_explode", cx,cy))
+                    world.sl.event(trevent("on_destroy", cx,cy))
                 except TclError:
                     #print("ERRO")
                     return []
@@ -905,6 +983,8 @@ class EXPLOSION():
                     if "bomb" in world.blocks[cx][cy].tags:
                         world.blocks[cx][cy].fuse = 1
                     results.append(display.drawImage(cx,cy,9))
+                    world.sl.event(trevent("on_destroy", cx,cy))
+                    world.sl.event(trevent("on_explode", cx,cy))
         return results
     def NUKE(world, display, dmg, x,y,null):
         results = []
@@ -912,7 +992,7 @@ class EXPLOSION():
             for b in range (-10,11):
                 cx = x + a
                 cy = y + b
-                if cx > -1 and cx < 25 and cy > -1 and cy < 25:
+                if cx > 0 and cx < 24 and cy > 0 and cy < 24:
                     if "alive" in world.blocks[cx][cy].tags or (world.p.x == cx and world.p.y == cy):
                         if (world.p.x == cx and world.p.y == cy):
                             if world.p.damage(dmg*5,"NUKE") == False:
@@ -926,6 +1006,8 @@ class EXPLOSION():
                     if "bomb" in world.blocks[cx][cy].tags:
                         world.blocks[cx][cy].fuse = 1
                     results.append(display.drawImage(cx,cy,9))
+                    world.sl.event(trevent("on_destroy", cx,cy))
+                    world.sl.event(trevent("on_explode", cx,cy))
         return results
     def ANTIMATTER(world, display, dmg, x,y,null):
         results = []
@@ -947,6 +1029,8 @@ class EXPLOSION():
                     if "bomb" in world.blocks[cx][cy].tags:
                         world.blocks[cx][cy].fuse = 1
                     results.append(display.drawImage(cx,cy,9))
+                    world.sl.event(trevent("on_destroy", cx,cy))
+                    world.sl.event(trevent("on_explode", cx,cy))
         return results
 class bomb(block):
     def __init__(self,parent,world,display,x,y,fuse=35,explosion=EXPLOSION.BASIC,dmg=1,duration=10,texture=11,length=20):
@@ -995,10 +1079,13 @@ class world():
         self.width, self.height = self.display.getDimensions()
         self.blocks = []
         self.p = None
-        self.sl = None
         self.name = None
         self.tetxs = None
         self.update_c = True
+        self.sl = None
+        self.flags = {
+            "drop_items":True
+                }
         for x in range (0, int(self.width/20)):
             buffer = []
             for y in range (0, int(self.height/20)):
@@ -1053,12 +1140,10 @@ class world():
         c = comp.compressor()
         c.load("maps/"+path+".ptb")
         c.decompress()
-        content, s, z = c.get_data()
-        self.sl = scriptLoader(s,self)
+        content, s, t = c.get_data()
         data = content["world"]
         self.name = path
         self.texts = content["texts"]
-        print(self.texts)
         self.display.inventory.textdata = self.texts
         for x in range (0, int(self.width/20)):
             for y in range (0, int(self.height/20)):
@@ -1082,14 +1167,14 @@ class world():
                     self.display.bindKey("#",self.p.detonate_tb,)
                     self.display.bindKey("<Left>",self.p.shift,-1)
                     self.display.bindKey("<Right>",self.p.shift,1)
-                    #self.display.bindKey("k",self.win,)
+                    self.display.bindKey("k",self.win,)
                     self.display.bindKey("<Escape>",self.ext,)
                     self.display.bindKey("c",randomizer.curse,self.p)
                     self.display.frame.protocol("WM_DELETE_WINDOW", self.ext)                        
                 else:
                     self.blocks[x][y] = block(self, self.display, x,y,data[x][y]["id"],textureManager.get(data[x][y]["id"])) #0 to be replaced with texturemanager
-        if self.sl != None:
-            self.sl.on_init()
+        self.sl = scriptLoader(self, s)
+        self.sl.event(trevent("on_init",0,0))
 class game():
     def __init__(self,usr,pas,prg,sizeX,sizeY,maps):
         if len(maps) > sizeX*sizeY:
@@ -1218,8 +1303,6 @@ class login():
             return
         usr = hashlib.md5(usr.encode()).hexdigest()
         file = "saves/" + usr + ".txt"
-        if not os.path.isdir("saves"):
-            os.mkdir("saves")
         if os.path.exists(file):
             pass
         else:
@@ -1249,12 +1332,12 @@ class login():
         g = usr
         h = pas
         self.args = (g,h,content,a,b,c)
-        #print(self.args)sd
+        #print(self.args)
         self.g = game(*self.args)
 #PreInit, static, just load once at startup
 tagManager.append(-1,["air"])#air
 tagManager.append(0,["solid","blocking"]) #bedrock
-tagManager.append(3,["solid","blocking","breakable","drops"]) #brick ss
+tagManager.append(3,["solid","blocking","breakable","drops"]) #brick 
 tagManager.append(2,["solid","alive","player"]) #player todo
 tagManager.append(6,["solid","alive","update"]) #enemy
 tagManager.append(5,["blocking","breakable","item"]) #item
@@ -1265,7 +1348,11 @@ textureManager.append(-1,None)
 textureManager.append(0,4)
 textureManager.append(3,3)
 textureManager.append(4,5)
-
-l = login((10,10,["tutorial"]+[f"level{i}" for i in range(1,7)]))
+opts = []
+for i in range (0,100):
+    opts.append("MAZE"+str(i))
+opts = ["fun"] + opts
+opts.pop()
+l = login((10,10,["xyz"]))
 #f = game(0,(10,10,["maps/level1.json","maps/level2.json"]))
 #Init, actually create eviroment and world, use for each level
