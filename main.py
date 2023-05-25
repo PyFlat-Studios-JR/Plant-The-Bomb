@@ -5,7 +5,6 @@ import resources.better_compressor as comp
 import pathlib
 import os
 import time
-import json
 import random
 import functools
 import hashlib
@@ -73,7 +72,7 @@ class scriptLoader():
         #3: on_collect
         #4: on_destroy
         #5: on_explode
-        trl = [(self,l,"on_init",x,y,False,True),(self,l,"on_step",x,y,True,False),(self, l, "on_collect", x, y, False, False),(self, l, "on_destroy", x,y,False,False),(self,l,"on_explode",x,y,True,False)]
+        trl = [None, (self,l,"on_init",x,y,False,True),(self,l,"on_step",x,y,True,False),(self, l, "on_collect", x, y, False, False),(self, l, "on_destroy", x,y,False,False),(self,l,"on_explode",x,y,True,False)]
         return trl[trtp]
     def _find_triggers(self):
         for i in range (len(self.lines)):
@@ -183,14 +182,19 @@ class scriptLoader():
     def draw_image(self, stor, x, y, i):
         self.ram[stor] = self.world.display.drawImage(x,y,i)
     def draw_rect(self, stor, x,y,r,g,b):
+        r = self.ram[r]
+        g = self.ram[g]
+        b = self.ram[b]
+        x = self.ram[x]
+        y = self.ram[y]
         r = hex(r)[2:]
-        while len(r) < 2:
+        if len(r) < 2:
             r = "0" + r
         g = hex(g)[2:]
-        while len(g) < 2:
+        if len(g) < 2:
             g = "0" + g
         b = hex(b)[2:]
-        while len(r) < 2:
+        if len(b ) < 2:
             b = "0" + b
         self.ram[stor] = self.world.display.canvas.create_rectangle(x*20,y*20,x*20+20,y*20+20,width=0,fill="#" + r + g + b)
     def draw_clear(self, adress):
@@ -1353,6 +1357,6 @@ for i in range (0,100):
     opts.append("MAZE"+str(i))
 opts = ["fun"] + opts
 opts.pop()
-l = login((10,10,["xyz"]))
+l = login((10,10,["mario"]))
 #f = game(0,(10,10,["maps/level1.json","maps/level2.json"]))
 #Init, actually create eviroment and world, use for each level
