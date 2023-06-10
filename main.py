@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 import resources.crypto as crypto
-import resources.better_compressor as comp
+import resources.compressor as comp
 import pathlib
 import os
 import time
