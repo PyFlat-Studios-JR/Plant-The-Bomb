@@ -8,6 +8,7 @@ import time
 import random
 import functools
 import hashlib
+import copy
 
 if not os.path.isdir("saves"):
     os.mkdir("saves")
@@ -72,7 +73,8 @@ class scriptLoader():
         #3: on_collect
         #4: on_destroy
         #5: on_explode
-        trl = [None, (self,l,"on_init",x,y,False,True),(self,l,"on_step",x,y,True,False),(self, l, "on_collect", x, y, False, False),(self, l, "on_destroy", x,y,False,False),(self,l,"on_explode",x,y,True,False)]
+        #6: on_tick (note that trigger executes AFTER the tick)
+        trl = [None, (self,l,"on_init",x,y,False,True),(self,l,"on_step",x,y,True,False),(self, l, "on_collect", x, y, False, False),(self, l, "on_destroy", x,y,False,False),(self,l,"on_explode",x,y,True,False),(self, l, "on_tick", x, y, True, True)]
         return trl[trtp]
     def _find_triggers(self):
         for i in range (len(self.lines)):
@@ -107,6 +109,11 @@ class scriptLoader():
         self._register_command(17,self.jmp, "**")           #jump x lines if cond is > 0  using * for jump lines, to allow for 2 byte input but more realistically it is constant
         self._register_command(18,self.set_flag, "§$")        #apply an flag to your very world setFlag §flag $value
         self._register_command(19,self.tp,"**")             #tp *x *y -- teleports the palyer
+        self._register_command(20,self.jmpr, "**")
+        self._register_command(21,self.download_ram, "*")   #createMemory at * Creates new, nested storage
+        self._register_command(22,self.load_to_nest, "***") # loadToMemory at *adress with index *index from *source
+        self._register_command(23,self.load_from_nest, "***") # loadFromMemory at *adress with index *index to *source
+        self._register_command(24,self.rand, "***") #randomNumber from *min to *max => *storage
     def _waste(self, *args):
         return None
     def _exec(self, line):
@@ -172,8 +179,20 @@ class scriptLoader():
         self.ram[adress] = it[item]
         self.world.p.paint_inv()
     def set_global(self,adress,item):
-        it = [0, self.world.p.health, self.world.p.inventory["total"], self.world.p.inventory["exp_range"], self.world.p.inventory["dynamite"], self.world.p.inventory["timed_bombs"], self.world.p.inventory["damage"], self.world.p.inventory["nukes"]]
-        it[item] = self.ram[adress]
+        if item == 1:
+            self.world.p.health = self.ram[adress]
+        if item == 2:
+            self.world.p.inventory["total"] = self.ram[adress]
+        if item == 3:
+            self.world.p.inventory["exp_range"] = self.ram[adress]
+        if item == 4:
+            self.world.p.inventory["dynamite"] = self.ram[adress]
+        if item == 5:
+            self.world.p.inventory["timed_bombs"] = self.ram[adress]
+        if item == 6:
+            self.world.p.inventory["damage"] = self.ram[adress]
+        if item == 7:
+            self.world.p.inventory["nukes"] = self.ram[adress]
         self.world.p.paint_inv()
     def win(self):
         self.world.win()
@@ -223,6 +242,8 @@ class scriptLoader():
     def jmp(self, rel_line, cond):
         if self.ram[cond] > 0:
             self.parser["position"] += (rel_line-1)
+    def jmpr(self, rel_line, cond):
+        self.jmp(self.ram[rel_line], cond)
     def set_flag(self, flag, value):
         val = True if value != 0 else False
         flags = [None,"drop_items"]
@@ -236,6 +257,14 @@ class scriptLoader():
         vx = x - x0
         vy = y - y0
         self.world.p.move(vx,vy)
+    def download_ram(self, slot):
+        self.ram[slot] = [0]*65536
+    def load_to_nest(self, location, index, source):
+        self.ram[location][index] = copy.deepcopy(self.ram[source])
+    def load_from_nest(self, location, index, destination):
+        self.ram[destination] = copy.deepcopy(self.ram[location][index])
+    def rand(self, i, a,d):
+        self.ram[d] = random.randint(self.ram[i],self.ram[a])
 class ATTACK():
     def callType(i):
         TYPE_0 = [(0,0)]
@@ -1138,6 +1167,7 @@ class world():
                 else:
                     return
         self.p.update()
+        self.sl.event(trevent("on_tick",0,0))
     def replace_block(self,x,y,new):
         self.blocks[x][y] = new
     def loadFromFile(self,path):
@@ -1357,6 +1387,6 @@ for i in range (0,100):
     opts.append("MAZE"+str(i))
 opts = ["fun"] + opts
 opts.pop()
-l = login((10,10,["mario"]))
+l = login((10,10,["testx"]))
 #f = game(0,(10,10,["maps/level1.json","maps/level2.json"]))
 #Init, actually create eviroment and world, use for each level
