@@ -1394,3 +1394,4 @@ textureManager.append(4,5)
 l = login((10,10,["tutorial"]))
 #f = game(0,(10,10,["maps/level1.json","maps/level2.json"]))
 #Init, actually create eviroment and world, use for each level
+#did you know, fish have no legs?
