@@ -1,3 +1,5 @@
+import sys
+sys.dont_write_bytecode = True
 from tkinter import *
 from tkinter import messagebox
 import resources.crypto as crypto
@@ -57,15 +59,16 @@ class scriptLoader():
                 if element["byte"] == cmd and type(cmd) == int:
                     ainf = element["arginf"]
             ll = 1
-            print("INF",ainf)
+            #print("INF",ainf)
             for j in range (len(ainf)):
                 if ainf[j] == "$" or ainf[j] == "§":
                     ll += 1
                 elif ainf[j] == "*":
                     ll += 2
-            print("LL", ll)
+            #print("LL", ll)
             self.lines.append(source[i:i+ll])
             i += ll
+        #print(self.lines)
         self._find_triggers()
     def _get_trigger(self,trtp, x,y, l):
         #1: on_init
@@ -142,14 +145,18 @@ class scriptLoader():
                 else:
                     args = args + (line[b],)
                     b += 1
-        print(cmd, args)
+        ##print(cmd, args)
         cmd["method"](*args)
     def _psr_start(self):
         self.parser["running"] = True
         while self.parser["running"]:
-            line = self.lines[self.parser["position"]]
-            self._exec(line)
-            self.parser["position"] += 1
+            try:
+                line = self.lines[self.parser["position"]]
+                self._exec(line)
+                self.parser["position"] += 1
+            except IndexError:
+                #print("[DEBUG] EoF Error (cancelled execution)")
+                self.end()
     def end(self):
         self.parser["running"] = False
     def add(self, a, b, c):
@@ -161,7 +168,7 @@ class scriptLoader():
     def div(self, a, b, c):
         self.ram[c] = round(self.ram[a]/self.ram[b])
     def set(self, adress, value):
-        print(adress,value)
+        #print(adress,value)
         self.ram[adress] = value
     def nul(self, adress):
         self.ram[adress] = 0
@@ -199,7 +206,7 @@ class scriptLoader():
     def loose(self):
         self.world.loose()
     def draw_image(self, stor, x, y, i):
-        self.ram[stor] = self.world.display.drawImage(x,y,i)
+        self.ram[stor] = self.world.display.drawImage(self.ram[x],self.ram[y],self.ram[i])
     def draw_rect(self, stor, x,y,r,g,b):
         r = self.ram[r]
         g = self.ram[g]
@@ -265,6 +272,7 @@ class scriptLoader():
         self.ram[destination] = copy.deepcopy(self.ram[location][index])
     def rand(self, i, a,d):
         self.ram[d] = random.randint(self.ram[i],self.ram[a])
+        #print(d, self.ram[d])
 class ATTACK():
     def callType(i):
         TYPE_0 = [(0,0)]
@@ -351,11 +359,11 @@ class display():
             self.update_game()
             #time.sleep(dly)
             end = time.time()*1000
-            #print(end-start)
+            ##print(end-start)
             while (end-start) < 39.5:
                 end = time.time()*1000
             #ext = time.time()*1000
-            #print(ext-start)
+            ##print(ext-start)
 class block():
     def __init__(self, world,display, x,y,i,texture):
         self.idx = i
@@ -505,11 +513,11 @@ class enemy(block):
         self.healthbar_display_cooldown = 100
         if self.health <= 0:
             enemy.amount -= 1
-            #print(enemy.amount)
+            ##print(enemy.amount)
             self.display.canvas.delete(self.healthbar)
-            #print("Enemy, new",enemy.amount)
+            ##print("Enemy, new",enemy.amount)
             if enemy.amount <= 0:
-                #print("YOU WIN")
+                ##print("YOU WIN")
                 self.world.win()
                 return False
             if self.i != None:
@@ -543,7 +551,7 @@ class enemy(block):
                     for oy in range (-1,2):
                         if (ox==0 or oy == 0) and (ox != 0 or oy != 0):
                             if (x+ox,y+oy) == goal:
-                                #print("PLAYER FOUND")
+                                ##print("PLAYER FOUND")
                                 cc = c+1
                                 path.append((self.cpx,self.cpy))
                                 while cc > 0:
@@ -561,7 +569,7 @@ class enemy(block):
                                 costs.append(c+1)
             if len(fts) > 0:
                 frontiers = fts[:]
-                #print(frontiers)
+                ##print(frontiers)
             else:
                 return None
     def try_pathfind(self):
@@ -599,7 +607,7 @@ class enemy(block):
                         cx = x + ox
                         cy = y + oy
                         if "solid" not in self.world.blocks[cx][cy].tags and (cx,cy) not in visited or (cx == self.world.p.x and cy == self.world.p.y):
-                            #print(self.world.blocks[14][20].tags)
+                            ##print(self.world.blocks[14][20].tags)
                             nb.append((cx,cy))
             if len(nb) > 0:
                 #Push current back to stack
@@ -626,7 +634,7 @@ class enemy(block):
         return None
     def automove(self):
         p = self.another_one()
-        #print(p)
+        ##print(p)
         if p == False:
             if len(self.path) > 0:
                 px, py = self.path.pop()
@@ -658,7 +666,7 @@ class enemy(block):
         #Direction vectors
         tx = px - self.x
         ty = py - self.y
-        #print(tx,ty)
+        ##print(tx,ty)
         if tx != 0:
             x = int(abs(tx)/tx)
         else:
@@ -848,7 +856,7 @@ class player(block):
             self.curse = ""
         else:
             self.curse_cooldown -= 1
-            #print(self.curse_cooldown)
+            ##print(self.curse_cooldown)
         if self.curse == "spray" and self.curse_cooldown % 3 == 0:
             self.place_bomb()
     def place_bomb(self):
@@ -961,7 +969,7 @@ class EXPLOSION():
                             if enemy.amount <= 0:
                                 return ["_E"]
                         #except AttributeError:
-                        #    print("Tried to call damage function of " + str(type(world.blocks[cx][cy]))) 
+                        #    #print("Tried to call damage function of " + str(type(world.blocks[cx][cy]))) 
                 if "breakable" in world.blocks[cx][cy].tags:
                     solid = "blocking" in world.blocks[cx][cy].tags
                     world.blocks[cx][cy].remove()
@@ -979,7 +987,7 @@ class EXPLOSION():
                     world.sl.event(trevent("on_explode", cx,cy))
                     world.sl.event(trevent("on_destroy", cx,cy))
                 except TclError:
-                    #print("ERRO")
+                    ##print("ERRO")
                     return []
             return fresults
         results += explode_vec(1,0)
@@ -992,7 +1000,7 @@ class EXPLOSION():
         if "_E" in results:
             return
         results += explode_vec(0,-1)
-        ##print(results)
+        ###print(results)
         if results == ["_E","_E","_E","_E"]:
             return False
         return results
@@ -1095,7 +1103,7 @@ class bomb(block):
                 if self.explosion == EXPLOSION.BASIC and not self.t:
                     self.parent.inventory["total"]+= 1
                     self.parent.paint_inv()
-                ##print("Exploded")
+                ###print("Exploded")
         else:
             if self.state_forcequit:
                 return False
@@ -1181,7 +1189,7 @@ class world():
         self.display.inventory.textdata = self.texts
         for x in range (0, int(self.width/20)):
             for y in range (0, int(self.height/20)):
-                ##print(data[x][y])
+                ###print(data[x][y])
                 if data[x][y]["id"] == 6:
                     self.blocks[x][y] = enemy(self,self.display,x,y,data[x][y]["objectData"]["health"],ATTACK.callType(data[x][y]["objectData"]["id2"]))
                 elif data[x][y]["id"] == 5:
@@ -1263,20 +1271,20 @@ class game():
         while True:
             self.save()
             self.boot()
-            ##print("should show loop")
+            ###print("should show loop")
             self.running = True
             self.selection_menu.mainloop()
             #End of Loop: collect Information for level bootup...
             if  not self.running:
-                ##print("QUIT")
+                ###print("QUIT")
                 return
             d = display(25,25)
             w = world(d,self,self.nw)
             w.create_background()
             w.loadFromFile(self.nextlevel)
             w.display.boot(25)
-            #print("Process End")
-        ##print(self.nextlevel,self.nw)
+            ##print("Process End")
+        ###print(self.nextlevel,self.nw)
     def boot_world(self,i,x):
         self.nextlevel = i
         self.nw = x
@@ -1340,8 +1348,8 @@ class login():
         if os.path.exists(file):
             pass
         else:
-            #print("User not found")
-            #print("Attempt Register")
+            ##print("User not found")
+            ##print("Attempt Register")
             confirm = messagebox.askquestion("WARNING", "You CANNOT change or recover your USERNAME or PASSWORD after registering!!! \n Continue?")
             if confirm == "yes":
                 messagebox.showinfo("REGISTER", "You have been registered") #TODO add registry
@@ -1351,7 +1359,7 @@ class login():
                 g = usr
                 h = pas
                 self.args = (g,h,0,a,b,c)
-                #print(self.args)
+                ##print(self.args)
                 self.g = game(*self.args)
                 return
             else:
@@ -1366,14 +1374,14 @@ class login():
         g = usr
         h = pas
         self.args = (g,h,content,a,b,c)
-        #print(self.args)
+        ##print(self.args)
         self.g = game(*self.args)
 #PreInit, static, just load once at startup
 tagManager.append(-1,["air"])#air
 tagManager.append(0,["solid","blocking"]) #bedrock
 tagManager.append(3,["solid","blocking","breakable","drops"]) #brick 
 tagManager.append(2,["solid","alive","player"]) #player todo
-tagManager.append(6,["solid","alive","update"]) #enemy
+tagManager.append(6,["solid","alive","update"]) #enemya
 tagManager.append(5,["blocking","breakable","item"]) #item
 tagManager.append(4,["solid"]) #water 
 tagManager.append(8,["solid","update","bomb"]) #bombs
@@ -1382,11 +1390,7 @@ textureManager.append(-1,None)
 textureManager.append(0,4)
 textureManager.append(3,3)
 textureManager.append(4,5)
-opts = []
-for i in range (0,100):
-    opts.append("MAZE"+str(i))
-opts = ["fun"] + opts
-opts.pop()
-l = login((10,10,["testx"]))
+
+l = login((10,10,["tutorial"]))
 #f = game(0,(10,10,["maps/level1.json","maps/level2.json"]))
 #Init, actually create eviroment and world, use for each level
