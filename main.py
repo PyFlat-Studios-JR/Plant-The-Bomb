@@ -118,6 +118,7 @@ class scriptLoader():
         self._register_command(23,self.load_from_nest, "***") # loadFromMemory at *adress with index *index to *source
         self._register_command(24,self.rand, "***") #randomNumber from *min to *max => *storage
         self._register_command(25,self.load_ptr,"**") #loadFromPointer at *from to *to
+        self._register_command(26,self.store_ptr,"**") # storeToPointer value *val to *ptr
     def _waste(self, *args):
         return None
     def _exec(self, line):
@@ -165,11 +166,13 @@ class scriptLoader():
     def sub(self, a, b, c):
         self.ram[c] = self.ram[a] - self.ram[b]
     def mul(self, a, b, c):
-        self.ram[c] = self.ram[a] * self.ram[b]
+        self.ram[c] = int(self.ram[a] * self.ram[b])
     def div(self, a, b, c):
         self.ram[c] = round(self.ram[a]/self.ram[b])
     def load_ptr(self, f, t):
         self.ram[t] = self.ram[self.ram[f]]
+    def store_ptr(self, v, p):
+        self.ram[self.ram[p]] = self.ram[v]
     def set(self, adress, value):
         #print(adress,value)
         self.ram[adress] = value
