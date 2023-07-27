@@ -37,6 +37,7 @@ class trigger():
                 if self.igpos or (self.posx == event.x and self.posy == event.y):
                     if not self.stable:
                         self.used = True
+                    print("Triggered" + event.code)
                     return [True, self.line + 1]
         return [False]
 class scriptLoader():
@@ -155,6 +156,7 @@ class scriptLoader():
             try:
                 line = self.lines[self.parser["position"]]
                 self._exec(line)
+                #print(self.parser["position"], line)
                 self.parser["position"] += 1
             except IndexError:
                 #print("[DEBUG] EoF Error (cancelled execution)")
@@ -228,9 +230,13 @@ class scriptLoader():
         b = hex(b)[2:]
         if len(b ) < 2:
             b = "0" + b
+        #self.world.display.frame.update()
+        #self.world.display.frame.update_idletasks()
         self.ram[stor] = self.world.display.canvas.create_rectangle(x*20,y*20,x*20+20,y*20+20,width=0,fill="#" + r + g + b)
     def draw_clear(self, adress):
         self.world.display.remove(self.ram[adress])
+        #self.world.display.frame.update()
+        #self.world.display.frame.update_idletasks()
     def compare(self, a, op, b, c): #Save 0 if false, save 1 if true
         a = self.ram[a]
         b = self.ram[b]
@@ -1225,6 +1231,12 @@ class world():
         self.sl.event(trevent("on_init",0,0))
 class game():
     def __init__(self,usr,pas,prg,sizeX,sizeY,maps):
+        if not maps:
+            m = os.listdir("maps/")
+            maps = []
+            for e in m:
+                if e[-4:] == ".ptb":
+                    maps.append(e[:-4])
         if len(maps) > sizeX*sizeY:
             raise IndexError("Could not load World for " + str(maps) + "; Reason: cannot match all maps to buttons")
         for i in range (0, len(maps)):
@@ -1317,7 +1329,7 @@ class levelbutton(Button):
 class login():
     def __init__(self,args):
         self.login = Tk()
-        self.login.geometry("250x100")
+        self.login.geometry("250x130")
         self.login.resizable(0,0)
         self.login.title("Login")
         self.welcome = Label(self.login, text = "Enter Username and Password", font="Calibri 11")
@@ -1327,14 +1339,16 @@ class login():
         self.ulabel = Label(self.login, text = "Username:", font="Calibri 9")
         self.ulabel.place(x=0,y=20)
         self.username = Entry(self.login, font="Calibri")
-        self.username.place(x=65, y=20, width = 185, height = 20)
+        self.username.place(x=65, y=20, width = 175, height = 20)
         #Password
         self.plabel = Label(self.login, text = "Password:", font="Calibri 9")
         self.plabel.place(x=0,y=40)
         self.password = Entry(self.login,  show="*", font="Calibri")
-        self.password.place(x=65, y=40, width = 185, height = 20)
-        self.submit = Button(self.login, text="Submit", font="Calibri", command = lambda: [self.try_login()])
+        self.password.place(x=65, y=40, width = 175, height = 20)
+        self.submit = Button(self.login, text="Login", font="Calibri", command = lambda: [self.try_login()])
         self.submit.place(x=10,y=65, width = 230, height = 30)
+        self.map_build_checkout = Button(self.login, text="Check out the mapbuilder!", command= lambda:[os.system("start https://github.com/PyFlat-Studios-JR/PTB-Map-Builder")])
+        self.map_build_checkout.place(x=10,y=95,width=230,height=30)
         self.g = None
         self.args = args
         self.login.mainloop()
@@ -1397,7 +1411,7 @@ textureManager.append(0,4)
 textureManager.append(3,3)
 textureManager.append(4,5)
 
-l = login((10,10,["tutorial"]))
+l = login((10,10,None))
 #f = game(0,(10,10,["maps/level1.json","maps/level2.json"]))
 #Init, actually create eviroment and world, use for each level
 #did you know, fish have no legs?
