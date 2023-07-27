@@ -1,6 +1,7 @@
 import sys
 sys.dont_write_bytecode = True
 from tkinter import *
+from customtkinter import CTkButton, CTkLabel, CTkEntry, CTk, CTkFont
 from tkinter import messagebox
 import resources.crypto as crypto
 import resources.compressor as comp
@@ -1328,27 +1329,23 @@ class levelbutton(Button):
         self.place(x=x*30+10,y=y*30+25,width=20,height=20)
 class login():
     def __init__(self,args):
-        self.login = Tk()
-        self.login.geometry("250x130")
+        self.login = CTk()
+        self.login.geometry("300x300")
         self.login.resizable(0,0)
         self.login.title("Login")
-        self.welcome = Label(self.login, text = "Enter Username and Password", font="Calibri 11")
-        self.welcome.place(x=35, y=0)
+        self.welcome = CTkLabel(self.login, text = "Enter Username and Password to login", font=CTkFont("Calibri", 20), width=250, wraplength=250)
+        self.welcome.place(x=25, y=0)
         self.login.bind("<Return>",lambda ev: [self.try_login()])
         #Username 
-        self.ulabel = Label(self.login, text = "Username:", font="Calibri 9")
-        self.ulabel.place(x=0,y=20)
-        self.username = Entry(self.login, font="Calibri")
-        self.username.place(x=65, y=20, width = 175, height = 20)
+        self.username = CTkEntry(self.login, font=CTkFont("Calibri", 25), placeholder_text="Username", justify=CENTER, width = 250, height = 40)
+        self.username.place(x=25, y=50)
         #Password
-        self.plabel = Label(self.login, text = "Password:", font="Calibri 9")
-        self.plabel.place(x=0,y=40)
-        self.password = Entry(self.login,  show="*", font="Calibri")
-        self.password.place(x=65, y=40, width = 175, height = 20)
-        self.submit = Button(self.login, text="Login", font="Calibri", command = lambda: [self.try_login()])
-        self.submit.place(x=10,y=65, width = 230, height = 30)
-        self.map_build_checkout = Button(self.login, text="Check out the mapbuilder!", command= lambda:[os.system("start https://github.com/PyFlat-Studios-JR/PTB-Map-Builder")])
-        self.map_build_checkout.place(x=10,y=95,width=230,height=30)
+        self.password = CTkEntry(self.login, font=CTkFont("Calibri", 25), placeholder_text="Password", justify=CENTER, show="*", width = 250, height = 40)
+        self.password.place(x=25, y=100)
+        self.submit = CTkButton(self.login, text="Login", font=CTkFont("Calibri", 25), command = lambda: [self.try_login()], width = 250, height = 30)
+        self.submit.place(x=25,y=150)
+        self.map_build_checkout = CTkButton(self.login, text="Check out the mapbuilder!", font=CTkFont("Calibri", 20), command= lambda:[os.system("start https://github.com/PyFlat-Studios-JR/PTB-Map-Builder")],width=250,height=30)
+        self.map_build_checkout.place(x=25,y=200)
         self.g = None
         self.args = args
         self.login.mainloop()
