@@ -1333,25 +1333,24 @@ class login():
         self.login.geometry("300x300")
         self.login.resizable(0,0)
         self.login.title("Login")
-        self.welcome = CTkLabel(self.login, text = "Enter Username and Password to login", font=CTkFont("Calibri", 20), width=250, wraplength=250)
-        self.welcome.place(x=25, y=0)
+        self.welcome = CTkLabel(self.login, text = "Enter Username and Password to login", font=CTkFont("Calibri", 20), wraplength=250)
+        self.welcome.pack(fill=X, padx=15, pady=10)
         self.login.bind("<Return>",lambda ev: [self.try_login()])
         #Username 
-        self.username = CTkEntry(self.login, font=CTkFont("Calibri", 25), placeholder_text="Username", justify=CENTER, width = 250, height = 40)
-        self.username.place(x=25, y=50)
+        self.username = CTkEntry(self.login, font=CTkFont("Calibri", 25), placeholder_text="Username", justify=CENTER, height = 40)
+        self.username.pack(fill=X, padx=15, pady=10)
         #Password
-        self.password = CTkEntry(self.login, font=CTkFont("Calibri", 25), placeholder_text="Password", justify=CENTER, show="*", width = 250, height = 40)
-        self.password.place(x=25, y=100)
-        self.submit = CTkButton(self.login, text="Login", font=CTkFont("Calibri", 25), command = lambda: [self.try_login()], width = 250, height = 30)
-        self.submit.place(x=25,y=150)
-        self.map_build_checkout = CTkButton(self.login, text="Check out the mapbuilder!", font=CTkFont("Calibri", 20), command= lambda:[os.system("start https://github.com/PyFlat-Studios-JR/PTB-Map-Builder")],width=250,height=30)
-        self.map_build_checkout.place(x=25,y=200)
+        self.password = CTkEntry(self.login, font=CTkFont("Calibri", 25), placeholder_text="Password", justify=CENTER, show="*", height = 40)
+        self.password.pack(fill=X, padx=15, pady=10)
+        self.submit = CTkButton(self.login, text="Login", font=CTkFont("Calibri", 25), command = lambda: [self.try_login()], height = 30)
+        self.submit.pack(fill=X, padx=15, pady=10)
+        self.map_build_checkout = CTkButton(self.login, text="Check out the mapbuilder!", font=CTkFont("Calibri", 20), command= lambda:[os.system("start https://github.com/PyFlat-Studios-JR/PTB-Map-Builder")],height=30)
+        self.map_build_checkout.pack(fill=X, padx=15, pady=10)
         self.g = None
         self.args = args
         self.login.mainloop()
     def try_login(self):
         usr = self.username.get()
-        uus = usr
         pas = self.password.get()
         #Verify Data
         if len(pas) < 4:
@@ -1365,13 +1364,11 @@ class login():
         if os.path.exists(file):
             pass
         else:
-            ##print("User not found")
-            ##print("Attempt Register")
             confirm = messagebox.askquestion("WARNING", "You CANNOT change or recover your USERNAME or PASSWORD after registering!!! \n Continue?")
             if confirm == "yes":
                 messagebox.showinfo("REGISTER", "You have been registered") #TODO add registry
                 open(file,"w").write(crypto.encode("0", pas))
-                self.login.destroy()
+                #self.login.destroy()
                 a,b,c = self.args
                 g = usr
                 h = pas
@@ -1386,7 +1383,7 @@ class login():
         except Exception:
             messagebox.showwarning("ERROR", "Invalid password")
             return
-        self.login.destroy()
+        #self.login.destroy()
         a,b,c = self.args
         g = usr
         h = pas
