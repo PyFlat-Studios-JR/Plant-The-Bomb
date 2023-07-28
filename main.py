@@ -1368,7 +1368,7 @@ class login():
             if confirm == "yes":
                 messagebox.showinfo("REGISTER", "You have been registered") #TODO add registry
                 open(file,"w").write(crypto.encode("0", pas))
-                #self.login.destroy()
+                self.login.destroy()
                 a,b,c = self.args
                 g = usr
                 h = pas
@@ -1383,7 +1383,7 @@ class login():
         except Exception:
             messagebox.showwarning("ERROR", "Invalid password")
             return
-        #self.login.destroy()
+        self.login.destroy()
         a,b,c = self.args
         g = usr
         h = pas
