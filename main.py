@@ -267,7 +267,7 @@ class scriptLoader():
     def set_flag(self, flag, value):
         val = True if value != 0 else False
         flags = [None,"drop_items"]
-        flag = [flags][flag]
+        flag = flags[flag]
         self.world.setFlag(flag,val)
     def tp(self, x, y):
         x0 = self.world.p.x
@@ -1147,6 +1147,11 @@ class world():
             self.blocks.append(buffer)
         self.display.addTask(self.update)
         self.display.addTask(self.check_enemy_death)
+    def setFlag(self, flag, value):
+        if flag in self.flags:
+            self.flags[flag] = value
+        else:
+            raise KeyError(f"Attempted to change flag {flag} which does not exist to value {value}")
     def check_enemy_death(self):
         if enemy.enemy_init:
             for x in range (0, len(self.blocks)):
