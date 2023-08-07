@@ -121,6 +121,7 @@ class scriptLoader():
         self._register_command(24,self.rand, "***") #randomNumber from *min to *max => *storage
         self._register_command(25,self.load_ptr,"**") #loadFromPointer at *from to *to
         self._register_command(26,self.store_ptr,"**") # storeToPointer value *val to *ptr
+        self._register_command(27,self.place_block,"*")
     def _waste(self, *args):
         return None
     def _exec(self, line):
@@ -238,6 +239,25 @@ class scriptLoader():
         self.world.display.remove(self.ram[adress])
         #self.world.display.frame.update()
         #self.world.display.frame.update_idletasks()
+    def place_block(self, adress):
+        pass
+        ID = self.ram[adress]
+        X = self.ram[adress+1]
+        Y = self.ram[adress+2]
+        if self.world.blocks[X][Y].idx != -1:
+            return
+        match (ID):
+            case 6:
+                self.world.replace_block(X,Y,enemy(self.world,self.world.display,X,Y,self.ram[adress+3],ATTACK.callType(self.ram[adress+4])))
+            case 5:
+                self.world.replace_block(X,Y,item(self.world,self.world.display,X,Y,self.ram[adress+3],self.ram[adress+4]))
+            case 2:
+                raise ValueError("ERR_CANNOT_CREATE_PLAYER")
+            case 8:
+                print("Nope, not implemented")
+                return
+            case other:
+                self.world.replace_block(X,Y,block(self.world,self.world.display,ID,textureManager.get(self.ram[adress+3])))
     def compare(self, a, op, b, c): #Save 0 if false, save 1 if true
         a = self.ram[a]
         b = self.ram[b]
