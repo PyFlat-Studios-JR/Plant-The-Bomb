@@ -1369,7 +1369,7 @@ class login():
         self.password.pack(fill=X, padx=15, pady=10)
         self.submit = CTkButton(self.login, text="Login", font=CTkFont("Calibri", 25), command = lambda: [self.try_login()], height = 30)
         self.submit.pack(fill=X, padx=15, pady=10)
-        self.map_build_checkout = CTkButton(self.login, text="Check out the mapbuilder!", font=CTkFont("Calibri", 20), command= lambda:[os.system("start https://github.com/PyFlat-Studios-JR/PTB-Map-Builder")],height=30)
+        self.map_build_checkout = CTkButton(self.login, text="Check out the mapbuilder!", font=CTkFont("Calibri", 20), command= lambda:[os.system("start https://github.com/PyFlat/PTB-Map-Builder")],height=30)
         self.map_build_checkout.pack(fill=X, padx=15, pady=10)
         self.g = None
         self.args = args
