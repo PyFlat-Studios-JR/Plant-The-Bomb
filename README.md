@@ -35,5 +35,5 @@
 - Have fun
 
 # Custom Maps
-- Create your own maps with the [PTB-Map-Builder](https://github.com/PyFlat-Studios-JR/PTB-Map-Builder)
+- Create your own maps with the [PTB-Map-Builder](https://github.com/PyFlat/PTB-Map-Builder)
 - If you want to use custom maps you have to use the __*.py*__ version not the __*.exe*__
