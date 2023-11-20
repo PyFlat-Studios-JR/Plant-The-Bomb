@@ -2,3 +2,4 @@ env/
 build/
 saves/
 setup.py
+*.pyc
