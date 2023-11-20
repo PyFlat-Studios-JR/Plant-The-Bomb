@@ -107,7 +107,7 @@ class scriptLoader():
         self._register_command(10, self.set_global, "*§")  #set command (world)               set_global *adress $item
         self._register_command(11,self.win,"")            #win
         self._register_command(12,self.loose,"")          #loose
-        self._register_command(13,self.draw_image,"****")     #draw image to screen              drI *stor *x *y *image 
+        self._register_command(13,self.draw_image,"****")     #draw image to screen              drI *stor *x *y *image
         self._register_command(14,self.draw_rect,"******")      #draw rectangle to scrren          drR *stor *x *y *color_R *color_G *color_B
         self._register_command(15,self.draw_clear,"*")    #clear graphics                    clr *adress
         self._register_command(16,self.compare,"*§**"),     #compare a with op to b and save c comp *a §op *c => *c
@@ -335,7 +335,7 @@ class display():
         files = os.listdir(path)
         self.textures = []
         for i in range(0, len(files)):
-            self.textures.append(PhotoImage(file="textures/" + files[i])) 
+            self.textures.append(PhotoImage(file="textures/" + files[i]))
         self.running = False
         self.inventory = Inventory(self, self.frame)
     def getDimensions(self):
@@ -345,7 +345,7 @@ class display():
     def collectTextures(self):
         return self.textures
     def drawImage(self, x, y,image):
-        return self.canvas.create_image(x*20+10, y*20 +10,  image=self.textures[image]) 
+        return self.canvas.create_image(x*20+10, y*20 +10,  image=self.textures[image])
     def move(self,obj ,vx,vy):
         self.canvas.move(obj, vx*20,vy*20)
     def remove(self, obj):
@@ -413,9 +413,9 @@ class randomizer():
             self.nuke = True
             return 24
         if (self.seed < 40):
-            return  18 #4 % Dynamite 
+            return  18 #4 % Dynamite
         elif (self.seed >= 40 and self.seed < 70):
-            return 14 #3 % Health+ 
+            return 14 #3 % Health+
         elif (self.seed >= 70 and self.seed < 100): #change
             return 21 #3 % Sword ++
         elif (self.seed >= 100 and self.seed  < 220):
@@ -423,9 +423,9 @@ class randomizer():
         elif (self.seed >= 220 and self.seed < 350):
             return 19
         elif (self.seed >= 350 and self.seed < 620):
-            return 12 #27% bomb+ 
+            return 12 #27% bomb+
         elif (self.seed >= 620 and self.seed < 890):
-            return 10 #27% exp + 
+            return 10 #27% exp +
         elif (self.seed >= 890 and self.seed < 1001):
             return 22 #11%  Curse
     def bomb(player):
@@ -448,7 +448,7 @@ class randomizer():
             player.curse = "long"
             player.curse_cooldown += int(player.curse_cooldown/5)
             player.curse_cooldown += 125
-        elif c == 3: 
+        elif c == 3:
             player.curse = "useless"
             player.curse_cooldown += int(player.curse_cooldown/5)
             player.curse_cooldown += 125
@@ -616,7 +616,7 @@ class enemy(block):
             for ox in range (-1,2):
                 for oy in range (-1,2):
                     if (ox != 0 or oy != 0) and (ox == 0 or oy == 0):
-                        #No check for walls, since it is impossible to land on 
+                        #No check for walls, since it is impossible to land on
                         cx = x + ox
                         cy = y + oy
                         if "solid" not in self.world.blocks[cx][cy].tags and (cx,cy) not in visited or (cx == self.world.p.x and cy == self.world.p.y):
@@ -675,7 +675,7 @@ class enemy(block):
             if self.move(-1*ox,-1*oy):
                 return
         #player coords
-        
+
         #Direction vectors
         tx = px - self.x
         ty = py - self.y
@@ -982,7 +982,7 @@ class EXPLOSION():
                             if enemy.amount <= 0:
                                 return ["_E"]
                         #except AttributeError:
-                        #    #print("Tried to call damage function of " + str(type(world.blocks[cx][cy]))) 
+                        #    #print("Tried to call damage function of " + str(type(world.blocks[cx][cy])))
                 if "breakable" in world.blocks[cx][cy].tags:
                     solid = "blocking" in world.blocks[cx][cy].tags
                     world.blocks[cx][cy].remove()
@@ -1225,7 +1225,7 @@ class world():
                     self.display.bindKey("k",self.win,)
                     self.display.bindKey("<Escape>",self.ext,)
                     self.display.bindKey("c",randomizer.curse,self.p)
-                    self.display.frame.protocol("WM_DELETE_WINDOW", self.ext)                        
+                    self.display.frame.protocol("WM_DELETE_WINDOW", self.ext)
                 else:
                     self.blocks[x][y] = block(self, self.display, x,y,data[x][y]["id"],textureManager.get(data[x][y]["id"])) #0 to be replaced with texturemanager
         self.sl = scriptLoader(self, s)
@@ -1249,7 +1249,7 @@ class game():
             EXPLOSION.SQUARE = EXPLOSION.ANTIMATTER
         self.frameSizeY = 20 + sizeY * 30
         self.frameSizeX = 15 + sizeX*30
-        self.sizeX = sizeX 
+        self.sizeX = sizeX
         self.sizeY = sizeY
         self.progress = prg
         self.maps = maps
@@ -1336,7 +1336,7 @@ class login():
         self.welcome = CTkLabel(self.login, text = "Enter Username and Password to login", font=CTkFont("Calibri", 20), wraplength=250)
         self.welcome.pack(fill=X, padx=15, pady=10)
         self.login.bind("<Return>",lambda ev: [self.try_login()])
-        #Username 
+        #Username
         self.username = CTkEntry(self.login, font=CTkFont("Calibri", 25), placeholder_text="Username", justify=CENTER, height = 40)
         self.username.pack(fill=X, padx=15, pady=10)
         #Password
@@ -1393,11 +1393,11 @@ class login():
 #PreInit, static, just load once at startup
 tagManager.append(-1,["air"])#air
 tagManager.append(0,["solid","blocking"]) #bedrock
-tagManager.append(3,["solid","blocking","breakable","drops"]) #brick 
+tagManager.append(3,["solid","blocking","breakable","drops"]) #brick
 tagManager.append(2,["solid","alive","player"]) #player todo
 tagManager.append(6,["solid","alive","update"]) #enemya
 tagManager.append(5,["blocking","breakable","item"]) #item
-tagManager.append(4,["solid"]) #water 
+tagManager.append(4,["solid"]) #water
 tagManager.append(8,["solid","update","bomb"]) #bombs
 tagManager.append(7,[])
 textureManager.append(-1,None)
