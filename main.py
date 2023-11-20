@@ -121,6 +121,7 @@ class scriptLoader():
         self._register_command(24,self.rand, "***") #randomNumber from *min to *max => *storage
         self._register_command(25,self.load_ptr,"**") #loadFromPointer at *from to *to
         self._register_command(26,self.store_ptr,"**") # storeToPointer value *val to *ptr
+        self._register_command(27,self.place_block,"*")
     def _waste(self, *args):
         return None
     def _exec(self, line):
@@ -238,6 +239,25 @@ class scriptLoader():
         self.world.display.remove(self.ram[adress])
         #self.world.display.frame.update()
         #self.world.display.frame.update_idletasks()
+    def place_block(self, adress):
+        pass
+        ID = self.ram[adress]
+        X = self.ram[adress+1]
+        Y = self.ram[adress+2]
+        if self.world.blocks[X][Y].idx != -1:
+            return
+        match (ID):
+            case 6:
+                self.world.replace_block(X,Y,enemy(self.world,self.world.display,X,Y,self.ram[adress+3],ATTACK.callType(self.ram[adress+4])))
+            case 5:
+                self.world.replace_block(X,Y,item(self.world,self.world.display,X,Y,self.ram[adress+3],self.ram[adress+4]))
+            case 2:
+                raise ValueError("ERR_CANNOT_CREATE_PLAYER")
+            case 8:
+                print("Nope, not implemented")
+                return
+            case other:
+                self.world.replace_block(X,Y,block(self.world,self.world.display,ID,textureManager.get(self.ram[adress+3])))
     def compare(self, a, op, b, c): #Save 0 if false, save 1 if true
         a = self.ram[a]
         b = self.ram[b]
@@ -267,7 +287,7 @@ class scriptLoader():
     def set_flag(self, flag, value):
         val = True if value != 0 else False
         flags = [None,"drop_items"]
-        flag = [flags][flag]
+        flag = flags[flag]
         self.world.setFlag(flag,val)
     def tp(self, x, y):
         x0 = self.world.p.x
@@ -1147,6 +1167,11 @@ class world():
             self.blocks.append(buffer)
         self.display.addTask(self.update)
         self.display.addTask(self.check_enemy_death)
+    def setFlag(self, flag, value):
+        if flag in self.flags:
+            self.flags[flag] = value
+        else:
+            raise KeyError(f"Attempted to change flag {flag} which does not exist to value {value}")
     def check_enemy_death(self):
         if enemy.enemy_init:
             for x in range (0, len(self.blocks)):
@@ -1344,7 +1369,7 @@ class login():
         self.password.pack(fill=X, padx=15, pady=10)
         self.submit = CTkButton(self.login, text="Login", font=CTkFont("Calibri", 25), command = lambda: [self.try_login()], height = 30)
         self.submit.pack(fill=X, padx=15, pady=10)
-        self.map_build_checkout = CTkButton(self.login, text="Check out the mapbuilder!", font=CTkFont("Calibri", 20), command= lambda:[os.system("start https://github.com/PyFlat-Studios-JR/PTB-Map-Builder")],height=30)
+        self.map_build_checkout = CTkButton(self.login, text="Check out the mapbuilder!", font=CTkFont("Calibri", 20), command= lambda:[os.system("start https://github.com/PyFlat/PTB-Map-Builder")],height=30)
         self.map_build_checkout.pack(fill=X, padx=15, pady=10)
         self.g = None
         self.args = args
