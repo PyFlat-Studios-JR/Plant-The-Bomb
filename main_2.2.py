@@ -15,6 +15,10 @@ class MainWindow(QMainWindow):
         self.setStyleSheet(open("src/gui/style.qss").read())
         self.ui.frame_6.setGraphicsEffect(QGraphicsOpacityEffect(self.ui.frame_6))
         self.ui.frame_6.graphicsEffect().setOpacity(0.8)
+        self.ui.frame_7.setGraphicsEffect(QGraphicsOpacityEffect(self.ui.frame_7))
+        self.ui.frame_7.graphicsEffect().setOpacity(0.8)
+        self.ui.frame_11.setGraphicsEffect(QGraphicsOpacityEffect(self.ui.frame_11))
+        self.ui.frame_11.graphicsEffect().setOpacity(0.8)
         self.initKeybinds()
         self.show()
     def action_registerPage(self):
