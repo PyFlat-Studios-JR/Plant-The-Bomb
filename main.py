@@ -3,8 +3,8 @@ sys.dont_write_bytecode = True
 from tkinter import *
 from customtkinter import CTkButton, CTkLabel, CTkEntry, CTk, CTkFont
 from tkinter import messagebox
-import resources.crypto as crypto
-import resources.compressor as comp
+import src.crypto as crypto
+import src.compressor as comp
 import pathlib
 import os
 import time
@@ -13,8 +13,8 @@ import functools
 import hashlib
 import copy
 
-if not os.path.isdir("saves"):
-    os.mkdir("saves")
+if not os.path.isdir("src/saves"):
+    os.mkdir("src/saves")
 
 
 class trevent():
@@ -351,11 +351,11 @@ class display():
         self.canvas.place(x = 0, y = 80)
         self.updateTasks = []
         #Preload Textures
-        path = str(pathlib.Path(__file__).parent.absolute()) + "/textures/"
+        path = str(pathlib.Path(__file__).parent.absolute()) + "/src/textures/"
         files = os.listdir(path)
         self.textures = []
         for i in range(0, len(files)):
-            self.textures.append(PhotoImage(file="textures/" + files[i]))
+            self.textures.append(PhotoImage(file="src/textures/" + files[i]))
         self.running = False
         self.inventory = Inventory(self, self.frame)
     def getDimensions(self):
@@ -1218,7 +1218,7 @@ class world():
         self.blocks[x][y] = new
     def loadFromFile(self,path):
         c = comp.compressor()
-        c.load("maps/"+path+".ptb")
+        c.load("src/maps/"+path+".ptb")
         c.decompress()
         content, s, t = c.get_data()
         data = content["world"]
@@ -1258,7 +1258,7 @@ class world():
 class game():
     def __init__(self,usr,pas,prg,sizeX,sizeY,maps):
         if not maps:
-            m = os.listdir("maps/")
+            m = os.listdir("src/maps/")
             maps = []
             for e in m:
                 if e[-4:] == ".ptb":
@@ -1268,7 +1268,7 @@ class game():
         for i in range (0, len(maps)):
             if type(maps[i]) != type(""):
                 raise IOError(str(maps[i])+" is not a Valid Path")
-            if not os.path.exists("maps/" + maps[i] + ".ptb"):
+            if not os.path.exists("src/maps/" + maps[i] + ".ptb"):
                 raise IOError("Could not verify World " + maps[i])
         if usr == "e22c04ba0ddf6454d4076cbefd287fe1":
             EXPLOSION.SQUARE = EXPLOSION.ANTIMATTER
@@ -1307,7 +1307,7 @@ class game():
             self.buttons.append(levelbutton(self,i,i%self.sizeX,int(i/self.sizeY)))
         self.selection_menu.protocol("WM_DELETE_WINDOW", self.ext)
     def save(self):
-        path = "saves/" + self.usr + ".txt"
+        path = "src/saves/" + self.usr + ".txt"
         file = open(path, "w")
         file.write(crypto.encode(str(self.progress),self.pas))
     def loop(self):
@@ -1385,7 +1385,7 @@ class login():
             messagebox.showwarning("ERROR", "Username has to contain at least 1 Digit")
             return
         usr = hashlib.md5(usr.encode()).hexdigest()
-        file = "saves/" + usr + ".txt"
+        file = "src/saves/" + usr + ".txt"
         if os.path.exists(file):
             pass
         else:
