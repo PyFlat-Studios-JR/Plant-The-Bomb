@@ -175,6 +175,79 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.addWidget(self.frame_7, 0, Qt.AlignHCenter)
 
         self.stackedWidget.addWidget(self.mainpage_2)
+        self.mainpage_3 = QWidget()
+        self.mainpage_3.setObjectName(u"mainpage_3")
+        self.verticalLayout_12 = QVBoxLayout(self.mainpage_3)
+        self.verticalLayout_12.setSpacing(0)
+        self.verticalLayout_12.setObjectName(u"verticalLayout_12")
+        self.verticalLayout_12.setContentsMargins(0, 0, 0, 0)
+        self.frame_11 = QFrame(self.mainpage_3)
+        self.frame_11.setObjectName(u"frame_11")
+        self.frame_11.setMinimumSize(QSize(280, 0))
+        self.frame_11.setFrameShape(QFrame.StyledPanel)
+        self.frame_11.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_10 = QVBoxLayout(self.frame_11)
+        self.verticalLayout_10.setSpacing(0)
+        self.verticalLayout_10.setObjectName(u"verticalLayout_10")
+        self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
+        self.login_welcome_label_2 = QLabel(self.frame_11)
+        self.login_welcome_label_2.setObjectName(u"login_welcome_label_2")
+
+        self.verticalLayout_10.addWidget(self.login_welcome_label_2, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.frame_12 = QFrame(self.frame_11)
+        self.frame_12.setObjectName(u"frame_12")
+        self.frame_12.setFrameShape(QFrame.StyledPanel)
+        self.frame_12.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_11 = QVBoxLayout(self.frame_12)
+        self.verticalLayout_11.setSpacing(15)
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
+        self.recovery_username_entry = QLineEdit(self.frame_12)
+        self.recovery_username_entry.setObjectName(u"recovery_username_entry")
+        self.recovery_username_entry.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+
+        self.verticalLayout_11.addWidget(self.recovery_username_entry)
+
+        self.recovery_code_entry = QLineEdit(self.frame_12)
+        self.recovery_code_entry.setObjectName(u"recovery_code_entry")
+        self.recovery_code_entry.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
+
+        self.verticalLayout_11.addWidget(self.recovery_code_entry)
+
+        self.login_btn_2 = QPushButton(self.frame_12)
+        self.login_btn_2.setObjectName(u"login_btn_2")
+
+        self.verticalLayout_11.addWidget(self.login_btn_2)
+
+
+        self.verticalLayout_10.addWidget(self.frame_12)
+
+        self.frame_13 = QFrame(self.frame_11)
+        self.frame_13.setObjectName(u"frame_13")
+        self.frame_13.setFrameShape(QFrame.StyledPanel)
+        self.frame_13.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_7 = QHBoxLayout(self.frame_13)
+        self.horizontalLayout_7.setSpacing(20)
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.horizontalLayout_7.setContentsMargins(0, 10, 0, 0)
+        self.login_register_btn_2 = QPushButton(self.frame_13)
+        self.login_register_btn_2.setObjectName(u"login_register_btn_2")
+
+        self.horizontalLayout_7.addWidget(self.login_register_btn_2)
+
+        self.login_help_btn_2 = QPushButton(self.frame_13)
+        self.login_help_btn_2.setObjectName(u"login_help_btn_2")
+
+        self.horizontalLayout_7.addWidget(self.login_help_btn_2)
+
+
+        self.verticalLayout_10.addWidget(self.frame_13, 0, Qt.AlignHCenter|Qt.AlignTop)
+
+
+        self.verticalLayout_12.addWidget(self.frame_11, 0, Qt.AlignHCenter)
+
+        self.stackedWidget.addWidget(self.mainpage_3)
         self.level_select = QWidget()
         self.level_select.setObjectName(u"level_select")
         self.horizontalLayout_2 = QHBoxLayout(self.level_select)
@@ -270,7 +343,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -292,6 +365,12 @@ class Ui_MainWindow(object):
         self.register_btn.setText(QCoreApplication.translate("MainWindow", u"Register", None))
         self.register_login_btn.setText(QCoreApplication.translate("MainWindow", u"Login", None))
         self.register_help_btn.setText(QCoreApplication.translate("MainWindow", u"Help", None))
+        self.login_welcome_label_2.setText(QCoreApplication.translate("MainWindow", u"Plant The Bomb Forgot Password", None))
+        self.recovery_username_entry.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Username", None))
+        self.recovery_code_entry.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Recovery Code", None))
+        self.login_btn_2.setText(QCoreApplication.translate("MainWindow", u"Submit", None))
+        self.login_register_btn_2.setText(QCoreApplication.translate("MainWindow", u"Login", None))
+        self.login_help_btn_2.setText(QCoreApplication.translate("MainWindow", u"Help", None))
         self.custom_maps_btn.setText(QCoreApplication.translate("MainWindow", u"Custom Maps", None))
         self.start_game_btn.setText(QCoreApplication.translate("MainWindow", u"Main Game?", None))
         self.map_builder_btn.setText(QCoreApplication.translate("MainWindow", u"Map Builder", None))
