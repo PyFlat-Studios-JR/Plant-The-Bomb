@@ -31,6 +31,30 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">*{
+	background: #303030;
+	color: white;
+	font-size: 18px;
+}
+QLineEdit{
+	padding-bottom: 6px;
+	border:0;
+	border-bottom: 2px solid #9E9E9E;
+}
+QLineEdit::focus{
+	border-bottom: 2px solid white;
+}
+QPushButton{
+	border: 0;
+}
+QPushButton#login_btn{
+	border-radius: 16px;
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #00BCD4, stop:0.5 purple, stop:1 #E91E63);
+	padding: 4px 0px;
+}
+</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <property name="spacing">
