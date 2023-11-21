@@ -17,6 +17,8 @@ class MainWindow(QMainWindow):
         self.ui.frame_6.graphicsEffect().setOpacity(0.8)
         self.initKeybinds()
         self.show()
+    def temp_action_select_bypass(self):
+        self.ui.stackedWidget.setCurrentIndex(4)
     def action_generate_recovery(self):
         if ACCOUNT.user_content:
             ACCOUNT.user_content.create_recovery_code()
@@ -63,6 +65,7 @@ class MainWindow(QMainWindow):
         self.ui.register_login_btn.clicked.connect(self.action_loginPage)
         self.ui.register_btn.clicked.connect(self.action_registerUser)
         self.ui.login_help_btn.clicked.connect(self.action_generate_recovery)
+        self.ui.login_forgot_password_btn.clicked.connect(self.temp_action_select_bypass)
 a = QApplication()
 b = MainWindow()
 sys.exit(a.exec())

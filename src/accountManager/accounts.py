@@ -26,13 +26,7 @@ class userContent():
         rccode = ""
         for i in range (6):
             rccode += rccodeset[random.randint(0,len(rccodeset)-1)]
-        if usrhash in data:
-            data["userhash"].append(crypto.encode(self.pwd,rccode))
-            print(f"Created recovery code for {self.usr}. Your one-time recovery code is {rccode}")
-            open("saves/recovery/backupcodebase.json","w").write(json.dumps(data))
-        else:
-            data["userhash"] = []
-            data["userhash"].append(crypto.encode(self.pwd,rccode))
+        data[usrhash] = crypto.encode(self.pwd,rccode)
         print(f"Created recovery code for {self.usr}. Your one-time recovery code is {rccode}")
         open("saves/recovery/backupcodebase.json","w").write(json.dumps(data))
 class userManager():
