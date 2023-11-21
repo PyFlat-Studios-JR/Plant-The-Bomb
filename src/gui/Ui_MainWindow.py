@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_4 = QVBoxLayout(self.mainpage_1)
         self.verticalLayout_4.setSpacing(0)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
-        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_4.setContentsMargins(0, 30, 0, 30)
         self.frame_6 = QFrame(self.mainpage_1)
         self.frame_6.setObjectName(u"frame_6")
         self.frame_6.setMinimumSize(QSize(280, 0))
@@ -47,18 +47,18 @@ class Ui_MainWindow(object):
         self.frame_4.setFrameShape(QFrame.StyledPanel)
         self.frame_4.setFrameShadow(QFrame.Raised)
         self.verticalLayout_5 = QVBoxLayout(self.frame_4)
-        self.verticalLayout_5.setSpacing(0)
+        self.verticalLayout_5.setSpacing(15)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.login_username_entry = QLineEdit(self.frame_4)
         self.login_username_entry.setObjectName(u"login_username_entry")
-        self.login_username_entry.setAlignment(Qt.AlignCenter)
+        self.login_username_entry.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.verticalLayout_5.addWidget(self.login_username_entry)
 
         self.login_password_entry = QLineEdit(self.frame_4)
         self.login_password_entry.setObjectName(u"login_password_entry")
-        self.login_password_entry.setAlignment(Qt.AlignCenter)
+        self.login_password_entry.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.verticalLayout_5.addWidget(self.login_password_entry)
 
@@ -75,7 +75,9 @@ class Ui_MainWindow(object):
         self.frame_5.setFrameShape(QFrame.StyledPanel)
         self.frame_5.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_3 = QHBoxLayout(self.frame_5)
+        self.horizontalLayout_3.setSpacing(20)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(0, 10, 0, 0)
         self.login_register_btn = QPushButton(self.frame_5)
         self.login_register_btn.setObjectName(u"login_register_btn")
 

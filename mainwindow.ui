@@ -38,9 +38,10 @@
 	font-size: 18px;
 }
 QLineEdit{
-	padding-bottom: 6px;
+	padding: 0 0 6px 8px;
 	border:0;
 	border-bottom: 2px solid #9E9E9E;
+	margin: 0 16px;
 }
 QLineEdit::focus{
 	border-bottom: 2px solid white;
@@ -48,10 +49,22 @@ QLineEdit::focus{
 QPushButton{
 	border: 0;
 }
-QPushButton#login_btn{
+QPushButton#login_btn, QPushButton#register_btn{
 	border-radius: 16px;
-	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #00BCD4, stop:0.5 purple, stop:1 #E91E63);
+	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #00BCD4, stop:0.5 #9C27B0, stop:1 #E91E63);
 	padding: 4px 0px;
+	margin: 0 16px;
+}
+QWidget#mainpage_1 {
+	background-image: url(&quot;src/gui/images/triangles.png&quot;);
+}
+QFrame#frame_6{
+    border-radius: 15px;
+}
+QPushButton#login_register_btn, 
+QPushButton#login_help_btn, 
+QPushButton#login_forgot_password_btn{
+	font-size: 14px;
 }
 </string>
   </property>
@@ -86,13 +99,13 @@ QPushButton#login_btn{
          <number>0</number>
         </property>
         <property name="topMargin">
-         <number>0</number>
+         <number>30</number>
         </property>
         <property name="rightMargin">
          <number>0</number>
         </property>
         <property name="bottomMargin">
-         <number>0</number>
+         <number>30</number>
         </property>
         <item alignment="Qt::AlignHCenter">
          <widget class="QFrame" name="frame_6">
@@ -141,7 +154,7 @@ QPushButton#login_btn{
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_5">
               <property name="spacing">
-               <number>0</number>
+               <number>15</number>
               </property>
               <property name="leftMargin">
                <number>0</number>
@@ -158,7 +171,7 @@ QPushButton#login_btn{
               <item>
                <widget class="QLineEdit" name="login_username_entry">
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
                 <property name="placeholderText">
                  <string>Username</string>
@@ -168,7 +181,7 @@ QPushButton#login_btn{
               <item>
                <widget class="QLineEdit" name="login_password_entry">
                 <property name="alignment">
-                 <set>Qt::AlignCenter</set>
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                 </property>
                 <property name="placeholderText">
                  <string>Password</string>
@@ -194,6 +207,21 @@ QPushButton#login_btn{
               <enum>QFrame::Raised</enum>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <property name="spacing">
+               <number>20</number>
+              </property>
+              <property name="leftMargin">
+               <number>0</number>
+              </property>
+              <property name="topMargin">
+               <number>10</number>
+              </property>
+              <property name="rightMargin">
+               <number>0</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
               <item>
                <widget class="QPushButton" name="login_register_btn">
                 <property name="text">
