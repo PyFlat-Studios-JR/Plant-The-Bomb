@@ -14,14 +14,22 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(0)
         self.initKeybinds()
         self.show()
+    def action_registerPage(self):
+        self.ui.stackedWidget.setCurrentIndex(1)
+    def action_loginPage(self):
+        self.ui.stackedWidget.setCurrentIndex(0)
     def action_registerUser(self):
-        user = self.ui.login_username_entry.text()
-        pwd = self.ui.login_password_entry.text()
+        user = self.ui.register_username_entry.text()
+        pwd = self.ui.register_password_entry.text()
+        cpd = self.ui.register_confirm_entry.text()
         if (len(user) < 1):
             print("Username must be at least 1 character long!")
             return
         if (len(pwd) < 1):
             print("Password must be at least 1 character long")
+            return
+        if (pwd != cpd):
+            print("Password missmatch!")
             return
         res = ACCOUNT.createUser(user, pwd)
         match(res):
@@ -43,8 +51,10 @@ class MainWindow(QMainWindow):
             case other:
                 print(f"Unknown error code: {res}")
     def initKeybinds(self):
-        self.ui.login_register_btn.clicked.connect(self.action_registerUser)
+        self.ui.login_register_btn.clicked.connect(self.action_registerPage)
         self.ui.login_btn.clicked.connect(self.action_loginUser)
+        self.ui.register_login_btn.clicked.connect(self.action_loginPage)
+        self.ui.register_btn.clicked.connect(self.action_registerUser)
 a = QApplication()
 b = MainWindow()
 sys.exit(a.exec())
