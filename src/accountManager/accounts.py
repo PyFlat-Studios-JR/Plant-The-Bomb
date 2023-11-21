@@ -1,8 +1,55 @@
 import src.crypto as crypto
-import os
+import os, json, random
+class userContent():
+    def __init__(self, usr_or_json: str, pwd: str | None = None):
+        if not pwd:
+            self.loadFromJSON(usr_or_json)
+        else:
+            self.usr = usr_or_json
+            self.pwd = pwd
+            self.completedlevels = []
+    def loadFromJSON(self, jason:str):
+        dc: dict = json.loads(jason)
+        self.usr = dc["user"]
+        self.pwd = dc["password"]
+        self.completedlevels = dc["levels"]
+    def dumptoJSOM(self):
+        a = {}
+        a["user"] = self.usr
+        a["password"] = self.pwd
+        a["levels"] = self.completedlevels
+        return json.dumps(a)
+    def create_recovery_code(self):
+        data = json.loads(open("saves/recovery/backupcodebase.json").read())
+        usrhash = crypto.sha256(self.usr+"this_is_a_salt_:_)_._._.")
+        rccodeset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        rccode = ""
+        for i in range (6):
+            rccode += rccodeset[random.randint(0,len(rccodeset)-1)]
+        if usrhash in data:
+            data["userhash"].append(crypto.encode(self.pwd,rccode))
+            print(f"Created recovery code for {self.usr}. Your one-time recovery code is {rccode}")
+            open("saves/recovery/backupcodebase.json","w").write(json.dumps(data))
+        else:
+            data["userhash"] = []
+            data["userhash"].append(crypto.encode(self.pwd,rccode))
+        print(f"Created recovery code for {self.usr}. Your one-time recovery code is {rccode}")
+        open("saves/recovery/backupcodebase.json","w").write(json.dumps(data))
 class userManager():
     def __init__(self) -> None:
-        self.user_content: str | None = None
+        #setup required folder structure on init
+        if not os.path.isdir("saves"):
+            os.mkdir("saves")
+        if not os.path.isdir("saves/recovery"):
+            os.mkdir("saves/recovery")
+        if not os.path.isfile("saves/recovery/backupcodebase.json"):
+            open("saves/recovery/backupcodebase.json", "w").write("{}")
+        self.user_content: userContent | None = None
+        #user content structure:
+        #name: user name as string
+        #pass: user password
+        #completedlevels: [hash]
+        #ok, thats it
     def loginUser(self, username: str, pwd: str):
         usr_filename = "saves/"+ crypto.sha256(username+"this_is_a_salt_:_)_._._.") + ".ptbsav"
         if not os.path.isdir("saves"):
@@ -14,7 +61,7 @@ class userManager():
         decrypted_content: str | None = crypto.decode(content, "_another_salt"+pwd+".._.._salty_yummy_.._..")
         if not decrypted_content:
             return 2 #content decode error
-        self.user_content = decrypted_content
+        self.user_content = userContent(decrypted_content)
         return 0 # all okay :)
     def createUser(self, username: str, pwd: str):
         usr_filename = "saves/"+ crypto.sha256(username+"this_is_a_salt_:_)_._._.") + ".ptbsav"
@@ -22,7 +69,8 @@ class userManager():
             os.mkdir("saves")
         if os.path.isfile(usr_filename):
             return 1 #user does exist!
-        encrypted_content = crypto.encode("PTB IS A COOL GAME! THERE IS NO DATA HERE!", "_another_salt"+pwd+".._.._salty_yummy_.._..")
+        self.user_content = userContent(username, pwd)
+        encrypted_content = crypto.encode(self.user_content.dumptoJSOM(), "_another_salt"+pwd+".._.._salty_yummy_.._..")
         with open(usr_filename,"w") as file:
             file.write(encrypted_content)
         return 0
