@@ -15,20 +15,28 @@ QLineEdit::focus{
 QPushButton{
 	border: 0;
 }
-QPushButton#login_btn, QPushButton#register_btn{
+QPushButton#login_btn, QPushButton#register_btn, QPushButton#recovery_submit_btn{
 	border-radius: 16px;
 	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #00BCD4, stop:0.5 #9C27B0, stop:1 #E91E63);
 	padding: 4px 0px;
 	margin: 0 16px;
 }
-QWidget#mainpage_1 {
+QWidget#mainpage_1,
+QWidget#mainpage_2,
+QWidget#mainpage_3 {
 	background-image: url("src/gui/images/triangles.png");
 }
-QFrame#frame_6{
+QFrame#frame_6,
+QFrame#frame_7,
+QFrame#frame_11{
     border-radius: 15px;
 }
 QPushButton#login_register_btn,
 QPushButton#login_help_btn,
-QPushButton#login_forgot_password_btn{
+QPushButton#login_forgot_password_btn,
+QPushButton#recovery_login_btn,
+QPushButton#recovery_help_btn,
+QPushButton#register_login_btn,
+QPushButton#register_help_btn{
 	font-size: 14px;
 }
