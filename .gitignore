@@ -3,3 +3,4 @@ build/
 saves/
 setup.py
 *.pyc
+mainwindow_ui.py

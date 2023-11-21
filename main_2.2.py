@@ -1,6 +1,6 @@
 from src.gui.Ui_MainWindow import Ui_MainWindow
-from PySide6.QtWidgets import QMainWindow , QApplication
-from PySide6.QtCore import SIGNAL
+from PySide6.QtWidgets import QMainWindow , QApplication, QGraphicsOpacityEffect
+from PySide6.QtCore import Signal
 import sys
 from src.accountManager.accounts import userManager
 
@@ -12,6 +12,9 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow() #<-- das ist die gui datei, muss importiert werden
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(0)
+        self.setStyleSheet(open("src/gui/style.qss").read())
+        self.ui.frame_6.setGraphicsEffect(QGraphicsOpacityEffect(self.ui.frame_6))
+        self.ui.frame_6.graphicsEffect().setOpacity(0.8)
         self.initKeybinds()
         self.show()
     def action_generate_recovery(self):
