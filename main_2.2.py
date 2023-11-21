@@ -21,6 +21,9 @@ class MainWindow(QMainWindow):
         self.ui.frame_11.graphicsEffect().setOpacity(0.8)
         self.initKeybinds()
         self.show()
+    def action_generate_recovery(self):
+        if ACCOUNT.user_content:
+            ACCOUNT.user_content.create_recovery_code()
     def action_registerPage(self):
         self.ui.stackedWidget.setCurrentIndex(1)
     def action_loginPage(self):
@@ -57,11 +60,13 @@ class MainWindow(QMainWindow):
                 print("Invalid password!")
             case other:
                 print(f"Unknown error code: {res}")
+        
     def initKeybinds(self):
         self.ui.login_register_btn.clicked.connect(self.action_registerPage)
         self.ui.login_btn.clicked.connect(self.action_loginUser)
         self.ui.register_login_btn.clicked.connect(self.action_loginPage)
         self.ui.register_btn.clicked.connect(self.action_registerUser)
+        self.ui.login_help_btn.clicked.connect(self.action_generate_recovery)
 a = QApplication()
 b = MainWindow()
 sys.exit(a.exec())
