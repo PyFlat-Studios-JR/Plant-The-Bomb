@@ -1,6 +1,10 @@
 from cryptography.fernet import Fernet
 import base64
 import hashlib
+def sha256(text: str) -> str:
+    return hashlib.sha256(text.encode()).hexdigest()
+def md5(text: str) -> str:
+    return hashlib.md5(text.encode()).hexdigest()
 def encode(text, key):
     key = hashlib.md5(key.encode()).hexdigest()
     key = key.encode("ascii")
@@ -21,9 +25,6 @@ def decode(text, kkey):
     try:
         cleartext = f.decrypt(msg)
     except Exception as ex:
-        print(type(ex))
-        print(ex)
-        print("An Error has ocurred")
         return None
     cleartext = cleartext.decode()
     return cleartext
