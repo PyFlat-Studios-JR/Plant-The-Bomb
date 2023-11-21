@@ -51,7 +51,7 @@
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="mainpage_1">
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -101,7 +101,7 @@
             <number>0</number>
            </property>
            <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-            <widget class="QLabel" name="label">
+            <widget class="QLabel" name="login_welcome_label">
              <property name="text">
               <string>Plant The Bomb Login</string>
              </property>
@@ -132,7 +132,7 @@
                <number>0</number>
               </property>
               <item>
-               <widget class="QLineEdit" name="lineEdit">
+               <widget class="QLineEdit" name="login_username_entry">
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -142,7 +142,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit_2">
+               <widget class="QLineEdit" name="login_password_entry">
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -152,7 +152,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_7">
+               <widget class="QPushButton" name="login_btn">
                 <property name="text">
                  <string>Login</string>
                 </property>
@@ -171,21 +171,21 @@
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
-               <widget class="QPushButton" name="pushButton_4">
+               <widget class="QPushButton" name="login_register_btn">
                 <property name="text">
                  <string>Register</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_5">
+               <widget class="QPushButton" name="login_forgot_password_btn">
                 <property name="text">
                  <string>Forgot Password</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_6">
+               <widget class="QPushButton" name="login_help_btn">
                 <property name="text">
                  <string>Help</string>
                 </property>
@@ -232,7 +232,7 @@
             <number>0</number>
            </property>
            <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-            <widget class="QLabel" name="label_2">
+            <widget class="QLabel" name="register_welcome_label">
              <property name="text">
               <string>Plant The Bomb Register</string>
              </property>
@@ -263,7 +263,7 @@
                <number>0</number>
               </property>
               <item>
-               <widget class="QLineEdit" name="lineEdit_3">
+               <widget class="QLineEdit" name="register_username_entry">
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -273,7 +273,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit_4">
+               <widget class="QLineEdit" name="register_password_entry">
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -283,7 +283,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QLineEdit" name="lineEdit_5">
+               <widget class="QLineEdit" name="register_confirm_entry">
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
                 </property>
@@ -293,7 +293,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_8">
+               <widget class="QPushButton" name="register_btn">
                 <property name="text">
                  <string>Register</string>
                 </property>
@@ -312,14 +312,14 @@
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_4">
               <item>
-               <widget class="QPushButton" name="pushButton_9">
+               <widget class="QPushButton" name="register_login_btn">
                 <property name="text">
                  <string>Login</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_11">
+               <widget class="QPushButton" name="register_help_btn">
                 <property name="text">
                  <string>Help</string>
                 </property>
@@ -360,7 +360,7 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="custom_maps_btn">
              <property name="text">
               <string>Custom Maps</string>
              </property>
@@ -379,7 +379,7 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QPushButton" name="pushButton_2">
+            <widget class="QPushButton" name="start_game_btn">
              <property name="text">
               <string>Main Game?</string>
              </property>
@@ -398,7 +398,7 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
-            <widget class="QPushButton" name="pushButton_3">
+            <widget class="QPushButton" name="map_builder_btn">
              <property name="text">
               <string>Map Builder</string>
              </property>
@@ -451,7 +451,7 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QFrame" name="frame_11">
+            <widget class="QFrame" name="inventory">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
@@ -464,7 +464,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QWidget" name="widget" native="true">
+            <widget class="QWidget" name="game_widget" native="true">
              <property name="minimumSize">
               <size>
                <width>500</width>
@@ -474,7 +474,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QFrame" name="frame_12">
+            <widget class="QFrame" name="inventory_2">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
