@@ -8,4 +8,5 @@ class entity(block.block):
         self.allow_explosions = True #all entities should allow explosions by default.
     def onTick(self): #mandatory ontick function => override
         pass
-
+    def release_overlay(self, overlay):
+        pass #entities should be able to create / release overlay tiles.

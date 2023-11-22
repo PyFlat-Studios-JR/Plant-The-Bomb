@@ -33,7 +33,7 @@ class block():
     def drawEvent(self, painter: QPainter):
         if not self.texture:
             return
-        region = QRect(self.x,self.y,20,20)
+        region = QRect(self.x*20,self.y*20,20,20)
         painter.drawImage(region, self.texture)
 class air(block):
     def __init__(self,world):
