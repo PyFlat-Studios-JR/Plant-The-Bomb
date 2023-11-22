@@ -2,10 +2,10 @@ from PySide6.QtCore import QRect
 from PySide6.QtGui import QImage, QPainter
 class block():
     def __init__(self, world, **kwargs):
-        self.is_destructible = False        #block should have an on_destroy tick event
+        self.is_destructible = False        #block should have an onDestroy tick event
         self.is_walkable = False            #block is "not solid"
         self.allow_explosions = False       #block is not rock.
-        self.is_tickable = False            #block should have a on_tick event
+        self.is_tickable = False            #block should have a onTick event however this attribute is strictly reserved for entitys. 
         self.is_enemy_pickable = False      #enemies can pick up the block (specifically for items)
         #actual stuff
         self.x = 0
@@ -39,3 +39,21 @@ class air(block):
     def __init__(self,world):
         super().__init__(world)
         self.is_walkable = True
+        self.allow_explosions = True
+        self.is_enemy_pickable = True #yes, enemies can "pick up" air. Otherwise that would complicate the pickup code
+class brick(block):
+    def __init__(self, world, pos):
+        super().__init__(world)
+        self.x, self.y = pos
+        self.is_destructible = True
+    def onDestroy(self):
+        pass #put stuff like item drops here!
+class bedrock(block): #please don't sue, mojang...
+    def __init__(self, world, pos):
+        super().__init__(world)
+        self.x, self.y = pos
+class water(block):
+    def __init__(self, world, pos):
+        super().__init__(world)
+        self.x, self.y = pos
+        self.allow_explosions = True
