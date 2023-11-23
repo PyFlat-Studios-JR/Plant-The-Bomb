@@ -18,6 +18,7 @@ class MainWindow(QMainWindow):
         self.style_gui()
         self.initKeybinds()
         self.show()
+        self.w = None
     def style_gui(self):
         self.setStyleSheet(open("src/gui/style.qss").read())
 
@@ -35,10 +36,7 @@ class MainWindow(QMainWindow):
         self.ui.login_password_entry.setEchoMode(QLineEdit.Normal if show else QLineEdit.Password)
     def temp_action_select_bypass(self):
         self.ui.stackedWidget.setCurrentIndex(4)
-        w = world("src/maps/00_tutorial.ptb")
-        a = QPainter()
-        a.begin(self.ui.game_widget)
-        w.paintEvent(a)
+        self.ui.game_widget.initworld("src/maps/00_tutorial.ptb")
     def action_generate_recovery(self):
         if ACCOUNT.user_content:
             ACCOUNT.user_content.create_recovery_code()

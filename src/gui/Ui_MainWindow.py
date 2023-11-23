@@ -1,7 +1,7 @@
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-
+from src.engine.gameWindow import gameWindow
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
@@ -349,7 +349,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_6.addWidget(self.inventory)
 
-        self.game_widget = QWidget(self.frame_10)
+        self.game_widget = gameWindow(self.frame_10)
         self.game_widget.setObjectName(u"game_widget")
         self.game_widget.setMinimumSize(QSize(500, 500))
 
