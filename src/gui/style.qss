@@ -43,7 +43,7 @@ QLineEdit#login_password_entry{
 QPushButton#login_password_toggle{
 	margin-right: 16px;
 	margin-top: 2px;
-	padding: 0 15px 6px 0px;
+	padding: 0 5px 6px 0px;
 	border: 0;
 	border-bottom: 2px solid white;
 }

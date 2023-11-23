@@ -4,4 +4,4 @@ py update_ui.py
 
 del ui_mainwindow.py
 
-del ../mainwindow_ui.py
+del ..\mainwindow_ui.py
