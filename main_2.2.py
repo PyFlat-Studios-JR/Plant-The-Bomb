@@ -3,8 +3,10 @@ from PySide6.QtWidgets import QMainWindow , QApplication, QGraphicsOpacityEffect
 from PySide6.QtCore import Signal
 import sys
 from src.accountManager.accounts import userManager
-
+from src.engine.textureLib import textureLib
 ACCOUNT = userManager()
+#initialize the texture library
+textureLib.loadFolder("src/textures/","src/textures/ERR_IMAGE.png")
 
 class MainWindow(QMainWindow):
     def __init__(self):
