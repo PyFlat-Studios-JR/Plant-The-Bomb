@@ -6,11 +6,8 @@
 QLineEdit{
 	padding: 0 0 6px 8px;
 	border:0;
-	border-bottom: 2px solid #9E9E9E;
-	margin: 0 16px;
-}
-QLineEdit::focus{
 	border-bottom: 2px solid white;
+	margin: 0 16px;
 }
 QPushButton{
 	border: 0;
@@ -39,4 +36,14 @@ QPushButton#recovery_help_btn,
 QPushButton#register_login_btn,
 QPushButton#register_help_btn{
 	font-size: 14px;
+}
+QLineEdit#login_password_entry{
+	margin-right: 0;
+}
+QPushButton#login_password_toggle{
+	margin-right: 16px;
+	margin-top: 2px;
+	padding: 0 15px 6px 0px;
+	border: 0;
+	border-bottom: 2px solid white;
 }

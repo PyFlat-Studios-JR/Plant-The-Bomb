@@ -1,5 +1,5 @@
 from src.gui.Ui_MainWindow import Ui_MainWindow
-from PySide6.QtWidgets import QMainWindow , QApplication, QGraphicsOpacityEffect
+from PySide6.QtWidgets import QMainWindow , QApplication, QGraphicsOpacityEffect, QLineEdit
 from PySide6.QtCore import Signal
 import sys
 from src.accountManager.accounts import userManager
@@ -12,15 +12,24 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow() #<-- das ist die gui datei, muss importiert werden
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(0)
-        self.setStyleSheet(open("src/gui/style.qss").read())
-        self.ui.frame_6.setGraphicsEffect(QGraphicsOpacityEffect(self.ui.frame_6))
-        self.ui.frame_6.graphicsEffect().setOpacity(0.8)
-        self.ui.frame_7.setGraphicsEffect(QGraphicsOpacityEffect(self.ui.frame_7))
-        self.ui.frame_7.graphicsEffect().setOpacity(0.8)
-        self.ui.frame_11.setGraphicsEffect(QGraphicsOpacityEffect(self.ui.frame_11))
-        self.ui.frame_11.graphicsEffect().setOpacity(0.8)
+        self.style_gui()
         self.initKeybinds()
         self.show()
+    def style_gui(self):
+        self.setStyleSheet(open("src/gui/style.qss").read())
+
+        self.ui.frame_6.setGraphicsEffect(QGraphicsOpacityEffect(self.ui.frame_6))
+        self.ui.frame_6.graphicsEffect().setOpacity(0.8)
+
+        self.ui.frame_7.setGraphicsEffect(QGraphicsOpacityEffect(self.ui.frame_7))
+        self.ui.frame_7.graphicsEffect().setOpacity(0.8)
+
+        self.ui.frame_11.setGraphicsEffect(QGraphicsOpacityEffect(self.ui.frame_11))
+        self.ui.frame_11.graphicsEffect().setOpacity(0.8)
+
+        self.ui.login_password_toggle.clicked.connect(self.toggle_password_visibility)
+    def toggle_password_visibility(self, show):
+        self.ui.login_password_entry.setEchoMode(QLineEdit.Normal if show else QLineEdit.Password)
     def temp_action_select_bypass(self):
         self.ui.stackedWidget.setCurrentIndex(4)
     def action_generate_recovery(self):
@@ -62,7 +71,7 @@ class MainWindow(QMainWindow):
                 print("Invalid password!")
             case other:
                 print(f"Unknown error code: {res}")
-        
+
     def initKeybinds(self):
         self.ui.login_register_btn.clicked.connect(self.action_registerPage)
         self.ui.login_btn.clicked.connect(self.action_loginUser)

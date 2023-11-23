@@ -56,11 +56,34 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_5.addWidget(self.login_username_entry)
 
-        self.login_password_entry = QLineEdit(self.frame_4)
+        self.frame_14 = QFrame(self.frame_4)
+        self.frame_14.setObjectName(u"frame_14")
+        self.frame_14.setFrameShape(QFrame.StyledPanel)
+        self.frame_14.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_8 = QHBoxLayout(self.frame_14)
+        self.horizontalLayout_8.setSpacing(0)
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.horizontalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.login_password_entry = QLineEdit(self.frame_14)
         self.login_password_entry.setObjectName(u"login_password_entry")
+        self.login_password_entry.setEchoMode(QLineEdit.Password)
         self.login_password_entry.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
-        self.verticalLayout_5.addWidget(self.login_password_entry)
+        self.horizontalLayout_8.addWidget(self.login_password_entry, 0, Qt.AlignVCenter)
+
+        self.login_password_toggle = QPushButton(self.frame_14)
+        self.login_password_toggle.setObjectName(u"login_password_toggle")
+        icon = QIcon()
+        icon.addFile(u"src/gui/images/eye-slash.png", QSize(), QIcon.Selected, QIcon.Off)
+        icon.addFile(u"src/gui/images/eye.png", QSize(), QIcon.Selected, QIcon.On)
+        self.login_password_toggle.setIcon(icon)
+        self.login_password_toggle.setIconSize(QSize(25, 25))
+        self.login_password_toggle.setCheckable(True)
+
+        self.horizontalLayout_8.addWidget(self.login_password_toggle, 0, Qt.AlignVCenter)
+
+
+        self.verticalLayout_5.addWidget(self.frame_14)
 
         self.login_btn = QPushButton(self.frame_4)
         self.login_btn.setObjectName(u"login_btn")
@@ -136,12 +159,14 @@ class Ui_MainWindow(object):
 
         self.register_password_entry = QLineEdit(self.frame_8)
         self.register_password_entry.setObjectName(u"register_password_entry")
+        self.register_password_entry.setEchoMode(QLineEdit.Password)
         self.register_password_entry.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.verticalLayout_8.addWidget(self.register_password_entry)
 
         self.register_confirm_entry = QLineEdit(self.frame_8)
         self.register_confirm_entry.setObjectName(u"register_confirm_entry")
+        self.register_confirm_entry.setEchoMode(QLineEdit.Password)
         self.register_confirm_entry.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.verticalLayout_8.addWidget(self.register_confirm_entry)
@@ -208,12 +233,14 @@ class Ui_MainWindow(object):
         self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
         self.recovery_username_entry = QLineEdit(self.frame_12)
         self.recovery_username_entry.setObjectName(u"recovery_username_entry")
+        self.recovery_username_entry.setEchoMode(QLineEdit.Normal)
         self.recovery_username_entry.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.verticalLayout_11.addWidget(self.recovery_username_entry)
 
         self.recovery_code_entry = QLineEdit(self.frame_12)
         self.recovery_code_entry.setObjectName(u"recovery_code_entry")
+        self.recovery_code_entry.setEchoMode(QLineEdit.Password)
         self.recovery_code_entry.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignVCenter)
 
         self.verticalLayout_11.addWidget(self.recovery_code_entry)
@@ -357,6 +384,7 @@ class Ui_MainWindow(object):
         self.login_welcome_label.setText(QCoreApplication.translate("MainWindow", u"Plant The Bomb Login", None))
         self.login_username_entry.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Username", None))
         self.login_password_entry.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Password", None))
+        self.login_password_toggle.setText("")
         self.login_btn.setText(QCoreApplication.translate("MainWindow", u"Login", None))
         self.login_register_btn.setText(QCoreApplication.translate("MainWindow", u"Register", None))
         self.login_forgot_password_btn.setText(QCoreApplication.translate("MainWindow", u"Forgot Password", None))
