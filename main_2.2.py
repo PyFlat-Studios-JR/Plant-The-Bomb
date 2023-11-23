@@ -1,12 +1,13 @@
 from src.gui.Ui_MainWindow import Ui_MainWindow
 from PySide6.QtWidgets import QMainWindow , QApplication, QGraphicsOpacityEffect, QLineEdit
 from PySide6.QtCore import Signal
+from PySide6.QtGui import QPainter
 import sys
 from src.accountManager.accounts import userManager
 from src.engine.textureLib import textureLib
+from src.engine.world import world
 ACCOUNT = userManager()
-#initialize the texture library
-textureLib.loadFolder("src/textures/","src/textures/ERR_IMAGE.png")
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -34,6 +35,10 @@ class MainWindow(QMainWindow):
         self.ui.login_password_entry.setEchoMode(QLineEdit.Normal if show else QLineEdit.Password)
     def temp_action_select_bypass(self):
         self.ui.stackedWidget.setCurrentIndex(4)
+        w = world("src/maps/00_tutorial.ptb")
+        a = QPainter()
+        a.begin(self.ui.game_widget)
+        w.paintEvent(a)
     def action_generate_recovery(self):
         if ACCOUNT.user_content:
             ACCOUNT.user_content.create_recovery_code()

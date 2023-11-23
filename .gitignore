@@ -1,6 +1,7 @@
 env/
 build/
 saves/
+logs/
 setup.py
 *.pyc
 mainwindow_ui.py

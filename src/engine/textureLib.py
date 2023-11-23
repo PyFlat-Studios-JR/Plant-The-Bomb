@@ -25,4 +25,8 @@ class textureLib():
             return textureLib.__TEXTURES[texture]
         print(f"UI Failure: unknown parameter type for {texture}: {type(texture)}")
         return textureLib.__ERR_IMAGE
-            
+    def is_loaded():
+        return textureLib.__ERR_IMAGE != None
+#load default textures on import
+if not textureLib.is_loaded():
+    textureLib.loadFolder("src/textures/","src/textures/ERR_IMAGE.png")

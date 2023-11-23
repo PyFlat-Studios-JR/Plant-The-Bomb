@@ -1,5 +1,6 @@
 from PySide6.QtCore import QRect
 from PySide6.QtGui import QImage, QPainter
+import src.engine.textureLib as textureLib
 class block():
     def __init__(self, world, **kwargs):
         self.is_destructible = False        #block should have an onDestroy tick event
@@ -46,14 +47,17 @@ class brick(block):
         super().__init__(world)
         self.x, self.y = pos
         self.is_destructible = True
+        self.texture = textureLib.textureLib.getTexture(3)
     def onDestroy(self):
         pass #put stuff like item drops here!
 class bedrock(block): #please don't sue, mojang...
     def __init__(self, world, pos):
         super().__init__(world)
         self.x, self.y = pos
+        self.texture = textureLib.textureLib.getTexture(4)
 class water(block):
     def __init__(self, world, pos):
         super().__init__(world)
         self.x, self.y = pos
         self.allow_explosions = True
+        self.texture = textureLib.textureLib.getTexture(5)
