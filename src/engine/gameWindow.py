@@ -1,6 +1,7 @@
 from PySide6.QtGui import QPainter
 from PySide6.QtWidgets import QWidget
 from src.engine.world import world
+from PySide6.QtGui import QKeyEvent
 class gameWindow(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
@@ -13,3 +14,4 @@ class gameWindow(QWidget):
         if self.world:
             self.world.paintEvent(painter)
         painter.end()
+    

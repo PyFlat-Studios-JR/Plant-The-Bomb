@@ -8,7 +8,7 @@ class textureLib():
         textureLib.__ERR_IMAGE = QImage(ERR)
         for file in os.listdir(path):
             if file.endswith(".png"):
-                textureLib.__TEXTURES.append(QImage(file))
+                textureLib.__TEXTURES.append(QImage("src/textures/"+file))
                 file = file.split("_")
                 file.pop(0)
                 file = "".join(file)

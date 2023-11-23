@@ -1,4 +1,5 @@
 from PySide6.QtCore import QRect
+from src.engine.textureLib import textureLib
 class background():
     def __init__(self, bg_image):
         self.bg_image = bg_image
@@ -7,4 +8,4 @@ class background():
 
 #initialize different backgrounds here...
 
-checkerboard = background("ERROR")
+checkerboard = background(textureLib.getTexture(27))
