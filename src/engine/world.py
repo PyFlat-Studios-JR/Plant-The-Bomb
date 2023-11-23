@@ -37,8 +37,8 @@ class world():
         #self.background.paintEvent(painter) #draw background
         for coloumn in self.blocks:
             for cell in coloumn:
-                if cell.is_tickable:
-                    cell.drawEvent(painter)
+                cell.drawEvent(painter)
+                print("actually tried to paint?")
         #actually have to write this entire code ...
         for coloumn in self.overlay:
             for cell in coloumn:

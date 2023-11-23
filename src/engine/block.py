@@ -32,7 +32,7 @@ class block():
             case "texture":
                 self.texture = val
     def drawEvent(self, painter: QPainter):
-        if not self.texture:
+        if self.texture == None:
             return
         region = QRect(self.x*20,self.y*20,20,20)
         painter.drawImage(region, self.texture)
