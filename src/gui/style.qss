@@ -47,3 +47,21 @@ QPushButton#login_password_toggle{
 	border: 0;
 	border-bottom: 2px solid white;
 }
+QPushButton#nuke_icon_btn,
+QPushButton#dynamite_icon_btn,
+QPushButton#timebomb_icon_btn,
+QPushButton#health_icon_btn,
+QPushButton#bomb_icon_btn,
+QPushButton#range_icon_btn,
+QPushButton#damage_icon_btn,
+QLabel#nuke_inv_label,
+QLabel#damage_inv_label,
+QLabel#dynamite_inv_label,
+QLabel#timebomb_inv_label,
+QLabel#health_inv_label,
+QLabel#bomb_inv_label,
+QLabel#range_inv_label{
+	background-color: #616161;
+	border-radius: 5px;
+	padding: 4px;
+}
