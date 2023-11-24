@@ -347,9 +347,7 @@ class Ui_MainWindow(object):
         self.inventory.setFrameShadow(QFrame.Raised)
         self.inventory.setLineWidth(0)
         self.verticalLayout_13 = QVBoxLayout(self.inventory)
-        self.verticalLayout_13.setSpacing(10)
         self.verticalLayout_13.setObjectName(u"verticalLayout_13")
-        self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
         self.frame_15 = QFrame(self.inventory)
         self.frame_15.setObjectName(u"frame_15")
         self.frame_15.setFrameShape(QFrame.StyledPanel)
@@ -438,9 +436,190 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_13.addWidget(self.frame_18)
 
-        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.frame_19 = QFrame(self.inventory)
+        self.frame_19.setObjectName(u"frame_19")
+        self.frame_19.setFrameShape(QFrame.StyledPanel)
+        self.frame_19.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_13 = QHBoxLayout(self.frame_19)
+        self.horizontalLayout_13.setSpacing(0)
+        self.horizontalLayout_13.setObjectName(u"horizontalLayout_13")
+        self.horizontalLayout_13.setContentsMargins(0, 0, 0, 0)
+        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
-        self.verticalLayout_13.addItem(self.verticalSpacer)
+        self.horizontalLayout_13.addItem(self.horizontalSpacer_7)
+
+        self.pushButton_4 = QPushButton(self.frame_19)
+        self.pushButton_4.setObjectName(u"pushButton_4")
+        sizePolicy.setHeightForWidth(self.pushButton_4.sizePolicy().hasHeightForWidth())
+        self.pushButton_4.setSizePolicy(sizePolicy)
+        self.pushButton_4.setMinimumSize(QSize(25, 25))
+        self.pushButton_4.setMaximumSize(QSize(25, 25))
+        icon3 = QIcon()
+        icon3.addFile(u"src/textures/13_heart.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_4.setIcon(icon3)
+        self.pushButton_4.setIconSize(QSize(25, 25))
+
+        self.horizontalLayout_13.addWidget(self.pushButton_4, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.label_4 = QLabel(self.frame_19)
+        self.label_4.setObjectName(u"label_4")
+
+        self.horizontalLayout_13.addWidget(self.label_4, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_13.addItem(self.horizontalSpacer_8)
+
+
+        self.verticalLayout_13.addWidget(self.frame_19)
+
+        self.frame_20 = QFrame(self.inventory)
+        self.frame_20.setObjectName(u"frame_20")
+        self.frame_20.setFrameShape(QFrame.StyledPanel)
+        self.frame_20.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_14 = QHBoxLayout(self.frame_20)
+        self.horizontalLayout_14.setSpacing(0)
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.horizontalLayout_14.setContentsMargins(0, 0, 0, 0)
+        self.horizontalSpacer_9 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_14.addItem(self.horizontalSpacer_9)
+
+        self.pushButton_5 = QPushButton(self.frame_20)
+        self.pushButton_5.setObjectName(u"pushButton_5")
+        sizePolicy.setHeightForWidth(self.pushButton_5.sizePolicy().hasHeightForWidth())
+        self.pushButton_5.setSizePolicy(sizePolicy)
+        self.pushButton_5.setMinimumSize(QSize(25, 25))
+        self.pushButton_5.setMaximumSize(QSize(25, 25))
+        icon4 = QIcon()
+        icon4.addFile(u"src/textures/15_time_bomb.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_5.setIcon(icon4)
+        self.pushButton_5.setIconSize(QSize(25, 25))
+
+        self.horizontalLayout_14.addWidget(self.pushButton_5, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.label_5 = QLabel(self.frame_20)
+        self.label_5.setObjectName(u"label_5")
+
+        self.horizontalLayout_14.addWidget(self.label_5, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.horizontalSpacer_10 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_14.addItem(self.horizontalSpacer_10)
+
+
+        self.verticalLayout_13.addWidget(self.frame_20)
+
+        self.frame_21 = QFrame(self.inventory)
+        self.frame_21.setObjectName(u"frame_21")
+        self.frame_21.setFrameShape(QFrame.StyledPanel)
+        self.frame_21.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_15 = QHBoxLayout(self.frame_21)
+        self.horizontalLayout_15.setSpacing(0)
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.horizontalLayout_15.setContentsMargins(0, 0, 0, 0)
+        self.horizontalSpacer_11 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_15.addItem(self.horizontalSpacer_11)
+
+        self.pushButton_6 = QPushButton(self.frame_21)
+        self.pushButton_6.setObjectName(u"pushButton_6")
+        sizePolicy.setHeightForWidth(self.pushButton_6.sizePolicy().hasHeightForWidth())
+        self.pushButton_6.setSizePolicy(sizePolicy)
+        self.pushButton_6.setMinimumSize(QSize(25, 25))
+        self.pushButton_6.setMaximumSize(QSize(25, 25))
+        icon5 = QIcon()
+        icon5.addFile(u"src/textures/17_dynamit.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_6.setIcon(icon5)
+        self.pushButton_6.setIconSize(QSize(25, 25))
+
+        self.horizontalLayout_15.addWidget(self.pushButton_6, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.label_6 = QLabel(self.frame_21)
+        self.label_6.setObjectName(u"label_6")
+
+        self.horizontalLayout_15.addWidget(self.label_6, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.horizontalSpacer_12 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_15.addItem(self.horizontalSpacer_12)
+
+
+        self.verticalLayout_13.addWidget(self.frame_21)
+
+        self.frame_22 = QFrame(self.inventory)
+        self.frame_22.setObjectName(u"frame_22")
+        self.frame_22.setFrameShape(QFrame.StyledPanel)
+        self.frame_22.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_16 = QHBoxLayout(self.frame_22)
+        self.horizontalLayout_16.setSpacing(0)
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
+        self.horizontalLayout_16.setContentsMargins(0, 0, 0, 0)
+        self.horizontalSpacer_13 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_16.addItem(self.horizontalSpacer_13)
+
+        self.pushButton_7 = QPushButton(self.frame_22)
+        self.pushButton_7.setObjectName(u"pushButton_7")
+        sizePolicy.setHeightForWidth(self.pushButton_7.sizePolicy().hasHeightForWidth())
+        self.pushButton_7.setSizePolicy(sizePolicy)
+        self.pushButton_7.setMinimumSize(QSize(25, 25))
+        self.pushButton_7.setMaximumSize(QSize(25, 25))
+        icon6 = QIcon()
+        icon6.addFile(u"src/textures/20_sword.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_7.setIcon(icon6)
+        self.pushButton_7.setIconSize(QSize(25, 25))
+
+        self.horizontalLayout_16.addWidget(self.pushButton_7, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.label_7 = QLabel(self.frame_22)
+        self.label_7.setObjectName(u"label_7")
+
+        self.horizontalLayout_16.addWidget(self.label_7, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.horizontalSpacer_14 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_16.addItem(self.horizontalSpacer_14)
+
+
+        self.verticalLayout_13.addWidget(self.frame_22)
+
+        self.frame_23 = QFrame(self.inventory)
+        self.frame_23.setObjectName(u"frame_23")
+        self.frame_23.setFrameShape(QFrame.StyledPanel)
+        self.frame_23.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_17 = QHBoxLayout(self.frame_23)
+        self.horizontalLayout_17.setSpacing(0)
+        self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
+        self.horizontalLayout_17.setContentsMargins(0, 0, 0, 0)
+        self.horizontalSpacer_15 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_17.addItem(self.horizontalSpacer_15)
+
+        self.pushButton_8 = QPushButton(self.frame_23)
+        self.pushButton_8.setObjectName(u"pushButton_8")
+        sizePolicy.setHeightForWidth(self.pushButton_8.sizePolicy().hasHeightForWidth())
+        self.pushButton_8.setSizePolicy(sizePolicy)
+        self.pushButton_8.setMinimumSize(QSize(25, 25))
+        self.pushButton_8.setMaximumSize(QSize(25, 25))
+        icon7 = QIcon()
+        icon7.addFile(u"src/textures/23_atomic_bomb.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_8.setIcon(icon7)
+        self.pushButton_8.setIconSize(QSize(25, 25))
+
+        self.horizontalLayout_17.addWidget(self.pushButton_8, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.label_8 = QLabel(self.frame_23)
+        self.label_8.setObjectName(u"label_8")
+
+        self.horizontalLayout_17.addWidget(self.label_8, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.horizontalSpacer_16 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_17.addItem(self.horizontalSpacer_16)
+
+
+        self.verticalLayout_13.addWidget(self.frame_23)
 
 
         self.horizontalLayout_6.addWidget(self.inventory)
@@ -507,5 +686,15 @@ class Ui_MainWindow(object):
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.pushButton_3.setText("")
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.pushButton_4.setText("")
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.pushButton_5.setText("")
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.pushButton_6.setText("")
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.pushButton_7.setText("")
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.pushButton_8.setText("")
+        self.label_8.setText(QCoreApplication.translate("MainWindow", u"0", None))
     # retranslateUi
 
