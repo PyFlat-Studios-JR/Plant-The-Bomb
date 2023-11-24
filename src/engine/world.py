@@ -1,6 +1,7 @@
 import time
 import src.engine.block as block
 import src.engine.player as player
+import src.engine.item as item
 import src.engine.bombManager as bombManager
 import src.engine.overlayTile as overlayTile
 import src.engine.background as background
@@ -39,7 +40,7 @@ class world():
                     case 4:
                         self.blocks[x][y] = block.water(self, (x,y))
                     case 5:
-                        self.blocks[x][y] = block.item(self, (x,y))
+                        self.blocks[x][y] = item.item(self, (x,y), blockdata["objectData"]["start"], blockdata["objectData"]["fin"])
                     case 6:
                         self.blocks[x][y] = enemy.enemy(self, (x,y))
     def tick(self):
