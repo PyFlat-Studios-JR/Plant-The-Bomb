@@ -81,7 +81,24 @@ QPushButton#login_password_toggle{
 	border: 0;
 	border-bottom: 2px solid white;
 }
-</string>
+QPushButton#nuke_icon_btn,
+QPushButton#dynamite_icon_btn,
+QPushButton#timebomb_icon_btn,
+QPushButton#health_icon_btn,
+QPushButton#bomb_icon_btn,
+QPushButton#range_icon_btn,
+QPushButton#damage_icon_btn,
+QLabel#nuke_inv_label,
+QLabel#damage_inv_label,
+QLabel#dynamite_inv_label,
+QLabel#timebomb_inv_label,
+QLabel#health_inv_label,
+QLabel#bomb_inv_label,
+QLabel#range_inv_label{
+	background-color: #616161;
+	border-radius: 5px;
+	padding: 4px;
+}</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
@@ -766,6 +783,21 @@ Forgot Password</string>
               <number>0</number>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_13">
+              <property name="spacing">
+               <number>0</number>
+              </property>
+              <property name="leftMargin">
+               <number>5</number>
+              </property>
+              <property name="topMargin">
+               <number>0</number>
+              </property>
+              <property name="rightMargin">
+               <number>5</number>
+              </property>
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
               <item>
                <widget class="QFrame" name="frame_15">
                 <property name="frameShape">
@@ -809,8 +841,8 @@ Forgot Password</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QPushButton" name="pushButton">
+                 <item alignment="Qt::AlignLeft|Qt::AlignVCenter">
+                  <widget class="QPushButton" name="range_icon_btn">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -823,14 +855,8 @@ Forgot Password</string>
                      <height>25</height>
                     </size>
                    </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>25</width>
-                     <height>25</height>
-                    </size>
-                   </property>
                    <property name="text">
-                    <string/>
+                    <string> Range</string>
                    </property>
                    <property name="icon">
                     <iconset>
@@ -844,8 +870,8 @@ Forgot Password</string>
                    </property>
                   </widget>
                  </item>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QLabel" name="label_3">
+                 <item alignment="Qt::AlignRight|Qt::AlignVCenter">
+                  <widget class="QLabel" name="range_inv_label">
                    <property name="text">
                     <string>0</string>
                    </property>
@@ -878,8 +904,8 @@ Forgot Password</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QPushButton" name="pushButton_3">
+                 <item alignment="Qt::AlignLeft|Qt::AlignVCenter">
+                  <widget class="QPushButton" name="bomb_icon_btn">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -892,14 +918,8 @@ Forgot Password</string>
                      <height>25</height>
                     </size>
                    </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>25</width>
-                     <height>25</height>
-                    </size>
-                   </property>
                    <property name="text">
-                    <string/>
+                    <string> Bombs</string>
                    </property>
                    <property name="icon">
                     <iconset>
@@ -913,8 +933,8 @@ Forgot Password</string>
                    </property>
                   </widget>
                  </item>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QLabel" name="label_2">
+                 <item alignment="Qt::AlignRight|Qt::AlignVCenter">
+                  <widget class="QLabel" name="bomb_inv_label">
                    <property name="text">
                     <string>0</string>
                    </property>
@@ -947,8 +967,8 @@ Forgot Password</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QPushButton" name="pushButton_4">
+                 <item alignment="Qt::AlignLeft|Qt::AlignVCenter">
+                  <widget class="QPushButton" name="health_icon_btn">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -961,14 +981,8 @@ Forgot Password</string>
                      <height>25</height>
                     </size>
                    </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>25</width>
-                     <height>25</height>
-                    </size>
-                   </property>
                    <property name="text">
-                    <string/>
+                    <string> Health</string>
                    </property>
                    <property name="icon">
                     <iconset>
@@ -982,8 +996,8 @@ Forgot Password</string>
                    </property>
                   </widget>
                  </item>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QLabel" name="label_4">
+                 <item alignment="Qt::AlignRight|Qt::AlignVCenter">
+                  <widget class="QLabel" name="health_inv_label">
                    <property name="text">
                     <string>0</string>
                    </property>
@@ -1016,8 +1030,8 @@ Forgot Password</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QPushButton" name="pushButton_5">
+                 <item alignment="Qt::AlignLeft|Qt::AlignVCenter">
+                  <widget class="QPushButton" name="timebomb_icon_btn">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -1030,14 +1044,8 @@ Forgot Password</string>
                      <height>25</height>
                     </size>
                    </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>25</width>
-                     <height>25</height>
-                    </size>
-                   </property>
                    <property name="text">
-                    <string/>
+                    <string> T-Bombs</string>
                    </property>
                    <property name="icon">
                     <iconset>
@@ -1051,8 +1059,8 @@ Forgot Password</string>
                    </property>
                   </widget>
                  </item>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QLabel" name="label_5">
+                 <item alignment="Qt::AlignRight|Qt::AlignVCenter">
+                  <widget class="QLabel" name="timebomb_inv_label">
                    <property name="text">
                     <string>0</string>
                    </property>
@@ -1085,8 +1093,8 @@ Forgot Password</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QPushButton" name="pushButton_6">
+                 <item alignment="Qt::AlignLeft|Qt::AlignVCenter">
+                  <widget class="QPushButton" name="dynamite_icon_btn">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -1099,14 +1107,8 @@ Forgot Password</string>
                      <height>25</height>
                     </size>
                    </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>25</width>
-                     <height>25</height>
-                    </size>
-                   </property>
                    <property name="text">
-                    <string/>
+                    <string> Dynamite</string>
                    </property>
                    <property name="icon">
                     <iconset>
@@ -1120,8 +1122,8 @@ Forgot Password</string>
                    </property>
                   </widget>
                  </item>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QLabel" name="label_6">
+                 <item alignment="Qt::AlignRight|Qt::AlignVCenter">
+                  <widget class="QLabel" name="dynamite_inv_label">
                    <property name="text">
                     <string>0</string>
                    </property>
@@ -1154,8 +1156,8 @@ Forgot Password</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QPushButton" name="pushButton_7">
+                 <item alignment="Qt::AlignLeft|Qt::AlignVCenter">
+                  <widget class="QPushButton" name="damage_icon_btn">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -1168,14 +1170,8 @@ Forgot Password</string>
                      <height>25</height>
                     </size>
                    </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>25</width>
-                     <height>25</height>
-                    </size>
-                   </property>
                    <property name="text">
-                    <string/>
+                    <string> Damage</string>
                    </property>
                    <property name="icon">
                     <iconset>
@@ -1189,8 +1185,8 @@ Forgot Password</string>
                    </property>
                   </widget>
                  </item>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QLabel" name="label_7">
+                 <item alignment="Qt::AlignRight|Qt::AlignVCenter">
+                  <widget class="QLabel" name="damage_inv_label">
                    <property name="text">
                     <string>0</string>
                    </property>
@@ -1223,8 +1219,8 @@ Forgot Password</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QPushButton" name="pushButton_8">
+                 <item alignment="Qt::AlignLeft|Qt::AlignVCenter">
+                  <widget class="QPushButton" name="nuke_icon_btn">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -1237,14 +1233,8 @@ Forgot Password</string>
                      <height>25</height>
                     </size>
                    </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>25</width>
-                     <height>25</height>
-                    </size>
-                   </property>
                    <property name="text">
-                    <string/>
+                    <string> Nukes</string>
                    </property>
                    <property name="icon">
                     <iconset>
@@ -1258,8 +1248,8 @@ Forgot Password</string>
                    </property>
                   </widget>
                  </item>
-                 <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-                  <widget class="QLabel" name="label_8">
+                 <item alignment="Qt::AlignRight|Qt::AlignVCenter">
+                  <widget class="QLabel" name="nuke_inv_label">
                    <property name="text">
                     <string>0</string>
                    </property>
