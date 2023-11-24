@@ -6,7 +6,7 @@ class player(entity.entity):
         super().__init__(world, pos)
         self.texture = textureLib.textureLib.getTexture(0)
         self.health = 1
-        self.item_timebombs = 1
+        self.item_timebombs = 0
         self.item_maxbombs = 1
         self.range = 1
         self.damage = 0
