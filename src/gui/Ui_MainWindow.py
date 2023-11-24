@@ -346,6 +346,102 @@ class Ui_MainWindow(object):
         self.inventory.setFrameShape(QFrame.StyledPanel)
         self.inventory.setFrameShadow(QFrame.Raised)
         self.inventory.setLineWidth(0)
+        self.verticalLayout_13 = QVBoxLayout(self.inventory)
+        self.verticalLayout_13.setSpacing(10)
+        self.verticalLayout_13.setObjectName(u"verticalLayout_13")
+        self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
+        self.frame_15 = QFrame(self.inventory)
+        self.frame_15.setObjectName(u"frame_15")
+        self.frame_15.setFrameShape(QFrame.StyledPanel)
+        self.frame_15.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_9 = QHBoxLayout(self.frame_15)
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
+        self.label = QLabel(self.frame_15)
+        self.label.setObjectName(u"label")
+
+        self.horizontalLayout_9.addWidget(self.label, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+
+        self.verticalLayout_13.addWidget(self.frame_15)
+
+        self.frame_16 = QFrame(self.inventory)
+        self.frame_16.setObjectName(u"frame_16")
+        self.frame_16.setFrameShape(QFrame.StyledPanel)
+        self.frame_16.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_10 = QHBoxLayout(self.frame_16)
+        self.horizontalLayout_10.setSpacing(0)
+        self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
+        self.horizontalLayout_10.setContentsMargins(0, 0, 0, 0)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_10.addItem(self.horizontalSpacer)
+
+        self.pushButton = QPushButton(self.frame_16)
+        self.pushButton.setObjectName(u"pushButton")
+        sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
+        self.pushButton.setSizePolicy(sizePolicy)
+        self.pushButton.setMinimumSize(QSize(25, 25))
+        self.pushButton.setMaximumSize(QSize(25, 25))
+        icon1 = QIcon()
+        icon1.addFile(u"src/textures/09_fire.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton.setIcon(icon1)
+        self.pushButton.setIconSize(QSize(25, 25))
+
+        self.horizontalLayout_10.addWidget(self.pushButton, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.label_3 = QLabel(self.frame_16)
+        self.label_3.setObjectName(u"label_3")
+
+        self.horizontalLayout_10.addWidget(self.label_3, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_10.addItem(self.horizontalSpacer_2)
+
+
+        self.verticalLayout_13.addWidget(self.frame_16)
+
+        self.frame_18 = QFrame(self.inventory)
+        self.frame_18.setObjectName(u"frame_18")
+        self.frame_18.setFrameShape(QFrame.StyledPanel)
+        self.frame_18.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_12 = QHBoxLayout(self.frame_18)
+        self.horizontalLayout_12.setSpacing(0)
+        self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
+        self.horizontalLayout_12.setContentsMargins(0, 0, 0, 0)
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_12.addItem(self.horizontalSpacer_5)
+
+        self.pushButton_3 = QPushButton(self.frame_18)
+        self.pushButton_3.setObjectName(u"pushButton_3")
+        sizePolicy.setHeightForWidth(self.pushButton_3.sizePolicy().hasHeightForWidth())
+        self.pushButton_3.setSizePolicy(sizePolicy)
+        self.pushButton_3.setMinimumSize(QSize(25, 25))
+        self.pushButton_3.setMaximumSize(QSize(25, 25))
+        icon2 = QIcon()
+        icon2.addFile(u"src/textures/11_bomb.png", QSize(), QIcon.Normal, QIcon.Off)
+        self.pushButton_3.setIcon(icon2)
+        self.pushButton_3.setIconSize(QSize(25, 25))
+
+        self.horizontalLayout_12.addWidget(self.pushButton_3, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.label_2 = QLabel(self.frame_18)
+        self.label_2.setObjectName(u"label_2")
+
+        self.horizontalLayout_12.addWidget(self.label_2, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+
+        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_12.addItem(self.horizontalSpacer_6)
+
+
+        self.verticalLayout_13.addWidget(self.frame_18)
+
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_13.addItem(self.verticalSpacer)
+
 
         self.horizontalLayout_6.addWidget(self.inventory)
 
@@ -373,7 +469,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(4)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -406,5 +502,10 @@ class Ui_MainWindow(object):
         self.custom_maps_btn.setText(QCoreApplication.translate("MainWindow", u"Custom Maps", None))
         self.start_game_btn.setText(QCoreApplication.translate("MainWindow", u"Main Game?", None))
         self.map_builder_btn.setText(QCoreApplication.translate("MainWindow", u"Map Builder", None))
+        self.label.setText(QCoreApplication.translate("MainWindow", u"Inventory", None))
+        self.pushButton.setText("")
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.pushButton_3.setText("")
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"0", None))
     # retranslateUi
 
