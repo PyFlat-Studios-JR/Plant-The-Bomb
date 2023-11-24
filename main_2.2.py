@@ -38,6 +38,7 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(4)
         self.ui.game_widget.initworld("src/maps/debug.ptb")
         self.ui.game_widget.update()
+        self.ui.game_widget.parenthook(self)
     def action_generate_recovery(self):
         if ACCOUNT.user_content:
             ACCOUNT.user_content.create_recovery_code()

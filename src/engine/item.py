@@ -74,3 +74,4 @@ class item(block.block):
                 print("Item used curse. It didn't affect player")
             case itemtype.SHIELD:
                 print("Player used protect. But it failed.")
+        player.repaint_inventory()

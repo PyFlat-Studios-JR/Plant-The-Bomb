@@ -6,9 +6,9 @@ class player(entity.entity):
         super().__init__(world, pos)
         self.texture = textureLib.textureLib.getTexture(0)
         self.health = 1
-        self.item_timebombs = 0
+        self.item_timebombs = 1
         self.item_maxbombs = 1
-        self.range = 0
+        self.range = 1
         self.damage = 0
         self.stat_bombs = 1
         self.item_nukes = 0
@@ -16,8 +16,15 @@ class player(entity.entity):
         self.tick_move_cooldown_max = 5
         self.tick_move_cooldown = 5
         self.holding = None
+        self.repaint_inventory()
     def repaint_inventory(self):
-        pass
+        self.world.win.pr.ui.range_inv_label.setText(f"{self.range}")
+        self.world.win.pr.ui.bomb_inv_label.setText(f"({self.stat_bombs}/{self.item_maxbombs})")
+        self.world.win.pr.ui.health_inv_label.setText(f"{self.health}")
+        self.world.win.pr.ui.dynamite_inv_label.setText(f"{self.item_dynamite}")
+        self.world.win.pr.ui.nuke_inv_label.setText(f"{self.item_nukes}")
+        self.world.win.pr.ui.timebomb_inv_label.setText(f"{self.item_timebombs}")
+        self.world.win.pr.ui.damage_inv_label.setText(f"{self.damage}")
     def onTick(self):
         if self.holding:
             if self.holding.is_tickable:
@@ -57,5 +64,8 @@ class player(entity.entity):
                     replacement = self.holding
                 if self.world.blocks[nx][ny].is_enemy_pickable:
                     self.holding = self.world.blocks[nx][ny]
+                    if self.holding.is_collectable:
+                        self.holding.onPickup(self)
+                        self.holding = air(self.world)
                 self.world.blocks[nx][ny] = self
                 self.world.blocks[nx-dx][ny-dy] = replacement
