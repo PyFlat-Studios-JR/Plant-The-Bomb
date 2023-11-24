@@ -809,22 +809,6 @@ Forgot Password</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item>
-                  <spacer name="horizontalSpacer">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                  <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                   <widget class="QPushButton" name="pushButton">
                    <property name="sizePolicy">
@@ -867,22 +851,6 @@ Forgot Password</string>
                    </property>
                   </widget>
                  </item>
-                 <item>
-                  <spacer name="horizontalSpacer_2">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                 </layout>
                </widget>
               </item>
@@ -910,22 +878,6 @@ Forgot Password</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item>
-                  <spacer name="horizontalSpacer_5">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                  <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                   <widget class="QPushButton" name="pushButton_3">
                    <property name="sizePolicy">
@@ -968,22 +920,6 @@ Forgot Password</string>
                    </property>
                   </widget>
                  </item>
-                 <item>
-                  <spacer name="horizontalSpacer_6">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                 </layout>
                </widget>
               </item>
@@ -1011,22 +947,6 @@ Forgot Password</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item>
-                  <spacer name="horizontalSpacer_7">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                  <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                   <widget class="QPushButton" name="pushButton_4">
                    <property name="sizePolicy">
@@ -1069,22 +989,6 @@ Forgot Password</string>
                    </property>
                   </widget>
                  </item>
-                 <item>
-                  <spacer name="horizontalSpacer_8">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                 </layout>
                </widget>
               </item>
@@ -1112,22 +1016,6 @@ Forgot Password</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item>
-                  <spacer name="horizontalSpacer_9">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                  <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                   <widget class="QPushButton" name="pushButton_5">
                    <property name="sizePolicy">
@@ -1170,22 +1058,6 @@ Forgot Password</string>
                    </property>
                   </widget>
                  </item>
-                 <item>
-                  <spacer name="horizontalSpacer_10">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                 </layout>
                </widget>
               </item>
@@ -1213,22 +1085,6 @@ Forgot Password</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item>
-                  <spacer name="horizontalSpacer_11">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                  <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                   <widget class="QPushButton" name="pushButton_6">
                    <property name="sizePolicy">
@@ -1271,22 +1127,6 @@ Forgot Password</string>
                    </property>
                   </widget>
                  </item>
-                 <item>
-                  <spacer name="horizontalSpacer_12">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                 </layout>
                </widget>
               </item>
@@ -1314,22 +1154,6 @@ Forgot Password</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item>
-                  <spacer name="horizontalSpacer_13">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                  <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                   <widget class="QPushButton" name="pushButton_7">
                    <property name="sizePolicy">
@@ -1372,22 +1196,6 @@ Forgot Password</string>
                    </property>
                   </widget>
                  </item>
-                 <item>
-                  <spacer name="horizontalSpacer_14">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                 </layout>
                </widget>
               </item>
@@ -1415,22 +1223,6 @@ Forgot Password</string>
                  <property name="bottomMargin">
                   <number>0</number>
                  </property>
-                 <item>
-                  <spacer name="horizontalSpacer_15">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                  <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
                   <widget class="QPushButton" name="pushButton_8">
                    <property name="sizePolicy">
@@ -1472,22 +1264,6 @@ Forgot Password</string>
                     <string>0</string>
                    </property>
                   </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_16">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Fixed</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
                  </item>
                 </layout>
                </widget>
