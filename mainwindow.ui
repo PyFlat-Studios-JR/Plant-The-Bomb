@@ -103,7 +103,7 @@ QPushButton#login_password_toggle{
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="mainpage_1">
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -768,7 +768,7 @@ Forgot Password</string>
             </widget>
            </item>
            <item>
-            <widget class="QWidget" name="game_widget" native="true">
+            <widget class="gameWindow" name="game_widget" native="true">
              <property name="minimumSize">
               <size>
                <width>500</width>
@@ -797,6 +797,14 @@ Forgot Password</string>
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>gameWindow</class>
+   <extends>QWidget</extends>
+   <header>gamewindow.py</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
