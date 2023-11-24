@@ -18,6 +18,8 @@ class player(entity.entity):
     def onTick(self):
         self.handlemovement()
     def handlemovement(self):
+        if not self.world.win.keys_held:
+            self.tick_move_cooldown = 0
         self.tick_move_cooldown -= 1
         if self.tick_move_cooldown <= 0:
             if self.world.win.keys_held:
