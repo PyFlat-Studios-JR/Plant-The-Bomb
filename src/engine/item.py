@@ -53,5 +53,24 @@ class item(block.block):
             self.texture = textureLib.textureLib.getTexture(22)
     def onDestroy(self):
         pass
-    def onPickup(self):
-        pass
+    def onPickup(self, player=None):
+        match (self.itemtype):
+            case itemtype.NUKE:
+                player.item_nukes += 1
+            case itemtype.DYNAMITE:
+                player.item_dynamite += 1
+            case itemtype.HEALTH:
+                player.health +=1 
+            case itemtype.DAMAGE:
+                player.damage += 1
+            case itemtype.RANGE:
+                player.range += 1
+            case itemtype.TIMEBOMB:
+                player.item_timebombs += 1
+            case itemtype.BOMB:
+                player.item_maxbombs += 1
+                player.stat_bombs += 1
+            case itemtype.CURSE:
+                print("Item used curse. It didn't affect player")
+            case itemtype.SHIELD:
+                print("Player used protect. But it failed.")

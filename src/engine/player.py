@@ -8,14 +8,16 @@ class player(entity.entity):
         self.health = 1
         self.item_timebombs = 0
         self.item_maxbombs = 1
-        self.item_range = 0
-        self.item_damage = 0
+        self.range = 0
+        self.damage = 0
         self.stat_bombs = 1
         self.item_nukes = 0
         self.item_dynamite = 0
         self.tick_move_cooldown_max = 5
         self.tick_move_cooldown = 5
         self.holding = None
+    def repaint_inventory(self):
+        pass
     def onTick(self):
         if self.holding:
             if self.holding.is_tickable:

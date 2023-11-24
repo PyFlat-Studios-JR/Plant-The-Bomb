@@ -7,8 +7,11 @@ class gameWindow(QWidget):
         super().__init__(parent)
         self.world = None
         self.keys_held = []
+        self.pr = None
     def initworld(self, file):
         self.world = world(self, file)
+    def parenthook(self, prnt):
+        self.pr = prnt
     def paintEvent(self, event):
         painter = QPainter()
         painter.begin(self)

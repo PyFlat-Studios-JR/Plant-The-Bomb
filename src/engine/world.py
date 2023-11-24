@@ -53,7 +53,6 @@ class world():
                 if cell.is_tickable:
                     cell.onTick()
         self.win.update()
-        print(f"tick completed in {round((time.time()-start)*1000,2)}ms")
     def paintEvent(self, painter: QPainter): #do the initialization from elsewhere :)
         self.background.paintEvent(painter) #draw background
         for coloumn in self.blocks:
