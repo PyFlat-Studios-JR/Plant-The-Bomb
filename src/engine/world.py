@@ -17,10 +17,11 @@ class world():
         self.script_loader = None #scriptLoader
         self.player = None #player
         self.bomb_manager = bombManager.bombManager(self) #bomb Manager
+        self.win = application
         self.load_file(file)
         self.ticker = QTimer()
         self.ticker.timeout.connect(self.tick)
-        self.win = application
+        
         self.ticker.start(50)
     def load_file(self, file):
         c = compressor()
