@@ -86,7 +86,9 @@ class MainWindow(QMainWindow):
         self.ui.login_help_btn.clicked.connect(self.action_generate_recovery)
         self.ui.login_forgot_password_btn.clicked.connect(self.temp_action_select_bypass)
     def keyPressEvent(self, event) -> None:
-        print(event.key())
+        self.ui.game_widget.keyPressEvent(event)
+    def keyReleaseEvent(self, event) -> None:
+        self.ui.game_widget.keyReleaseEvent(event)
 a = QApplication()
 b = MainWindow()
 sys.exit(a.exec())
