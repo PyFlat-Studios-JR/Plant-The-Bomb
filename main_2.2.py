@@ -36,7 +36,7 @@ class MainWindow(QMainWindow):
         self.ui.login_password_entry.setEchoMode(QLineEdit.Normal if show else QLineEdit.Password)
     def temp_action_select_bypass(self):
         self.ui.stackedWidget.setCurrentIndex(4)
-        self.ui.game_widget.initworld("src/maps/00_tutorial.ptb")
+        self.ui.game_widget.initworld("src/maps/debug.ptb")
         self.ui.game_widget.update()
     def action_generate_recovery(self):
         if ACCOUNT.user_content:

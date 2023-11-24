@@ -62,16 +62,3 @@ class water(block):
         self.x, self.y = pos
         self.allow_explosions = True
         self.texture = textureLib.textureLib.getTexture(5)
-class item(block):
-    def __init__(self, world, pos):
-        super().__init__(world)
-        self.x, self.y = pos
-        self.is_destructible = True
-        self.is_walkable = True
-        self.is_enemy_pickable = True
-        self.is_collectable = True
-        self.texture = textureLib.textureLib.getTexture(22)
-    def onDestroy(self):
-        pass
-    def onPickup(self):
-        pass

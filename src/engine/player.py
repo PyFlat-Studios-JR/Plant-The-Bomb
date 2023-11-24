@@ -15,7 +15,11 @@ class player(entity.entity):
         self.item_dynamite = 0
         self.tick_move_cooldown_max = 5
         self.tick_move_cooldown = 5
+        self.holding = None
     def onTick(self):
+        if self.holding:
+            if self.holding.is_tickable:
+                self.holding.onTick()
         self.handlemovement()
     def handlemovement(self):
         if not self.world.win.keys_held:
@@ -46,5 +50,10 @@ class player(entity.entity):
             if self.world.blocks[nx][ny].is_walkable:
                 self.x = nx
                 self.y = ny
+                replacement = air(self.world)
+                if self.holding:
+                    replacement = self.holding
+                if self.world.blocks[nx][ny].is_enemy_pickable:
+                    self.holding = self.world.blocks[nx][ny]
                 self.world.blocks[nx][ny] = self
-                self.world.blocks[nx-dx][ny-dy] = air(self.world)
+                self.world.blocks[nx-dx][ny-dy] = replacement
