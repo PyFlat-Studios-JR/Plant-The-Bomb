@@ -1,18 +1,14 @@
 from src.gui.Ui_MainWindow import Ui_MainWindow
 from PySide6.QtWidgets import QMainWindow , QApplication, QGraphicsOpacityEffect, QLineEdit
-from PySide6.QtCore import Signal
-from PySide6.QtGui import QPainter
 import sys
 from src.accountManager.accounts import userManager
-from src.engine.textureLib import textureLib
-from src.engine.world import world
 ACCOUNT = userManager()
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
-        self.ui = Ui_MainWindow() #<-- das ist die gui datei, muss importiert werden
+        self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(0)
         self.style_gui()
@@ -39,7 +35,7 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(4)
         self.ui.game_widget.initworld("src/maps/debug.ptb")
         self.ui.game_widget.update()
-        
+
     def action_generate_recovery(self):
         if ACCOUNT.user_content:
             ACCOUNT.user_content.create_recovery_code()
