@@ -9,6 +9,7 @@ class block():
         self.is_tickable = False            #block should have a onTick event however this attribute is strictly reserved for entitys. 
         self.is_enemy_pickable = False      #enemies can pick up the block (specifically for items)
         self.is_collectable = False
+        self.__texture_index = None
         #actual stuff
         self.x = 0
         self.y = 0
@@ -37,6 +38,12 @@ class block():
             return
         region = QRect(self.x*20,self.y*20,20,20)
         painter.drawImage(region, self.texture)
+    def init_textureindex(self, idx):
+        self.__texture_index = idx
+        self.texture = textureLib.textureLib.getTexture(self.__texture_index)
+    def reload_texture(self):
+        if self.__texture_index:
+            self.texture = textureLib.textureLib.getTexture(self.__texture_index)
 class air(block):
     def __init__(self,world):
         super().__init__(world)
@@ -48,17 +55,17 @@ class brick(block):
         super().__init__(world)
         self.x, self.y = pos
         self.is_destructible = True
-        self.texture = textureLib.textureLib.getTexture(3)
+        self.init_textureindex(3)
     def onDestroy(self):
         pass #put stuff like item drops here!
 class bedrock(block): #please don't sue, mojang...
     def __init__(self, world, pos):
         super().__init__(world)
         self.x, self.y = pos
-        self.texture = textureLib.textureLib.getTexture(4)
+        self.init_textureindex(4)
 class water(block):
     def __init__(self, world, pos):
         super().__init__(world)
         self.x, self.y = pos
         self.allow_explosions = True
-        self.texture = textureLib.textureLib.getTexture(5)
+        self.init_textureindex(5)

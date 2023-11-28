@@ -23,6 +23,10 @@ class world():
         self.ticker.timeout.connect(self.tick)
         
         self.ticker.start(50)
+    def reload_all(self):
+        for coloumn in self.blocks:
+            for cell in coloumn:
+                cell.reload_texture()
     def load_file(self, file):
         c = compressor()
         c.load(file)

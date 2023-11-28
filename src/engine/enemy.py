@@ -5,7 +5,7 @@ class enemy (entity.entity):
         super().__init__(world, pos)
         self.is_destructible = True
         self.allow_explosions = True
-        self.texture = textureLib.textureLib.getTexture(2)
+        self.init_textureindex(2)
     def onTick(self):
         return super().onTick() #override later
     def onDestroy(self):

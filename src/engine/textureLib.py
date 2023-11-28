@@ -27,6 +27,13 @@ class textureLib():
         return textureLib.__ERR_IMAGE
     def is_loaded():
         return textureLib.__ERR_IMAGE != None
+    def hotreload():
+        print("Texture hot reload started")
+        textureLib.__TEXTURE_MAP = {}
+        textureLib.__ERR_IMAGE = None
+        textureLib.__TEXTURES = []
+        textureLib.loadFolder("src/textures/","src/textures/ERR_IMAGE.png")
+        print("Texture hot reload finished!")
 #load default textures on import
 if not textureLib.is_loaded():
     textureLib.loadFolder("src/textures/","src/textures/ERR_IMAGE.png")

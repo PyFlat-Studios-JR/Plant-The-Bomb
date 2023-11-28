@@ -25,32 +25,32 @@ class item(block.block):
         seed = random.randint(start, fin)
         if (random.randint(0, 1000) == 0 and start != fin) or (start == fin and start == 0):
             self.itemtype = itemtype.NUKE
-            self.texture = textureLib.textureLib.getTexture(24)
+            self.init_textureindex(24)
             return
         if (seed < 40):
             self.itemtype = itemtype.DYNAMITE
-            self.texture = textureLib.textureLib.getTexture(18)
+            self.init_textureindex(18)
         elif (seed >= 40 and seed < 70):
             self.itemtype = itemtype.HEALTH
-            self.texture = textureLib.textureLib.getTexture(14)
+            self.init_textureindex(14)
         elif (seed >= 70 and seed < 100):
             self.itemtype = itemtype.DAMAGE
-            self.texture = textureLib.textureLib.getTexture(21)
+            self.init_textureindex(21)
         elif (seed >= 100 and seed  < 220):
             self.itemtype = itemtype.TIMEBOMB
-            self.texture = textureLib.textureLib.getTexture(16)
+            self.init_textureindex(16)
         elif (seed >= 220 and seed < 350):
             self.itemtype = itemtype.SHIELD	
-            self.texture = textureLib.textureLib.getTexture(19)
+            self.init_textureindex(19)
         elif (seed >= 350 and seed < 620):
             self.itemtype = itemtype.BOMB
-            self.texture = textureLib.textureLib.getTexture(12)
+            self.init_textureindex(12)
         elif (seed >= 620 and seed < 890):
             self.itemtype = itemtype.RANGE
-            self.texture = textureLib.textureLib.getTexture(10)
+            self.init_textureindex(10)
         elif (seed >= 890 and seed < 1001):
             self.itemtype = itemtype.CURSE
-            self.texture = textureLib.textureLib.getTexture(22)
+            self.init_textureindex(22)
     def onDestroy(self):
         pass
     def onPickup(self, player=None):

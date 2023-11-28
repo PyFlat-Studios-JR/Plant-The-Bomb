@@ -26,6 +26,9 @@ class player(entity.entity):
         self.world.win.pr.ui.timebomb_inv_label.setText(f"{self.item_timebombs}")
         self.world.win.pr.ui.damage_inv_label.setText(f"{self.damage}")
     def onTick(self):
+        if 82 in self.world.win.keys_held:
+            textureLib.textureLib.hotreload()
+            self.world.reload_all()
         if self.holding:
             if self.holding.is_tickable:
                 self.holding.onTick()
