@@ -29,6 +29,7 @@ class player(entity.entity):
         if 82 in self.world.win.keys_held:
             textureLib.textureLib.hotreload()
             self.world.reload_all()
+            #Hier hot-reload für inventory icons
         if self.holding:
             if self.holding.is_tickable:
                 self.holding.onTick()
