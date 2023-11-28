@@ -31,7 +31,7 @@ class item(block.block):
         if generate:
             seed = random.randint(start, fin)
         self.seed = seed
-        if (random.randint(0, 1000) == 0 and start != fin) or (start == fin and start == 0) and generate:
+        if (random.randint(0, 1000) == 0 and start != fin) or (start == fin and start == 0) and (generate or self.itemtype==itemtype.NUKE):
             self.itemtype = itemtype.NUKE
             self.init_textureindex(24)
             return
