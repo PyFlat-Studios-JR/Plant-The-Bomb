@@ -13,7 +13,7 @@ class player(entity.entity):
         self.stat_bombs = 1
         self.item_nukes = 0
         self.item_dynamite = 0
-        self.tick_move_cooldown_max = 5
+        self.tick_move_cooldown_max = 2
         self.tick_move_cooldown = 5
         self.holding = None
         self.repaint_inventory()
