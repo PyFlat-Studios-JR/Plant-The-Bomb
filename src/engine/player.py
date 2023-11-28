@@ -17,6 +17,7 @@ class player(entity.entity):
         self.tick_move_cooldown_max = 2
         self.tick_move_cooldown = 5
         self.holding = None
+        self.has_moved = False
         self.repaint_inventory()
     def repaint_inventory(self):
         self.world.win.pr.ui.range_inv_label.setText(f"{self.range}")
@@ -35,7 +36,11 @@ class player(entity.entity):
             if self.holding.is_tickable:
                 self.holding.onTick()
         self.handlemovement()
+    def afterupdate(self):
+        self.has_moved = False
     def handlemovement(self):
+        if self.has_moved:
+            return
         if not self.world.win.keys_held:
             self.tick_move_cooldown = 0
         self.tick_move_cooldown -= 1
@@ -58,6 +63,8 @@ class player(entity.entity):
         elif 68 in self.world.win.keys_held:
             dx = 1
             dy = 0
+        if (abs(dx)+abs(dy)):
+            self.has_moved = True
         nx = self.x+dx
         ny = self.y+dy
         if nx in range (0, 24) and ny in range (0, 24):

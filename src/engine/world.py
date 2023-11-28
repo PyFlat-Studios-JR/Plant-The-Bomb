@@ -40,6 +40,7 @@ class world():
                         self.blocks[x][y] = block.bedrock(self, (x,y))
                     case 2:
                         self.blocks[x][y] = player.player(self, (x,y))
+                        self.player = self.blocks[x][y]
                     case 3:
                         self.blocks[x][y] = block.brick(self, (x,y))
                     case 4:
@@ -58,6 +59,8 @@ class world():
                 if cell.is_tickable:
                     cell.onTick()
         self.win.update()
+        if self.player:
+            self.player.afterupdate()
     def paintEvent(self, painter: QPainter): #do the initialization from elsewhere :)
         self.background.paintEvent(painter) #draw background
         for coloumn in self.blocks:
