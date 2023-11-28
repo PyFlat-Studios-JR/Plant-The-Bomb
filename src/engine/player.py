@@ -1,3 +1,4 @@
+import src.gui.inventoryReloader as inventoryReloader
 import src.engine.entity as entity
 import src.engine.textureLib as textureLib
 from src.engine.block import air
@@ -29,7 +30,7 @@ class player(entity.entity):
         if 82 in self.world.win.keys_held:
             textureLib.textureLib.hotreload()
             self.world.reload_all()
-            #Hier hot-reload für inventory icons
+            inventoryReloader.inventoryReloader.reloadInventoryIcons(self.world.win.pr.ui)
         if self.holding:
             if self.holding.is_tickable:
                 self.holding.onTick()
