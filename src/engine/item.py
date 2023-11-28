@@ -20,10 +20,18 @@ class item(block.block):
         self.is_enemy_pickable = True
         self.is_collectable = True
         self.itemtype = None
+        self.seed = None
+        self.start = None
+        self.fin = None
         self.generate(start, fin)
-    def generate(self, start, fin):
-        seed = random.randint(start, fin)
-        if (random.randint(0, 1000) == 0 and start != fin) or (start == fin and start == 0):
+    def generate(self, start, fin, generate=True):
+        self.start = start
+        self.fin = fin
+        seed = self.seed
+        if generate:
+            seed = random.randint(start, fin)
+        self.seed = seed
+        if (random.randint(0, 1000) == 0 and start != fin) or (start == fin and start == 0) and generate:
             self.itemtype = itemtype.NUKE
             self.init_textureindex(24)
             return
@@ -51,6 +59,9 @@ class item(block.block):
         elif (seed >= 890 and seed < 1001):
             self.itemtype = itemtype.CURSE
             self.init_textureindex(22)
+    def reload_texture(self):
+        self.generate(self.start,self.fin,False)
+        return super().reload_texture()
     def onDestroy(self):
         pass
     def onPickup(self, player=None):
