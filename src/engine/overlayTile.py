@@ -8,12 +8,14 @@ class overlayTile():
         self.x, self.y = pos
     def drawEvent(self, painter):
         if self.texture:
-            painter.drawImage(QRect(self.x*20,self.y*20,20,20))
+            painter.drawImage(QRect(self.x*20,self.y*20,20,20),self.texture)
     def occupy(self, owner, texture):
         if self.is_occupied:
-            self.owner.release_overlay(self)
+            if self.owner.release_overlay:
+                self.owner.release_overlay(self)
         self.owner = owner
         self.texture = texture
+        self.is_occupied = True
     def release(self, owner):
         #backup code to not delete stuff, if the owner has changed.
         if self.owner != owner:

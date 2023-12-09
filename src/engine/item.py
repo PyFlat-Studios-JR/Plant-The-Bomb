@@ -63,7 +63,7 @@ class item(block.block):
         self.generate(self.start,self.fin,False)
         return super().reload_texture()
     def onDestroy(self):
-        pass
+        self.world.blocks[self.x][self.y] = block.air(self.world)
     def onPickup(self, player=None):
         match (self.itemtype):
             case itemtype.NUKE:

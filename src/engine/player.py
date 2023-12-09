@@ -2,6 +2,8 @@ import src.gui.inventoryReloader as inventoryReloader
 import src.engine.entity as entity
 import src.engine.textureLib as textureLib
 from src.engine.block import air
+import src.engine.bomb as bomb
+import src.engine.block as block
 class player(entity.entity):
     def __init__(self, world, pos):
         super().__init__(world, pos)
@@ -27,11 +29,40 @@ class player(entity.entity):
         self.world.win.pr.ui.nuke_inv_label.setText(f"{self.item_nukes}")
         self.world.win.pr.ui.timebomb_inv_label.setText(f"{self.item_timebombs}")
         self.world.win.pr.ui.damage_inv_label.setText(f"{self.damage}")
+    def handle_bomb(self):
+        if 75 in self.world.win.keys_held: #K
+            if self.holding == None or type(self.holding) == block.air:
+                if self.stat_bombs > 0:
+                    self.holding = bomb.bomb.normalbomb(self)
+                    self.stat_bombs -= 1
+                    self.repaint_inventory()
+        if 84 in self.world.win.keys_held: #T
+            if self.holding == None or type(self.holding) == block.air:
+                if self.item_timebombs > 0:
+                    self.holding = bomb.bomb.timebomb(self)
+                    self.item_timebombs -= 1
+                    self.repaint_inventory()
+        if 89 in self.world.win.keys_held: #Y
+            if self.holding == None or type(self.holding) == block.air:
+                if self.item_dynamite > 0:
+                    self.holding = bomb.bomb.dynamite(self)
+                    self.item_dynamite -= 1
+                    self.repaint_inventory()
+        if 78 in self.world.win.keys_held: #N
+            if self.holding == None or type(self.holding) == block.air:
+                if self.item_nukes > 0:
+                    self.holding = bomb.bomb.nuke(self)
+                    self.item_nukes -= 1
+                    self.repaint_inventory()
+    def onDestroy(self):
+        if self.holding.is_destructible:
+            self.holding.onDestroy()
     def onTick(self):
         if 82 in self.world.win.keys_held:
             textureLib.textureLib.hotreload()
             self.world.reload_all()
             inventoryReloader.inventoryReloader.reloadInventoryIcons(self.world.win.pr.ui)
+        self.handle_bomb()
         if self.holding:
             if self.holding.is_tickable:
                 self.holding.onTick()
