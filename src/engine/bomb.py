@@ -88,6 +88,8 @@ class bomb(entity.entity):
                     plc = False
                     if self.world.blocks[x][y].is_destructible:
                         self.world.blocks[x][y].onDestroy()
+                        if self.world.blocks[x][y].is_alive:
+                            self.world.blocks[x][y].onDamage(self.damage)
                         textureList.append((x,y))
                         plc = True
                     if not cnt:
@@ -102,6 +104,8 @@ class bomb(entity.entity):
                     if x in range (0, 25) and y in range (0, 25):
                         if self.world.blocks[x][y].is_destructible:
                             self.world.blocks[x][y].onDestroy()
+                            if self.world.blocks[x][y].is_alive:
+                                self.world.blocks[x][y].onDamage(self.damage)
                         if self.world.blocks[x][y].is_destructible or self.world.blocks[x][y].allow_explosions:
                             textureList.append((x,y))
             self.world.bomb_manager.add_explosion(textureList, 20)

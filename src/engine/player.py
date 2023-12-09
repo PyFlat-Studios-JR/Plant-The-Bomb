@@ -12,7 +12,7 @@ class player(entity.entity):
         self.item_timebombs = 0
         self.item_maxbombs = 1
         self.range = 1
-        self.damage = 0
+        self.damage = 1
         self.stat_bombs = 1
         self.item_nukes = 0
         self.item_dynamite = 0
@@ -20,6 +20,8 @@ class player(entity.entity):
         self.tick_move_cooldown = 5
         self.holding = None
         self.has_moved = False
+        self.is_alive = True
+        self.is_destructible = True
         self.repaint_inventory()
     def repaint_inventory(self):
         self.world.win.pr.ui.range_inv_label.setText(f"{self.range}")
@@ -57,6 +59,16 @@ class player(entity.entity):
     def onDestroy(self):
         if self.holding.is_destructible:
             self.holding.onDestroy()
+    def onDamage(self, amount):
+        print("Ouch")
+        self.health -= amount
+        if self.health <= 0:
+            if self.holding:
+                self.world.blocks[self.x][self.y] = self.holding
+            self.world.blocks[self.x][self.y] = block.air(self.world)
+            #put the whole level codehere!
+            self.world.loose()
+        self.repaint_inventory()
     def onTick(self):
         if 82 in self.world.win.keys_held:
             textureLib.textureLib.hotreload()

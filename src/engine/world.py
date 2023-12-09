@@ -27,6 +27,10 @@ class world():
         for coloumn in self.blocks:
             for cell in coloumn:
                 cell.reload_texture()
+    def loose(self):
+        self.ticker.stop()
+        self.win.pr.ui.stackedWidget.setCurrentIndex(0)
+        self.win.world = None
     def load_file(self, file):
         c = compressor()
         c.load(file)

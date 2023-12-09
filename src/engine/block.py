@@ -10,6 +10,7 @@ class block():
         self.is_tickable = False            #block should have a onTick event however this attribute is strictly reserved for entitys. 
         self.is_enemy_pickable = False      #enemies can pick up the block (specifically for items)
         self.is_collectable = False
+        self.is_alive = False #alive blocks have to have a onDamage() method
         self.__texture_index = None
         #actual stuff
         self.x = 0
