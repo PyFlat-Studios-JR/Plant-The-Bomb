@@ -2,6 +2,7 @@ from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 from src.engine.gameWindow import gameWindow
+from src.gui.LevelSelectContainer import LevelSelectContainer
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
@@ -298,19 +299,10 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2.addWidget(self.frame)
 
-        self.frame_2 = QFrame(self.level_select)
-        self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setFrameShape(QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QFrame.Raised)
-        self.verticalLayout_2 = QVBoxLayout(self.frame_2)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.start_game_btn = QPushButton(self.frame_2)
-        self.start_game_btn.setObjectName(u"start_game_btn")
+        self.widget_2 = LevelSelectContainer(self.level_select)
+        self.widget_2.setObjectName(u"widget_2")
 
-        self.verticalLayout_2.addWidget(self.start_game_btn)
-
-
-        self.horizontalLayout_2.addWidget(self.frame_2)
+        self.horizontalLayout_2.addWidget(self.widget_2, 0, Qt.AlignHCenter)
 
         self.frame_3 = QFrame(self.level_select)
         self.frame_3.setObjectName(u"frame_3")
@@ -587,7 +579,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -618,7 +610,6 @@ class Ui_MainWindow(object):
         self.recovery_login_btn.setText(QCoreApplication.translate("MainWindow", u"Login", None))
         self.recovery_help_btn.setText(QCoreApplication.translate("MainWindow", u"Help", None))
         self.custom_maps_btn.setText(QCoreApplication.translate("MainWindow", u"Custom Maps", None))
-        self.start_game_btn.setText(QCoreApplication.translate("MainWindow", u"Main Game?", None))
         self.map_builder_btn.setText(QCoreApplication.translate("MainWindow", u"Map Builder", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Inventory", None))
         self.range_icon_btn.setText(QCoreApplication.translate("MainWindow", u" Range", None))

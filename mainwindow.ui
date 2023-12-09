@@ -120,7 +120,7 @@ QLabel#range_inv_label{
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="mainpage_1">
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -690,24 +690,8 @@ Forgot Password</string>
           </layout>
          </widget>
         </item>
-        <item>
-         <widget class="QFrame" name="frame_2">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <item>
-            <widget class="QPushButton" name="start_game_btn">
-             <property name="text">
-              <string>Main Game?</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+        <item alignment="Qt::AlignHCenter">
+         <widget class="LevelSelectContainer" name="widget_2" native="true"/>
         </item>
         <item>
          <widget class="QFrame" name="frame_3">
@@ -1296,6 +1280,12 @@ Forgot Password</string>
    <class>gameWindow</class>
    <extends>QWidget</extends>
    <header>gamewindow.py</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>LevelSelectContainer</class>
+   <extends>QWidget</extends>
+   <header>levelselectcontainer.py</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
