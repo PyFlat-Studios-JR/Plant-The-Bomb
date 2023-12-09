@@ -1,6 +1,7 @@
 from PySide6.QtCore import QRect
 from PySide6.QtGui import QImage, QPainter
 import src.engine.textureLib as textureLib
+import random
 class block():
     def __init__(self, world, **kwargs):
         self.is_destructible = False        #block should have an onDestroy tick event
@@ -44,6 +45,8 @@ class block():
     def reload_texture(self):
         if self.__texture_index:
             self.texture = textureLib.textureLib.getTexture(self.__texture_index)
+
+import src.engine.item as item #DO NOT CHANGE THE LOCATION OF THIS! IMPORT MAGIC!
 class air(block):
     def __init__(self,world):
         super().__init__(world)
@@ -57,7 +60,10 @@ class brick(block):
         self.is_destructible = True
         self.init_textureindex(3)
     def onDestroy(self):
-        pass #put stuff like item drops here!
+        if random.randint(0, 1):
+            self.world.blocks[self.x][self.y] = item.item(self.world,(self.x,self.y),0,1000)
+        else:
+            self.world.blocks[self.x][self.y] = air(self.world)
 class bedrock(block): #please don't sue, mojang...
     def __init__(self, world, pos):
         super().__init__(world)

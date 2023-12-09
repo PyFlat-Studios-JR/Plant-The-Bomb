@@ -77,7 +77,24 @@ class bomb(entity.entity):
         self.explosion_effect()
     def explosion_effect(self):
         if self.explosion == 0:
-            pass
+            textureList = []
+            mod = [(-1,0),(1,0),(0,1),(0,-1)]
+            for beam in mod:
+                mx, my = beam
+                for d in range (self.range+1):
+                    x = self.x + mx*d
+                    y = self.y + my*d
+                    cnt = self.world.blocks[x][y].allow_explosions
+                    plc = False
+                    if self.world.blocks[x][y].is_destructible:
+                        self.world.blocks[x][y].onDestroy()
+                        textureList.append((x,y))
+                        plc = True
+                    if not cnt:
+                        break
+                    if not plc:
+                        textureList.append((x,y))
+            self.world.bomb_manager.add_explosion(textureList, 20)
         else:
             textureList = []
             for x in range (-1*self.range+self.x,self.range+self.x+1):
