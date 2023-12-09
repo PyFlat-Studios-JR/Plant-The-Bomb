@@ -49,7 +49,7 @@ class LevelWidget(QWidget):
         super().__init__()
 
         self.name_label = QLabel("Level name")
-        self.button = QPushButton("Play Level")
+        self.button = QPushButton("Play")
         self.stars_widget = StarsWidget()
 
         layout = QHBoxLayout()
