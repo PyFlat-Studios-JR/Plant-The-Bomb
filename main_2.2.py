@@ -2,6 +2,7 @@ from src.gui.Ui_MainWindow import Ui_MainWindow
 from PySide6.QtWidgets import QMainWindow , QApplication, QGraphicsOpacityEffect, QLineEdit
 import sys
 from src.accountManager.accounts import userManager
+import src.engine.textureLib as textureLib
 ACCOUNT = userManager()
 
 
@@ -88,5 +89,6 @@ class MainWindow(QMainWindow):
     def keyReleaseEvent(self, event) -> None:
         self.ui.game_widget.keyReleaseEvent(event)
 a = QApplication()
+textureLib.textureLib.loadFolder("src/textures/", "ERR_IMAGE.png")
 b = MainWindow()
 sys.exit(a.exec())

@@ -1,5 +1,5 @@
 from PySide6.QtCore import QRect
-from PySide6.QtGui import QImage, QPainter
+from PySide6.QtGui import QImage, QPainter, QMovie
 import src.engine.textureLib as textureLib
 import random
 class block():
@@ -16,7 +16,7 @@ class block():
         self.x = 0
         self.y = 0
         self.world = world
-        self.texture: QImage | None = None #QImage
+        self.texture: QImage | QMovie | None = None #QImage
         #kwarg loader
         for key in kwargs:
             self._prc_farg(key, kwargs[key])
@@ -75,4 +75,14 @@ class water(block):
         super().__init__(world)
         self.x, self.y = pos
         self.allow_explosions = True
+        self.frame = None
         self.init_textureindex(5)
+        self.texture.frameChanged.connect(self.update_frame)
+    def drawEvent(self, painter: QPainter):
+        self.update_frame()
+        if self.texture == None:
+            return
+        region = QRect(self.x*20,self.y*20,20,20)
+        painter.drawImage(region, self.frame)
+    def update_frame(self):
+        self.frame = self.texture.currentImage()

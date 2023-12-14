@@ -6,13 +6,14 @@ import src.engine.bombManager as bombManager
 import src.engine.overlayTile as overlayTile
 import src.engine.background as background
 import src.engine.enemy as enemy
+import src.engine.textureLib as textureLib
 from src.compressor import compressor
 from PySide6.QtGui import QPainter
 from PySide6.QtCore import QTimer
 class world():
     def __init__(self, application, file):
         self.blocks = [[block.air(self) for x in range (25)] for y in range (25)] #very good world right now :)
-        self.background = background.checkerboard #background drawing
+        self.background = background.background(textureLib.textureLib.getTexture(27))
         self.overlay = [[overlayTile.overlayTile(self,(x,y)) for y in range (25)] for x in range (25)] #overlay drawing
         self.script_loader = None #scriptLoader
         self.player = None #player
@@ -65,6 +66,7 @@ class world():
         self.win.update()
         if self.player:
             self.player.afterupdate()
+        #print(time.time()-start)
     def paintEvent(self, painter: QPainter): #do the initialization from elsewhere :)
         self.background.paintEvent(painter) #draw background
         for coloumn in self.blocks:
@@ -75,3 +77,4 @@ class world():
             for cell in coloumn:
                 if cell.is_occupied:
                     cell.drawEvent(painter)
+        

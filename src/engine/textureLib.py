@@ -1,7 +1,7 @@
 import os
-from PySide6.QtGui import QImage
+from PySide6.QtGui import QImage, QMovie
 class textureLib():
-    __TEXTURES: list[QImage] = []
+    __TEXTURES: list[QImage|QMovie] = []
     __TEXTURE_MAP: dict[str, int] = {}
     __ERR_IMAGE = None
     def loadFolder(path: str, ERR: str):
@@ -9,6 +9,14 @@ class textureLib():
         for file in os.listdir(path):
             if file.endswith(".png"):
                 textureLib.__TEXTURES.append(QImage("src/textures/"+file))
+                file = file.split("_")
+                file.pop(0)
+                file = "".join(file)
+                file = "".join(file.split(".")[:-1]) 
+                textureLib.__TEXTURE_MAP[file] = len(textureLib.__TEXTURES)-1
+            if file.endswith(".gif"):
+                textureLib.__TEXTURES.append(QMovie("src/textures/"+file))
+                textureLib.__TEXTURES[-1].start()
                 file = file.split("_")
                 file.pop(0)
                 file = "".join(file)
@@ -35,5 +43,3 @@ class textureLib():
         textureLib.loadFolder("src/textures/","src/textures/ERR_IMAGE.png")
         print("Texture hot reload finished!")
 #load default textures on import
-if not textureLib.is_loaded():
-    textureLib.loadFolder("src/textures/","src/textures/ERR_IMAGE.png")

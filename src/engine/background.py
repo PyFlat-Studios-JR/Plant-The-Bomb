@@ -7,5 +7,3 @@ class background():
         painter.drawImage(QRect(0,0,500,500), self.bg_image)
 
 #initialize different backgrounds here...
-
-checkerboard = background(textureLib.getTexture(27))
