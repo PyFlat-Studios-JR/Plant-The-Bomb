@@ -65,3 +65,13 @@ QLabel#range_inv_label{
 	border-radius: 5px;
 	padding: 4px;
 }
+
+QPushButton#nuke_icon_btn:focus,
+QPushButton#dynamite_icon_btn:focus,
+QPushButton#timebomb_icon_btn:focus,
+QPushButton#health_icon_btn:focus,
+QPushButton#bomb_icon_btn:focus,
+QPushButton#range_icon_btn:focus,
+QPushButton#damage_icon_btn:focus{
+    outline: none;
+}
