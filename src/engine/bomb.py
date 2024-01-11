@@ -25,7 +25,7 @@ class bomb(entity.entity):
         b.bomb_type = 1
         return b
     def normalbomb(player):
-        b = bomb(player.world, (player.x,player.y), 0, 120, player)
+        b = bomb(player.world, (player.x,player.y), 0, 35, player)
         b.damage = player.damage
         b.range = player.range
         b.init_textureindex(11)
@@ -38,7 +38,7 @@ class bomb(entity.entity):
         b.bomb_type = 2
         return b
     def dynamite(player):
-        b = bomb(player.world, (player.x,player.y), 1, 120, player)
+        b = bomb(player.world, (player.x,player.y), 1, 35, player)
         b.damage = player.damage*2
         b.range = 2
         b.init_textureindex(17)
@@ -96,7 +96,7 @@ class bomb(entity.entity):
                         break
                     if not plc:
                         textureList.append((x,y))
-            self.world.bomb_manager.add_explosion(textureList, 20)
+            self.world.bomb_manager.add_explosion(textureList, 10)
         else:
             textureList = []
             for x in range (-1*self.range+self.x,self.range+self.x+1):
