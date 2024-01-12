@@ -7,9 +7,14 @@ import src.engine.overlayTile as overlayTile
 import src.engine.background as background
 import src.engine.enemy as enemy
 import src.engine.textureLib as textureLib
+import src.accountManager.accounts as accounts
 from src.compressor import compressor
 from PySide6.QtGui import QPainter
 from PySide6.QtCore import QTimer
+
+ACCOUNTS = accounts.getAccountContext()
+
+
 class world():
     def __init__(self, application, file):
         self.blocks = [[block.air(self) for x in range (25)] for y in range (25)] #very good world right now :)
@@ -19,10 +24,12 @@ class world():
         self.player = None #player
         self.bomb_manager = bombManager.bombManager(self) #bomb Manager
         self.win = application
+        self.active_level = file
         self.load_file(file)
         self.ticker = QTimer()
         self.ticker.timeout.connect(self.tick)
-        
+        if ACCOUNTS.user_content == None:
+            print("[WARN] No user is logged in. Your progress will NOT be saved!")
         self.ticker.start(50)
     def reload_all(self):
         for coloumn in self.blocks:
@@ -38,6 +45,10 @@ class world():
         self.ticker.stop()
         self.win.pr.ui.stackedWidget.setCurrentIndex(0)
         self.win.world = None
+        if ACCOUNTS.user_content != None:
+            ACCOUNTS.user_content.mark_as_completed(self.active_level)
+            print("Completed: " + self.active_level)
+            ACCOUNTS.saveData()
     def load_file(self, file):
         c = compressor()
         c.load(file)

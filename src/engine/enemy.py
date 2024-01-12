@@ -117,7 +117,8 @@ class enemy (entity.entity):
         self.health -= damage
         if self.health <= 0:
             self.world.blocks[self.x][self.y] = self.holding
+            print(f"Enemy dead: global count {enemy.global_enemy_count} -> {enemy.global_enemy_count-1}")
             enemy.global_enemy_count -= 1
-            if enemy.global_enemy_count == 0:
+            if enemy.global_enemy_count <= 0:
                 self.world.winf()
         

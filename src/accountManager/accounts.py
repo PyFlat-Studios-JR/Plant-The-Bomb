@@ -1,5 +1,5 @@
 import src.crypto as crypto
-import os, json, random
+import os, json, random, hashlib
 class userContent():
     def __init__(self, usr_or_json: str, pwd: str | None = None):
         if not pwd:
@@ -8,6 +8,15 @@ class userContent():
             self.usr = usr_or_json
             self.pwd = pwd
             self.completedlevels = []
+    def is_level_completed(self, filename):
+        content = open(filename,"rb").read()
+        hash = crypto.sha256(content.decode())
+        return hash in self.completedlevels
+    def mark_as_completed(self, filename):
+        content = open(filename,"rb").read()
+        hash = hashlib.sha256(content).hexdigest()
+        if hash not in self.completedlevels:
+            self.completedlevels.append(hash)
     def loadFromJSON(self, jason:str):
         dc: dict = json.loads(jason)
         self.usr = dc["user"]
@@ -68,6 +77,20 @@ class userManager():
         with open(usr_filename,"w") as file:
             file.write(encrypted_content)
         return 0
+    def saveData(self):
+        if self.user_content:
+            username = self.user_content.usr
+            pwd = self.user_content.pwd
+            usr_filename = "saves/"+ crypto.sha256(username+"this_is_a_salt_:_)_._._.") + ".ptbsav"
+            e = crypto.encode(self.user_content.dumptoJSOM(),"_another_salt"+pwd+".._.._salty_yummy_.._..")
+            open(usr_filename, "w").write(e)
+            print("Saved data successfully!")
 if __name__ == "__main__":
     print("Should not initialize accounts.py as main. Exited!")
     os.sys.exit(-1)
+_ACCOUNTS = None
+def getAccountContext():
+    global _ACCOUNTS
+    if _ACCOUNTS == None:
+        _ACCOUNTS = userManager()
+    return _ACCOUNTS

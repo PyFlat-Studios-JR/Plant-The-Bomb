@@ -1,10 +1,9 @@
 from src.gui.Ui_MainWindow import Ui_MainWindow
 from PySide6.QtWidgets import QMainWindow , QApplication, QGraphicsOpacityEffect, QLineEdit
 import sys
-from src.accountManager.accounts import userManager
+from src.accountManager.accounts import getAccountContext
 import src.engine.textureLib as textureLib
-ACCOUNT = userManager()
-
+ACCOUNT = getAccountContext()
 
 class MainWindow(QMainWindow):
     def __init__(self):
