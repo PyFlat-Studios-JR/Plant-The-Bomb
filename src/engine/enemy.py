@@ -80,9 +80,13 @@ class enemy (entity.entity):
                 if abs(self.world.player.x-self.x)+abs(self.world.player.y-self.y) <= 1:
                     return #enemy stands still, if it is adjacent to player
                 x,y = self.path.pop()
-                self.holding = self.world.blocks[x][y]
+                deposit = self.holding
+                if self.world.blocks[x][y].is_enemy_pickable:
+                    self.holding = self.world.blocks[x][y]
+                else:
+                    self.holding = block.air(self.world)
                 self.world.blocks[x][y] = self
-                self.world.blocks[self.x][self.y] = self.holding
+                self.world.blocks[self.x][self.y] = deposit
                 self.x = x
                 self.y = y
             else:
@@ -99,7 +103,10 @@ class enemy (entity.entity):
                     dx, dy = valid_dirs.pop()
                     x = self.x+dx
                     y = self.y+dy
-                    self.holding = self.world.blocks[x][y]
+                    if self.world.blocks[x][y].is_enemy_pickable:
+                        self.holding = self.world.blocks[x][y]
+                    else:
+                        self.holding = block.air(self.world)
                 self.world.blocks[x][y] = self
                 self.world.blocks[self.x][self.y] = self.holding
                 self.x = x
