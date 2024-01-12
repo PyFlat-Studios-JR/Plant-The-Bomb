@@ -29,6 +29,12 @@ class world():
             for cell in coloumn:
                 cell.reload_texture()
     def loose(self):
+        print("YOU SUCK")
+        self.ticker.stop()
+        self.win.pr.ui.stackedWidget.setCurrentIndex(0)
+        self.win.world = None
+    def winf(self):
+        print("GG YOU WON")
         self.ticker.stop()
         self.win.pr.ui.stackedWidget.setCurrentIndex(0)
         self.win.world = None

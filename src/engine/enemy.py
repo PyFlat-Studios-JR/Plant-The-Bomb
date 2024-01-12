@@ -3,6 +3,7 @@ import src.engine.block as block
 import src.engine.textureLib as textureLib
 import random
 class enemy (entity.entity):
+    global_enemy_count = 0
     def __init__(self, world, pos):
         super().__init__(world, pos)
         self.is_destructible = True
@@ -12,6 +13,7 @@ class enemy (entity.entity):
         self.health = 0
         self.attack_pattern = []
         self.holding = block.air(self.world)
+        enemy.global_enemy_count += 1
         self.init_textureindex(2)
     def pathfind_to_player(self):
         distance_map = [[-1]*25 for i in range (25)] #A map that maps all reachable tiles by distance from self
@@ -47,8 +49,7 @@ class enemy (entity.entity):
             else:
                 break
         if distance_map[self.world.player.x][self.world.player.y] == -1:
-            print("Enemy failed to find player...")
-            return
+            return False
         #that means the player somehow is in the distance map!!!!
         #now walk "backwards" from the player towards descending numbers!
         cx = self.world.player.x
@@ -63,7 +64,7 @@ class enemy (entity.entity):
                 ny = cy + dy
                 if nx == self.x and ny == self.y:
                     self.path.pop(0)
-                    return          
+                    return True       
                 if nx in range (0, 24) and ny in range (0,24):
                     if distance_map[nx][ny] < minv and distance_map[nx][ny] != -1:
                         mindist = (nx,ny)
@@ -73,17 +74,43 @@ class enemy (entity.entity):
     def onTick(self):
         if random.randint(0,10) > 0:
             return
-        self.pathfind_to_player()
-        if self.path:
-            x,y = self.path.pop()
-            self.world.blocks[x][y] = self
-            self.world.blocks[self.x][self.y] = block.air(self.world)
-            self.x = x
-            self.y = y
+        res = self.pathfind_to_player()
+        if self.path or not res:
+            if res:
+                if abs(self.world.player.x-self.x)+abs(self.world.player.y-self.y) <= 1:
+                    return #enemy stands still, if it is adjacent to player
+                x,y = self.path.pop()
+                self.holding = self.world.blocks[x][y]
+                self.world.blocks[x][y] = self
+                self.world.blocks[self.x][self.y] = self.holding
+                self.x = x
+                self.y = y
+            else:
+                #this case happens, when the enemy fails to find a route to the player!
+                valid_dirs = []
+                for dx, dy in [(-1,0),(1,0),(0,1),(0,-1)]:
+                    nx = self.x + dx
+                    ny = self.y + dy
+                    if nx in range (0, 24) and ny in range (0, 24):
+                        if self.world.blocks[self.x+dx][self.y+dy].is_walkable:
+                            valid_dirs.append((dx,dy))
+                random.shuffle(valid_dirs)
+                if valid_dirs:
+                    dx, dy = valid_dirs.pop()
+                    x = self.x+dx
+                    y = self.y+dy
+                    self.holding = self.world.blocks[x][y]
+                self.world.blocks[x][y] = self
+                self.world.blocks[self.x][self.y] = self.holding
+                self.x = x
+                self.y = y
     def onDestroy(self):
         pass
     def onDamage(self, damage):
         self.health -= damage
         if self.health <= 0:
             self.world.blocks[self.x][self.y] = self.holding
+            enemy.global_enemy_count -= 1
+            if enemy.global_enemy_count == 0:
+                self.world.winf()
         
