@@ -74,7 +74,7 @@ class enemy (entity.entity):
 
     def onTick(self):
         self.move_timer += 1
-        if random.randint(0,10) > 0 and self.move_timer < 2:
+        if random.randint(0,10) > 0 or self.move_timer < 2:
             return
         self.move_timer = 0
         res = self.pathfind_to_player()
