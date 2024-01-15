@@ -111,6 +111,8 @@ class enemy (entity.entity):
                     self.world.blocks[self.x][self.y] = self.holding
                     self.x = x
                     self.y = y
+    def _reset_enemies():
+        enemy.global_enemy_count = 0
     def onDestroy(self):
         pass
     def onDamage(self, damage):
