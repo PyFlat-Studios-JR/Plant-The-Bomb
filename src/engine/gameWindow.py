@@ -13,6 +13,7 @@ class gameWindow(QWidget):
         self.pr = None
     def initworld(self, file):
         self.world = world(self, file)
+        self.update()
     def get_all_levels(self, mappack=None) -> list[str]: #mappack is NOT USED!
         files = os.listdir("src/maps/")
         ffiles = []

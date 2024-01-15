@@ -12,6 +12,7 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.widget_2.setUI(self.ui)
+        self.ui.game_widget.parenthook(self)
         self.style_gui()
         self.initKeybinds()
         self.show()
@@ -32,7 +33,6 @@ class MainWindow(QMainWindow):
     def toggle_password_visibility(self, show):
         self.ui.login_password_entry.setEchoMode(QLineEdit.Normal if show else QLineEdit.Password)
     def temp_action_select_bypass(self):
-        self.ui.game_widget.parenthook(self)
         self.ui.stackedWidget.setCurrentIndex(4)
         self.ui.game_widget.initworld("src/maps/debug.ptb")
         self.ui.game_widget.update()
