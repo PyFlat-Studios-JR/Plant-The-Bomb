@@ -40,7 +40,7 @@ class world():
         self.ticker.stop()
         #self.win.pr.ui.stackedWidget.setCurrentIndex(0)
         self.win.world = None
-        self.win.pr.ui.widget_2.call_page()
+        self.win.pr.ui.normal_level_select.call_page()
     def winf(self):
         print("GG YOU WON")
         self.ticker.stop()
@@ -50,7 +50,7 @@ class world():
             ACCOUNTS.user_content.mark_as_completed(self.active_level)
             print("Completed: " + self.active_level)
             ACCOUNTS.saveData()
-        self.win.pr.ui.widget_2.call_page()
+        self.win.pr.ui.normal_level_select.call_page()
     def load_file(self, file):
         c = compressor()
         c.load(file)
@@ -96,4 +96,3 @@ class world():
             for cell in coloumn:
                 if cell.is_occupied:
                     cell.drawEvent(painter)
-        

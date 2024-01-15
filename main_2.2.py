@@ -12,14 +12,34 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.stackedWidget_2.setCurrentIndex(1)
-        self.ui.pushButton.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentIndex(0))
-        self.ui.pushButton_2.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentIndex(1))
-        self.ui.widget_2.setUI(self.ui)
+        self.bindLevelButtons()
+        self.ui.normal_level_select.setUI(self.ui)
         self.ui.game_widget.parenthook(self)
         self.style_gui()
         self.initKeybinds()
         self.show()
         self.w = None
+
+    def bindLevelButtons(self):
+        self.ui.pushButton.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentIndex(change_page(False)))
+        self.ui.pushButton_2.clicked.connect(lambda: self.ui.stackedWidget_2.setCurrentIndex(change_page(True)))
+
+        def change_page(dir:bool):
+            cur_page = self.ui.stackedWidget_2.currentIndex()
+            if not dir and cur_page == 0:
+                result = self.ui.stackedWidget_2.count()-1
+            elif dir and cur_page == self.ui.stackedWidget_2.count()-1:
+                result = 0
+            else:
+                if dir:
+                    result = cur_page + 1
+                else:
+                    result = cur_page - 1
+            return result
+
+
+
+
     def style_gui(self):
         self.setStyleSheet(open("src/gui/style.qss").read())
 
@@ -83,7 +103,7 @@ class MainWindow(QMainWindow):
                 print(f"Unknown error code: {res}")
                 return
 
-        self.ui.widget_2.call_page()
+        self.ui.normal_level_select.call_page()
 
     def initKeybinds(self):
         self.ui.login_register_btn.clicked.connect(self.action_registerPage)
