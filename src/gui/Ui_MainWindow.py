@@ -285,18 +285,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.stackedWidget_2 = QStackedWidget(self.level_select)
-        self.stackedWidget_2.setObjectName(u"stackedWidget_2")
-        self.community_levels = QWidget()
-        self.community_levels.setObjectName(u"community_levels")
-        self.stackedWidget_2.addWidget(self.community_levels)
-        self.normal_levels = QWidget()
-        self.normal_levels.setObjectName(u"normal_levels")
-        self.horizontalLayout_11 = QHBoxLayout(self.normal_levels)
-        self.horizontalLayout_11.setSpacing(0)
-        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
-        self.horizontalLayout_11.setContentsMargins(0, 0, 0, 0)
-        self.widget = QWidget(self.normal_levels)
+        self.widget = QWidget(self.level_select)
         self.widget.setObjectName(u"widget")
         self.verticalLayout = QVBoxLayout(self.widget)
         self.verticalLayout.setObjectName(u"verticalLayout")
@@ -306,19 +295,28 @@ class Ui_MainWindow(object):
         self.verticalLayout.addWidget(self.pushButton)
 
 
-        self.horizontalLayout_11.addWidget(self.widget, 0, Qt.AlignLeft)
+        self.horizontalLayout_2.addWidget(self.widget, 0, Qt.AlignLeft)
 
-        self.widget_2 = LevelSelectContainer(self.normal_levels)
-        self.widget_2.setObjectName(u"widget_2")
+        self.stackedWidget_2 = QStackedWidget(self.level_select)
+        self.stackedWidget_2.setObjectName(u"stackedWidget_2")
         sizePolicy1 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         sizePolicy1.setHorizontalStretch(0)
         sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.widget_2.sizePolicy().hasHeightForWidth())
-        self.widget_2.setSizePolicy(sizePolicy1)
+        sizePolicy1.setHeightForWidth(self.stackedWidget_2.sizePolicy().hasHeightForWidth())
+        self.stackedWidget_2.setSizePolicy(sizePolicy1)
+        self.page_5 = QWidget()
+        self.page_5.setObjectName(u"page_5")
+        self.stackedWidget_2.addWidget(self.page_5)
+        self.normal_level_select = LevelSelectContainer()
+        self.normal_level_select.setObjectName(u"normal_level_select")
+        self.stackedWidget_2.addWidget(self.normal_level_select)
+        self.page_4 = QWidget()
+        self.page_4.setObjectName(u"page_4")
+        self.stackedWidget_2.addWidget(self.page_4)
 
-        self.horizontalLayout_11.addWidget(self.widget_2)
+        self.horizontalLayout_2.addWidget(self.stackedWidget_2)
 
-        self.widget_3 = QWidget(self.normal_levels)
+        self.widget_3 = QWidget(self.level_select)
         self.widget_3.setObjectName(u"widget_3")
         self.verticalLayout_2 = QVBoxLayout(self.widget_3)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -328,14 +326,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.pushButton_2)
 
 
-        self.horizontalLayout_11.addWidget(self.widget_3, 0, Qt.AlignRight)
-
-        self.stackedWidget_2.addWidget(self.normal_levels)
-        self.map_builder = QWidget()
-        self.map_builder.setObjectName(u"map_builder")
-        self.stackedWidget_2.addWidget(self.map_builder)
-
-        self.horizontalLayout_2.addWidget(self.stackedWidget_2)
+        self.horizontalLayout_2.addWidget(self.widget_3, 0, Qt.AlignRight)
 
         self.stackedWidget.addWidget(self.level_select)
         self.main = QWidget()
@@ -599,6 +590,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget_2.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -628,8 +620,8 @@ class Ui_MainWindow(object):
         self.recovery_submit_btn.setText(QCoreApplication.translate("MainWindow", u"Submit", None))
         self.recovery_login_btn.setText(QCoreApplication.translate("MainWindow", u"Login", None))
         self.recovery_help_btn.setText(QCoreApplication.translate("MainWindow", u"Help", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Links", None))
-        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"Rechts", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Inventory", None))
         self.range_icon_btn.setText(QCoreApplication.translate("MainWindow", u" Range", None))
         self.range_inv_label.setText(QCoreApplication.translate("MainWindow", u"0", None))

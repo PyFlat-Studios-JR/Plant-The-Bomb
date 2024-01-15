@@ -31,41 +31,35 @@ class LevelSelectContainer(QWidget):
         self.widget.setLayout(self.hlayout)
 
         self.scroll_content = QWidget()
+        self.scroll_content.setLayout(QVBoxLayout())
         self.scroll_area.setWidget(self.scroll_content)
 
         self.layout = QVBoxLayout(self)
         self.layout.addWidget(self.widget)
         self.layout.addWidget(self.scroll_area)
 
-        self.my_widgets = []
-
     def setUI(self, ui):
         self.ui = ui
 
-    def level_start(self, name:str):
+    def level_start(self, name: str):
         self.ui.game_widget.start_level(name)
         self.ui.stackedWidget.setCurrentIndex(4)
         self.ui.game_widget.update()
 
     def call_page(self):
         self.ui.stackedWidget.setCurrentIndex(3)
+        self.ui.stackedWidget.update()
         self.levels = self.ui.game_widget.get_all_levels()
 
         for level in self.levels:
             completed = False
-            if level == self.ui.game_widget.get_completed(level):
+            if self.ui.game_widget.get_completed(level):
                 completed = True
             level_start = self.level_start
             self.create_new_level(level, completed, level_start)
 
-    def create_new_level(self, name:str, completed:bool, level_start):
+    def create_new_level(self, name: str, completed: bool, level_start):
         my_widget = LevelWidget(name, completed, level_start)
-        self.my_widgets.append(my_widget)
-        self.add_level_to_layout(my_widget)
-
-    def add_level_to_layout(self, my_widget):
-        if not self.scroll_content.layout():
-            self.scroll_content.setLayout(QVBoxLayout())
 
         layout = self.scroll_content.layout()
         layout.addWidget(my_widget)
@@ -78,33 +72,12 @@ class LevelWidget(QWidget):
         self.name_label = QLabel(name.split(".ptb")[0])
         self.button = QPushButton("Play")
         self.button.clicked.connect(lambda: level_start(f"src/maps/{name}"))
-        self.stars_widget = StarsWidget()
 
         layout = QHBoxLayout()
         layout.addWidget(self.name_label)
-        layout.addWidget(self.stars_widget)
         layout.addWidget(self.button)
 
         self.setLayout(layout)
-
-
-class StarsWidget(QWidget):
-    def __init__(self):
-        super().__init__()
-
-        self.stars_display = QLabel()
-        self.stars_display.setStyleSheet("font-size: 20px;color:yellow")
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.stars_display)
-
-        self.setLayout(layout)
-
-        self.set_stars(3)
-
-    def set_stars(self, num_stars):
-        stars_text = "★" * num_stars + "☆" * (5 - num_stars)
-        self.stars_display.setText(stars_text)
 
 
 if __name__ == "__main__":
