@@ -14,7 +14,7 @@ class gameWindow(QWidget):
     def initworld(self, file):
         self.world = world(self, file)
     def get_all_levels(self, mappack=None) -> list[str]: #mappack is NOT USED!
-        files = os.listdir("maps/")
+        files = os.listdir("src/maps/")
         ffiles = []
         for file in files:
             if re.match(r"^[a-zA-Z0-9]+.ptb$",file):
@@ -25,7 +25,7 @@ class gameWindow(QWidget):
     def get_completed(self, level: str) -> bool:
         if ACCOUNTS.user_content == None:
             return False
-        return ACCOUNTS.user_content.is_level_completed(level)
+        return ACCOUNTS.user_content.is_level_completed(f"src/maps/{level}")
     def parenthook(self, prnt):
         self.pr = prnt
     def paintEvent(self, event):

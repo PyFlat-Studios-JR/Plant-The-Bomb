@@ -72,10 +72,15 @@ class MainWindow(QMainWindow):
                 print("All Okay!")
             case 1:
                 print("User does not exist!")
+                return
             case 2:
                 print("Invalid password!")
+                return
             case other:
                 print(f"Unknown error code: {res}")
+                return
+
+        self.ui.widget_2.call_page()
 
     def initKeybinds(self):
         self.ui.login_register_btn.clicked.connect(self.action_registerPage)

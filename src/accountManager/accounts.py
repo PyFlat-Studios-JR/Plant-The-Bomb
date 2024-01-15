@@ -10,6 +10,7 @@ class userContent():
             self.completedlevels = []
     def is_level_completed(self, filename):
         content = open(filename,"rb").read()
+        print(content)
         hash = crypto.sha256(content.decode())
         return hash in self.completedlevels
     def mark_as_completed(self, filename):
