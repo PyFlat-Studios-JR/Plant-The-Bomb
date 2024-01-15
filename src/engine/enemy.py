@@ -11,6 +11,7 @@ class enemy (entity.entity):
         self.is_alive = True
         self.path = []
         self.health = 0
+        self.move_timer = 0
         self.attack_pattern = []
         self.holding = block.air(self.world)
         enemy.global_enemy_count += 1
@@ -72,8 +73,10 @@ class enemy (entity.entity):
             self.path.append(mindist)
 
     def onTick(self):
-        if random.randint(0,10) > 0:
+        self.move_timer += 1
+        if random.randint(0,10) > 0 and self.move_timer > 2:
             return
+        self.move_timer = 0
         res = self.pathfind_to_player()
         if self.path or not res:
             if res:
