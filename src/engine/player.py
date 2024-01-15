@@ -1,3 +1,4 @@
+from PySide6.QtGui import QPainter
 import src.gui.inventoryReloader as inventoryReloader
 import src.engine.entity as entity
 import src.engine.textureLib as textureLib
@@ -23,6 +24,10 @@ class player(entity.entity):
         self.is_alive = True
         self.is_destructible = True
         self.repaint_inventory()
+    def drawEvent(self, painter: QPainter):
+        super().drawEvent(painter)
+        if self.holding:
+            self.holding.drawEvent(painter)
     def repaint_inventory(self):
         self.world.win.pr.ui.range_inv_label.setText(f"{self.range}")
         self.world.win.pr.ui.bomb_inv_label.setText(f"({self.stat_bombs}/{self.item_maxbombs})")
