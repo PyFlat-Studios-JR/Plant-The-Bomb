@@ -80,7 +80,8 @@ QTableView, QTableView::item{
 QPushButton#play{
     background: #424242;
     border-radius: 17px;
-    margin-top: 15px;
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 QPushButton#play:hover{
     background: #212121;
