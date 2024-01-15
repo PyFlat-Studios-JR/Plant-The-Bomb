@@ -107,10 +107,10 @@ class enemy (entity.entity):
                         self.holding = self.world.blocks[x][y]
                     else:
                         self.holding = block.air(self.world)
-                self.world.blocks[x][y] = self
-                self.world.blocks[self.x][self.y] = self.holding
-                self.x = x
-                self.y = y
+                    self.world.blocks[x][y] = self
+                    self.world.blocks[self.x][self.y] = self.holding
+                    self.x = x
+                    self.y = y
     def onDestroy(self):
         pass
     def onDamage(self, damage):
