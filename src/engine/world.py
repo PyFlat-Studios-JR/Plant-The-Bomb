@@ -38,17 +38,19 @@ class world():
     def loose(self):
         print("YOU SUCK")
         self.ticker.stop()
-        self.win.pr.ui.stackedWidget.setCurrentIndex(0)
+        #self.win.pr.ui.stackedWidget.setCurrentIndex(0)
         self.win.world = None
+        self.win.pr.ui.widget_2.call_page()
     def winf(self):
         print("GG YOU WON")
         self.ticker.stop()
-        self.win.pr.ui.stackedWidget.setCurrentIndex(0)
+        #self.win.pr.ui.stackedWidget.setCurrentIndex(0)
         self.win.world = None
         if ACCOUNTS.user_content != None:
             ACCOUNTS.user_content.mark_as_completed(self.active_level)
             print("Completed: " + self.active_level)
             ACCOUNTS.saveData()
+        self.win.pr.ui.widget_2.call_page()
     def load_file(self, file):
         c = compressor()
         c.load(file)
