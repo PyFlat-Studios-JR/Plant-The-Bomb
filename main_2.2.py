@@ -11,6 +11,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(0)
+        self.ui.widget_2.setUI(self.ui)
         self.style_gui()
         self.initKeybinds()
         self.show()
