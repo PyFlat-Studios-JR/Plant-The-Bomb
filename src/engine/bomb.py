@@ -1,7 +1,7 @@
 import src.engine.entity as entity
 import src.engine.textureLib as textureLib
 import src.engine.block as block
-
+import random
 class bomb(entity.entity):
     def __init__(self, world, pos, type, timer, player):
         super().__init__(world, pos)
@@ -14,6 +14,7 @@ class bomb(entity.entity):
         self.allow_explosions = False
         self.is_destructible = True
         self.texture = None
+        self.is_timed = False
         self.player = player
         self.bomb_type = 0 #0 == basic
         self.initStats(player)
@@ -21,13 +22,21 @@ class bomb(entity.entity):
         b = bomb(player.world, (player.x,player.y), 0, 3153600000, player)
         b.damage = player.damage
         b.range = player.range
+        if player.curses["exp_range"] > 0 and player.curses["shield"] <= 0:
+            b.range = random.randint(1, 15)
+        b.is_timed = True
         b.init_textureindex(15)
         b.bomb_type = 1
         return b
     def normalbomb(player):
-        b = bomb(player.world, (player.x,player.y), 0, 35, player)
+        timer = 35
+        if player.curses["random_fuse"] > 0 and player.curses["shield"] <= 0:
+            timer = int((random.random()*1.5 + 0.5)*timer)
+        b = bomb(player.world, (player.x,player.y), 0, timer, player)
         b.damage = player.damage
         b.range = player.range
+        if player.curses["exp_range"] > 0 and player.curses["shield"] <= 0:
+            b.range = random.randint(1, 15)
         b.init_textureindex(11)
         return b
     def nuke(player):
@@ -38,7 +47,10 @@ class bomb(entity.entity):
         b.bomb_type = 2
         return b
     def dynamite(player):
-        b = bomb(player.world, (player.x,player.y), 1, 35, player)
+        timer = 35
+        if player.curses["random_fuse"] > 0 and player.curses["shield"] <= 0:
+            timer = int((random.random()*1.5 + 0.5)*timer)
+        b = bomb(player.world, (player.x,player.y), 1, timer, player)
         b.damage = player.damage*2
         b.range = 2
         b.init_textureindex(17)
@@ -72,7 +84,7 @@ class bomb(entity.entity):
         else:
             self.player.holding = block.air(self.world)
         if self.bomb_type == 0:
-            self.player.stat_bombs += 1
+            self.player.stat_bombs = min(self.player.stat_bombs+1, self.player.item_maxbombs)
         self.player.repaint_inventory()
         self.explosion_effect()
     def explosion_effect(self):

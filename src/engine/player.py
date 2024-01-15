@@ -1,10 +1,13 @@
 from PySide6.QtGui import QPainter
+from PySide6.QtCore import QRect
 import src.gui.inventoryReloader as inventoryReloader
 import src.engine.entity as entity
 import src.engine.textureLib as textureLib
 from src.engine.block import air
 import src.engine.bomb as bomb
 import src.engine.block as block
+import src.engine.textureLib as textureLib
+import random
 class player(entity.entity):
     def __init__(self, world, pos):
         super().__init__(world, pos)
@@ -23,9 +26,51 @@ class player(entity.entity):
         self.has_moved = False
         self.is_alive = True
         self.is_destructible = True
+        self.curses = {
+            "random_fuse": 0,
+            "poop": 0,
+            "stat_rand": 0,
+            "no_pickup": 0,
+            "item_curse": 0,
+            "exp_range": 0,
+            "shield": 0
+        }
         self.repaint_inventory()
+    def addCurse(self):
+        possible_options = ["random_fuse", "poop", "enemy_spawn", "stat_rand","exp_range"]
+        if self.curses["item_curse"] <= 0:
+            possible_options.append("no_pickup")
+        if self.curses["no_pickup"] <= 0:
+            possible_options.append("item_curse")
+        random.shuffle(possible_options)
+        e = possible_options.pop(0)
+        match (e):
+            case "poop":
+                print(f"POOP")
+                self.curses["poop"] += 100
+            case "enemy_spawn":
+                if self.curses["shield"] <= 0:
+                    print("Not yet implemented...")
+            case "stat_rand":
+                print("Not yet implemented...")
+            case other:
+                print(f"Added 10s to curse {e}")
+                self.curses[e] += 200
+    def addShield(self):
+        self.curses["shield"] = 100
     def drawEvent(self, painter: QPainter):
         super().drawEvent(painter)
+        has_curse = False
+        for key in ["random_fuse","poop", "stat_rand","no_pickup", "item_curse", "exp_range"]:
+            if self.curses[key] > 0:
+                has_curse = True
+                break
+        if has_curse:
+            region = QRect(self.x*20,self.y*20,20,20)
+            painter.drawImage(region, textureLib.textureLib.getTexture(1))
+        if self.curses["shield"] > 0:
+            region = QRect(self.x*20,self.y*20,20,20)
+            painter.drawImage(region, textureLib.textureLib.getTexture(26))
         if self.holding:
             self.holding.drawEvent(painter)
     def repaint_inventory(self):
@@ -37,7 +82,16 @@ class player(entity.entity):
         self.world.win.pr.ui.timebomb_inv_label.setText(f"{self.item_timebombs}")
         self.world.win.pr.ui.damage_inv_label.setText(f"{self.damage}")
     def handle_bomb(self):
-        if 75 in self.world.win.keys_held: #K
+        if 35 in self.world.win.keys_held:
+            for row in self.world.blocks:
+                for blck in row:
+                    if type(blck) == bomb.bomb:
+                        if blck.is_timed:
+                            blck.timer = 0
+            if type(self.holding) == bomb.bomb:
+                if self.holding.is_timed:
+                    self.holding.timer = 0
+        if 75 in self.world.win.keys_held or (self.curses["poop"] > 0 and self.curses["shield"] <= 0): #K
             if self.holding == None or type(self.holding) == block.air:
                 if self.stat_bombs > 0:
                     self.holding = bomb.bomb.normalbomb(self)
@@ -79,16 +133,20 @@ class player(entity.entity):
             textureLib.textureLib.hotreload()
             self.world.reload_all()
             inventoryReloader.inventoryReloader.reloadInventoryIcons(self.world.win.pr.ui)
+        dotk = self.handlemovement()
+        if not dotk:
+            return
         self.handle_bomb()
         if self.holding:
             if self.holding.is_tickable:
                 self.holding.onTick()
-        self.handlemovement()
+        for key in self.curses:
+            self.curses[key] = max(0, self.curses[key]-1)
     def afterupdate(self):
         self.has_moved = False
     def handlemovement(self):
         if self.has_moved:
-            return
+            return False
         if not self.world.win.keys_held:
             self.tick_move_cooldown = 0
         self.tick_move_cooldown -= 1
@@ -96,7 +154,7 @@ class player(entity.entity):
             if self.world.win.keys_held:
                 self.tick_move_cooldown = self.tick_move_cooldown_max
         else:
-            return
+            return True
         dx = 0
         dy = 0
         if 87 in self.world.win.keys_held:
@@ -124,8 +182,9 @@ class player(entity.entity):
                     replacement = self.holding
                 if self.world.blocks[nx][ny].is_enemy_pickable:
                     self.holding = self.world.blocks[nx][ny]
-                    if self.holding.is_collectable:
+                    if self.holding.is_collectable and (self.curses["no_pickup"] <= 0 or self.curses["shield"] > 0):
                         self.holding.onPickup(self)
                         self.holding = air(self.world)
                 self.world.blocks[nx][ny] = self
                 self.world.blocks[nx-dx][ny-dy] = replacement
+        return True

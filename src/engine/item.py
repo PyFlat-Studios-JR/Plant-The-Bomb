@@ -1,3 +1,5 @@
+from PySide6.QtGui import QPainter
+from PySide6.QtCore import QRect
 import src.engine.block as block
 import src.engine.textureLib as textureLib
 import random
@@ -14,6 +16,7 @@ class itemtype():
 class item(block.block):
     def __init__(self, world, pos, start, fin):
         super().__init__(world)
+        self.player = world.player
         self.x, self.y = pos
         self.is_destructible = True
         self.is_walkable = True
@@ -64,7 +67,19 @@ class item(block.block):
         return super().reload_texture()
     def onDestroy(self):
         self.world.blocks[self.x][self.y] = block.air(self.world)
+    def drawEvent(self, painter: QPainter):
+        if self.player == None:
+            print("WARRN")
+            return
+        if self.player.curses["item_curse"] > 0 and self.player.curses["shield"] <= 0:
+            painter.drawImage(QRect(self.x*20,self.y*20,20,20), textureLib.textureLib.getTexture(22))
+            return
+        super().drawEvent(painter)
     def onPickup(self, player=None):
+        if player.curses["item_curse"] > 0 and player.curses["shield"] <= 0:
+            player.addCurse()
+            player.repaint_inventory()
+            return
         match (self.itemtype):
             case itemtype.NUKE:
                 player.item_nukes += 1
@@ -82,7 +97,7 @@ class item(block.block):
                 player.item_maxbombs += 1
                 player.stat_bombs += 1
             case itemtype.CURSE:
-                print("Item used curse. It didn't affect player")
+                player.addCurse()
             case itemtype.SHIELD:
-                print("Player used protect. But it failed.")
+                player.addShield()
         player.repaint_inventory()
