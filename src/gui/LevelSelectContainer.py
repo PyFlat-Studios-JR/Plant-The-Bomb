@@ -1,42 +1,18 @@
 import sys
 from PySide6.QtWidgets import (
     QApplication,
-    QWidget,
-    QLabel,
+    QTableWidget,
     QPushButton,
-    QHBoxLayout,
-    QVBoxLayout,
-    QScrollArea,
+    QTableWidgetItem,
+    QHeaderView,
 )
+from PySide6.QtCore import Qt
 
 
-class LevelSelectContainer(QWidget):
+class LevelSelectContainer(QTableWidget):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
-
-        self.setMinimumWidth(400)
-        self.setStyleSheet("border: none")
-
-        self.scroll_area = QScrollArea()
-        self.scroll_area.setWidgetResizable(True)
-
-        self.hlayout = QHBoxLayout()
-        self.widget = QWidget(self)
-        self.label1 = QLabel("Levelname", self.widget)
-        self.label2 = QLabel("Difficulty", self.widget)
-        self.label3 = QLabel("", self.widget)
-        self.hlayout.addWidget(self.label1)
-        self.hlayout.addWidget(self.label2)
-        self.hlayout.addWidget(self.label3)
-        self.widget.setLayout(self.hlayout)
-
-        self.scroll_content = QWidget()
-        self.scroll_content.setLayout(QVBoxLayout())
-        self.scroll_area.setWidget(self.scroll_content)
-
-        self.layout = QVBoxLayout(self)
-        self.layout.addWidget(self.widget)
-        self.layout.addWidget(self.scroll_area)
+        self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
 
     def setUI(self, ui):
         self.ui = ui
@@ -50,34 +26,32 @@ class LevelSelectContainer(QWidget):
         self.ui.stackedWidget.setCurrentIndex(3)
         self.ui.stackedWidget.update()
         self.levels = self.ui.game_widget.get_all_levels()
+        self.create_all_levels()
+
+    def create_all_levels(self):
+        row_count = self.rowCount()
+        for row in range(row_count - 1, -1, -1):
+            self.removeRow(row)
 
         for level in self.levels:
             completed = False
             if self.ui.game_widget.get_completed(level):
                 completed = True
-            level_start = self.level_start
-            self.create_new_level(level, completed, level_start)
+            self.create_new_level(level, str(completed))
 
-    def create_new_level(self, name: str, completed: bool, level_start):
-        my_widget = LevelWidget(name, completed, level_start)
+    def create_new_level(self, *args):
+        row_count = self.rowCount()
+        column_count = self.columnCount()
+        self.insertRow(row_count)
+        for column, data in enumerate(args):
+            item = QTableWidgetItem(data)
+            item.setTextAlignment(Qt.AlignCenter)
+            self.setItem(row_count, column, item)
 
-        layout = self.scroll_content.layout()
-        layout.addWidget(my_widget)
-
-
-class LevelWidget(QWidget):
-    def __init__(self, name: str, completed: bool, level_start):
-        super().__init__()
-
-        self.name_label = QLabel(name.split(".ptb")[0])
-        self.button = QPushButton("Play")
-        self.button.clicked.connect(lambda: level_start(f"src/maps/{name}"))
-
-        layout = QHBoxLayout()
-        layout.addWidget(self.name_label)
-        layout.addWidget(self.button)
-
-        self.setLayout(layout)
+        play_button = QPushButton("Play Level")
+        play_button.setObjectName("play")
+        play_button.clicked.connect(lambda: self.level_start(f"src/maps/{args[0]}"))
+        self.setCellWidget(row_count, column_count - 1, play_button)
 
 
 if __name__ == "__main__":

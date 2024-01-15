@@ -66,3 +66,22 @@ QLabel#range_inv_label{
 	border-radius: 5px;
 	padding: 4px;
 }
+
+QHeaderView::section{
+    background: #303030;
+    border: 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid white;
+}
+QTableView, QTableView::item{
+    border: 0;
+}
+
+QPushButton#play{
+    background: #424242;
+    border-radius: 17px;
+    margin-top: 15px;
+}
+QPushButton#play:hover{
+    background: #212121;
+}

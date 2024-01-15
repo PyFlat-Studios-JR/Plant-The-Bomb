@@ -36,6 +36,7 @@
 	background: #303030;
 	color: white;
 	font-size: 18px;
+    outline: none;
 }
 QLineEdit{
 	padding: 0 0 6px 8px;
@@ -62,11 +63,11 @@ QFrame#frame_7,
 QFrame#frame_11{
     border-radius: 15px;
 }
-QPushButton#login_register_btn, 
-QPushButton#login_help_btn, 
+QPushButton#login_register_btn,
+QPushButton#login_help_btn,
 QPushButton#login_forgot_password_btn,
-QPushButton#recovery_login_btn, 
-QPushButton#recovery_help_btn, 
+QPushButton#recovery_login_btn,
+QPushButton#recovery_help_btn,
 QPushButton#register_login_btn,
 QPushButton#register_help_btn{
 	font-size: 14px;
@@ -98,6 +99,14 @@ QLabel#range_inv_label{
 	background-color: #616161;
 	border-radius: 5px;
 	padding: 4px;
+}
+
+QHeaderView::section{
+    background: #303030;
+    border: 0;
+}
+QTableView{
+    border: 0;
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -674,10 +683,32 @@ Forgot Password</string>
         <item alignment="Qt::AlignLeft">
          <widget class="QWidget" name="widget" native="true">
           <layout class="QVBoxLayout" name="verticalLayout">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>15</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>15</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item>
             <widget class="QPushButton" name="pushButton">
-             <property name="text">
-              <string>prev</string>
+             <property name="icon">
+              <iconset>
+               <normaloff>src/gui/images/chevron-left.png</normaloff>src/gui/images/chevron-left.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>40</width>
+               <height>40</height>
+              </size>
              </property>
             </widget>
            </item>
@@ -696,17 +727,106 @@ Forgot Password</string>
            <number>1</number>
           </property>
           <widget class="QWidget" name="page_5"/>
-          <widget class="LevelSelectContainer" name="normal_level_select"/>
+          <widget class="QWidget" name="widget_2">
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>15</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>15</number>
+            </property>
+            <item>
+             <widget class="LevelSelectContainer" name="normal_level_select">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::NoSelection</enum>
+              </property>
+              <property name="textElideMode">
+               <enum>Qt::ElideLeft</enum>
+              </property>
+              <property name="showGrid">
+               <bool>false</bool>
+              </property>
+              <property name="cornerButtonEnabled">
+               <bool>false</bool>
+              </property>
+              <attribute name="horizontalHeaderVisible">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="horizontalHeaderHighlightSections">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderMinimumSectionSize">
+               <number>30</number>
+              </attribute>
+              <attribute name="verticalHeaderDefaultSectionSize">
+               <number>50</number>
+              </attribute>
+              <attribute name="verticalHeaderHighlightSections">
+               <bool>false</bool>
+              </attribute>
+              <column>
+               <property name="text">
+                <string>Level Name</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Completed</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Start Level</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+           </layout>
+          </widget>
           <widget class="QWidget" name="page_4"/>
          </widget>
         </item>
         <item alignment="Qt::AlignRight">
          <widget class="QWidget" name="widget_3" native="true">
           <layout class="QVBoxLayout" name="verticalLayout_2">
+           <property name="leftMargin">
+            <number>15</number>
+           </property>
+           <property name="rightMargin">
+            <number>15</number>
+           </property>
            <item>
             <widget class="QPushButton" name="pushButton_2">
-             <property name="text">
-              <string>next</string>
+             <property name="icon">
+              <iconset>
+               <normaloff>src/gui/images/chevron-right.png</normaloff>src/gui/images/chevron-right.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>40</width>
+               <height>40</height>
+              </size>
              </property>
             </widget>
            </item>
@@ -1285,9 +1405,8 @@ Forgot Password</string>
   </customwidget>
   <customwidget>
    <class>LevelSelectContainer</class>
-   <extends>QWidget</extends>
-   <header>levelselectcontainer.py</header>
-   <container>1</container>
+   <extends>QTableWidget</extends>
+   <header>levelselectcontainer.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
