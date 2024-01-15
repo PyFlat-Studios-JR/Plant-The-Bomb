@@ -2,6 +2,9 @@ from PySide6.QtGui import QPainter
 from PySide6.QtWidgets import QWidget
 from src.engine.world import world
 from PySide6.QtGui import QKeyEvent
+import os, re
+import src.accountManager.accounts as accounts
+ACCOUNTS = accounts.getAccountContext()
 class gameWindow(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
@@ -10,6 +13,19 @@ class gameWindow(QWidget):
         self.pr = None
     def initworld(self, file):
         self.world = world(self, file)
+    def get_all_levels(self, mappack=None) -> list[str]: #mappack is NOT USED!
+        files = os.listdir("maps/")
+        ffiles = []
+        for file in files:
+            if re.match(r"^[a-zA-Z0-9]+.ptb$",file):
+                ffiles.append(file)
+        return ffiles
+    def start_level(self, level: str) -> None:
+        self.world = world(self, level)
+    def get_completed(self, level: str) -> bool:
+        if ACCOUNTS.user_content == None:
+            return False
+        return ACCOUNTS.user_content.is_level_completed(level)
     def parenthook(self, prnt):
         self.pr = prnt
     def paintEvent(self, event):
