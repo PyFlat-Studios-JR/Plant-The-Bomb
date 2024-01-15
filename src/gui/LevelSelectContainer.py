@@ -1,8 +1,17 @@
 import sys
-from PySide6.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QHBoxLayout, QVBoxLayout, QScrollArea
+from PySide6.QtWidgets import (
+    QApplication,
+    QWidget,
+    QLabel,
+    QPushButton,
+    QHBoxLayout,
+    QVBoxLayout,
+    QScrollArea,
+)
+
 
 class LevelSelectContainer(QWidget):
-    def __init__(self,parent=None):
+    def __init__(self, parent=None):
         super().__init__(parent=parent)
 
         self.setMinimumWidth(400)
@@ -29,26 +38,38 @@ class LevelSelectContainer(QWidget):
         self.layout.addWidget(self.scroll_area)
 
         self.my_widgets = []
-        self.create_widgets()
 
-    def create_widgets(self):
-        for _ in range(10):
-            my_widget = LevelWidget()
-            self.my_widgets.append(my_widget)
-            self.add_my_widget(my_widget)
+    def setUI(self, ui):
+        self.ui = ui
 
-    def add_my_widget(self, my_widget):
+    def call_page(self):
+        self.ui.stackedWidget.setCurrentIndex(3)
+        self.levels = self.ui.game_widget.get_all_levels()
+
+        for level in self.levels:
+            completed = False
+            if level == self.ui.game_widget.get_completed(level):
+                completed = True
+            self.create_new_level(level.split(".ptb")[0], completed)
+
+    def create_new_level(self, name, completed):
+        my_widget = LevelWidget(name, completed)
+        self.my_widgets.append(my_widget)
+        self.add_level_to_layout(my_widget)
+
+    def add_level_to_layout(self, my_widget):
         if not self.scroll_content.layout():
             self.scroll_content.setLayout(QVBoxLayout())
 
         layout = self.scroll_content.layout()
         layout.addWidget(my_widget)
 
+
 class LevelWidget(QWidget):
-    def __init__(self):
+    def __init__(self, name: str, completed: bool):
         super().__init__()
 
-        self.name_label = QLabel("Level name")
+        self.name_label = QLabel(name)
         self.button = QPushButton("Play")
         self.stars_widget = StarsWidget()
 
@@ -57,8 +78,8 @@ class LevelWidget(QWidget):
         layout.addWidget(self.stars_widget)
         layout.addWidget(self.button)
 
-
         self.setLayout(layout)
+
 
 class StarsWidget(QWidget):
     def __init__(self):
@@ -77,6 +98,7 @@ class StarsWidget(QWidget):
     def set_stars(self, num_stars):
         stars_text = "★" * num_stars + "☆" * (5 - num_stars)
         self.stars_display.setText(stars_text)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
