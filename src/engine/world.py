@@ -17,7 +17,7 @@ ACCOUNTS = accounts.getAccountContext()
 
 class world():
     def __init__(self, application, file):
-        enemy._reset_enemies()
+        enemy.enemy._reset_enemies()
         self.blocks = [[block.air(self) for x in range (25)] for y in range (25)] #very good world right now :)
         self.background = background.background(textureLib.textureLib.getTexture(27))
         self.overlay = [[overlayTile.overlayTile(self,(x,y)) for y in range (25)] for x in range (25)] #overlay drawing
