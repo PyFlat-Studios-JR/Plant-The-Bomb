@@ -42,6 +42,11 @@ class LevelSelectContainer(QWidget):
     def setUI(self, ui):
         self.ui = ui
 
+    def level_start(self, name:str):
+        self.ui.game_widget.start_level(name)
+        self.ui.stackedWidget.setCurrentIndex(4)
+        self.ui.game_widget.update()
+
     def call_page(self):
         self.ui.stackedWidget.setCurrentIndex(3)
         self.levels = self.ui.game_widget.get_all_levels()
@@ -50,10 +55,11 @@ class LevelSelectContainer(QWidget):
             completed = False
             if level == self.ui.game_widget.get_completed(level):
                 completed = True
-            self.create_new_level(level.split(".ptb")[0], completed)
+            level_start = self.level_start
+            self.create_new_level(level, completed, level_start)
 
-    def create_new_level(self, name, completed):
-        my_widget = LevelWidget(name, completed)
+    def create_new_level(self, name:str, completed:bool, level_start):
+        my_widget = LevelWidget(name, completed, level_start)
         self.my_widgets.append(my_widget)
         self.add_level_to_layout(my_widget)
 
@@ -66,11 +72,12 @@ class LevelSelectContainer(QWidget):
 
 
 class LevelWidget(QWidget):
-    def __init__(self, name: str, completed: bool):
+    def __init__(self, name: str, completed: bool, level_start):
         super().__init__()
 
-        self.name_label = QLabel(name)
+        self.name_label = QLabel(name.split(".ptb")[0])
         self.button = QPushButton("Play")
+        self.button.clicked.connect(lambda: level_start(f"src/maps/{name}"))
         self.stars_widget = StarsWidget()
 
         layout = QHBoxLayout()
