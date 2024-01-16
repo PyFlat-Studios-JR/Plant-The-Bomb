@@ -129,7 +129,7 @@ QTableView{
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="mainpage_1">
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -768,7 +768,7 @@ Forgot Password</string>
                <bool>false</bool>
               </property>
               <attribute name="horizontalHeaderVisible">
-               <bool>false</bool>
+               <bool>true</bool>
               </attribute>
               <attribute name="horizontalHeaderHighlightSections">
                <bool>false</bool>
@@ -1374,22 +1374,6 @@ Forgot Password</string>
                <height>500</height>
               </size>
              </property>
-             <widget class="QFrame" name="frame">
-              <property name="geometry">
-               <rect>
-                <x>490</x>
-                <y>40</y>
-                <width>120</width>
-                <height>80</height>
-               </rect>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
-             </widget>
             </widget>
            </item>
            <item>

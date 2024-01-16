@@ -339,7 +339,7 @@ class Ui_MainWindow(object):
         self.normal_level_select.setTextElideMode(Qt.ElideLeft)
         self.normal_level_select.setShowGrid(False)
         self.normal_level_select.setCornerButtonEnabled(False)
-        self.normal_level_select.horizontalHeader().setVisible(False)
+        self.normal_level_select.horizontalHeader().setVisible(True)
         self.normal_level_select.horizontalHeader().setHighlightSections(False)
         self.normal_level_select.verticalHeader().setVisible(False)
         self.normal_level_select.verticalHeader().setMinimumSectionSize(30)
@@ -612,11 +612,6 @@ class Ui_MainWindow(object):
         self.game_widget = gameWindow(self.frame_10)
         self.game_widget.setObjectName(u"game_widget")
         self.game_widget.setMinimumSize(QSize(500, 500))
-        self.frame = QFrame(self.game_widget)
-        self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(490, 40, 120, 80))
-        self.frame.setFrameShape(QFrame.StyledPanel)
-        self.frame.setFrameShadow(QFrame.Raised)
 
         self.horizontalLayout_6.addWidget(self.game_widget)
 
@@ -691,7 +686,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget.setCurrentIndex(3)
         self.stackedWidget_2.setCurrentIndex(1)
 
 
