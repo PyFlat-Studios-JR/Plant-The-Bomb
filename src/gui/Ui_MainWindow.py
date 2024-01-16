@@ -642,10 +642,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_14.addWidget(self.frame_17)
 
-        self.label_4 = QLabel(self.inventory_2)
-        self.label_4.setObjectName(u"label_4")
+        self.time_label = QLabel(self.inventory_2)
+        self.time_label.setObjectName(u"time_label")
 
-        self.verticalLayout_14.addWidget(self.label_4)
+        self.verticalLayout_14.addWidget(self.time_label)
 
         self.label_5 = QLabel(self.inventory_2)
         self.label_5.setObjectName(u"label_5")
@@ -744,7 +744,7 @@ class Ui_MainWindow(object):
         self.nuke_icon_btn.setText(QCoreApplication.translate("MainWindow", u" Nukes", None))
         self.nuke_inv_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Stats", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Time", None))
+        self.time_label.setText(QCoreApplication.translate("MainWindow", u"Time", None))
         self.label_5.setText("")
         self.label_6.setText("")
         self.label_7.setText("")

@@ -1436,7 +1436,7 @@ Forgot Password</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_4">
+               <widget class="QLabel" name="time_label">
                 <property name="text">
                  <string>Time</string>
                 </property>
