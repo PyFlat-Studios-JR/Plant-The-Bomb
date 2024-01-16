@@ -2,6 +2,9 @@ import src.engine.entity as entity
 import src.engine.block as block
 import src.engine.textureLib as textureLib
 import random
+from PySide6.QtCore import QRect
+from PySide6.QtGui import QPainter
+
 class enemy (entity.entity):
     global_enemy_count = 0
     def __init__(self, world, pos):
@@ -12,10 +15,16 @@ class enemy (entity.entity):
         self.path = []
         self.health = 0
         self.move_timer = 0
+        self.attack_cooldown = 80
         self.attack_pattern = []
         self.holding = block.air(self.world)
         enemy.global_enemy_count += 1
         self.init_textureindex(2)
+    def drawEvent(self, painter: QPainter):
+        super().drawEvent(painter)
+        if self.attack_cooldown <= 20:
+            region = QRect(self.x*20,self.y*20,20,20)
+            painter.drawImage(region, textureLib.textureLib.getTexture(28))
     def pathfind_to_player(self):
         distance_map = [[-1]*25 for i in range (25)] #A map that maps all reachable tiles by distance from self
         self.path = []                              #A list of vertices, that the enemy has to walk to get to the player!
@@ -71,8 +80,7 @@ class enemy (entity.entity):
                         mindist = (nx,ny)
                         minv = distance_map[nx][ny]
             self.path.append(mindist)
-
-    def onTick(self):
+    def handle_movement(self):
         self.move_timer += 1
         if random.randint(0,10) > 0 or self.move_timer < 2:
             return
@@ -114,6 +122,12 @@ class enemy (entity.entity):
                     self.world.blocks[self.x][self.y] = self.holding
                     self.x = x
                     self.y = y
+    def onTick(self):
+        self.handle_movement()
+        self.attack_cooldown -= 1
+        if self.attack_cooldown <= 0:
+            self.attack_cooldown = 80
+            print("ATAK")
     def _reset_enemies():
         enemy.global_enemy_count = 0
     def onDestroy(self):

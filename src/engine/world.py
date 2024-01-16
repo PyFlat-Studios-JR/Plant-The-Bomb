@@ -26,6 +26,7 @@ class world():
         self.bomb_manager = bombManager.bombManager(self) #bomb Manager
         self.win = application
         self.active_level = file
+        self.runtime = 0
         self.load_file(file)
         self.ticker = QTimer()
         self.ticker.timeout.connect(self.tick)
@@ -75,6 +76,8 @@ class world():
                     case 6:
                         self.blocks[x][y] = enemy.enemy(self, (x,y))
     def tick(self):
+        self.runtime += 1
+        print(self.win.api_get_runtime())
         start = time.time()
         #try to explode any unexploded explosives
         self.bomb_manager.tick()

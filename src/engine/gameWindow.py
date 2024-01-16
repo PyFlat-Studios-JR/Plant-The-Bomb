@@ -27,6 +27,26 @@ class gameWindow(QWidget):
         if ACCOUNTS.user_content == None:
             return False
         return ACCOUNTS.user_content.is_level_completed(f"src/maps/{level}")
+    def api_get_runtime(self) -> tuple[int, int, int, int, int]:
+        days = 0
+        hours = 0
+        minutes = 0
+        seconds = 0
+        millies = 0
+        if self.world == None:
+            return (0,0,0,0,0)
+        runtime = self.world.runtime
+        millies = (runtime % 20) * 50
+        runtime = int(runtime/20)
+        seconds = (runtime % 60)
+        runtime = int(runtime/60)
+        minutes = (runtime % 60)
+        runtime = int(runtime/60)
+        hours = (runtime%24)
+        runtime = int(runtime/24)
+        days = runtime
+        return (days, hours, minutes, seconds, millies)
+        
     def parenthook(self, prnt):
         self.pr = prnt
     def paintEvent(self, event):
