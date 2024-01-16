@@ -3,7 +3,7 @@ import src.engine.block as block
 import src.engine.textureLib as textureLib
 import random
 from PySide6.QtCore import QRect
-from PySide6.QtGui import QPainter
+from PySide6.QtGui import QPainter, QColor
 ENEMY_ATTACK_IDS = [[], [],[(-1,0),(0,-1),(0,0),(1,0),(0,1)]]
 class enemy (entity.entity):
     global_enemy_count = 0
@@ -13,9 +13,11 @@ class enemy (entity.entity):
         self.allow_explosions = True
         self.is_alive = True
         self.path = []
-        self.health = 1
+        self.health = health
+        self.max_health = health
         self.move_timer = 0
         self.attack_cooldown = 80
+        self.healthbar_draw_timer = 0
         self.attack_pattern = ENEMY_ATTACK_IDS[attack_id]
         self.attack_pattern_ticker = 0
         self.holding = block.air(self.world)
@@ -27,6 +29,8 @@ class enemy (entity.entity):
         if self.attack_cooldown <= 10 and len(self.attack_pattern) > 0:
             region = QRect(self.x*20,self.y*20,20,20)
             painter.drawImage(region, textureLib.textureLib.getTexture(28))
+        if self.healthbar_draw_timer > 0:
+            painter.fillRect(QRect(self.x*20,self.y*20+15,int(20*(self.health/self.max_health)),5),QColor(0,0,0))
         if len(self.attack_texture_list) > 0:
             for e in self.attack_texture_list:
                 self.world.drawLater((QRect(*e), textureLib.textureLib.getTexture(29)))
@@ -131,6 +135,8 @@ class enemy (entity.entity):
         self.handle_movement()
         if len(self.attack_pattern) > 0:
             self.attack_cooldown -= 1
+        if self.healthbar_draw_timer > 0:
+            self.healthbar_draw_timer -= 1
         if self.attack_cooldown <= 0:
             self.attack_cooldown = 60 + random.randint(0,40)
             for dx, dy in self.attack_pattern:
@@ -150,6 +156,7 @@ class enemy (entity.entity):
         pass
     def onDamage(self, damage):
         self.health -= damage
+        self.healthbar_draw_timer = 20
         if self.health <= 0:
             self.world.blocks[self.x][self.y] = self.holding
             print(f"Enemy dead: global count {enemy.global_enemy_count} -> {enemy.global_enemy_count-1}")
