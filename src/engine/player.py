@@ -57,7 +57,7 @@ class player(entity.entity):
                 print(f"Added 10s to curse {e}")
                 self.curses[e] += 200
     def addShield(self):
-        self.curses["shield"] = 100
+        self.curses["shield"] = 200
     def drawEvent(self, painter: QPainter):
         super().drawEvent(painter)
         has_curse = False
@@ -119,7 +119,8 @@ class player(entity.entity):
         if self.holding.is_destructible:
             self.holding.onDestroy()
     def onDamage(self, amount):
-        print("Ouch")
+        if self.curses["shield"] > 0:
+            return
         self.health -= amount
         if self.health <= 0:
             if self.holding:
