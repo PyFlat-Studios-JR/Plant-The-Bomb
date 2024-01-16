@@ -9,7 +9,7 @@ import src.engine.block as block
 import src.engine.textureLib as textureLib
 import random
 class player(entity.entity):
-    def __init__(self, world, pos):
+    def __init__(self, world, pos): 
         super().__init__(world, pos)
         self.texture = textureLib.textureLib.getTexture(0)
         self.health = 1
