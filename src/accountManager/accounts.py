@@ -33,10 +33,10 @@ class userContent():
                 M1 = int(t1.split(":")[2])
                 if M2 > M1:
                     return
-                s1 = int(t1.split(":")[3])
+                s1 = int(t1.split(":")[3].split(".")[0])
                 if s2 > s1:
                     return
-                m1 = int(t1.split(".")[4])
+                m1 = int(t1.split(".")[1])
                 if m2 > m1:
                     return
             time = "{}:{}:{}:{}.{}".format(*time)
