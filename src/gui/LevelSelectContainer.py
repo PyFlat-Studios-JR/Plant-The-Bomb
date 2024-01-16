@@ -35,9 +35,7 @@ class LevelSelectContainer(QTableWidget):
             self.removeRow(row)
 
         for level in self.levels:
-            completed = False
-            if self.ui.game_widget.get_completed(level):
-                completed = True
+            completed = self.ui.game_widget.api_get_time(f"src/maps/{level}")
             self.create_new_level(level, str(completed))
 
     def create_new_level(self, *args):
