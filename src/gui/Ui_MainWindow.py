@@ -408,7 +408,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_9.addWidget(self.label, 0, Qt.AlignHCenter|Qt.AlignVCenter)
 
 
-        self.verticalLayout_13.addWidget(self.frame_15)
+        self.verticalLayout_13.addWidget(self.frame_15, 0, Qt.AlignTop)
 
         self.frame_16 = QFrame(self.inventory)
         self.frame_16.setObjectName(u"frame_16")
@@ -612,6 +612,11 @@ class Ui_MainWindow(object):
         self.game_widget = gameWindow(self.frame_10)
         self.game_widget.setObjectName(u"game_widget")
         self.game_widget.setMinimumSize(QSize(500, 500))
+        self.frame = QFrame(self.game_widget)
+        self.frame.setObjectName(u"frame")
+        self.frame.setGeometry(QRect(490, 40, 120, 80))
+        self.frame.setFrameShape(QFrame.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Raised)
 
         self.horizontalLayout_6.addWidget(self.game_widget)
 
@@ -620,19 +625,60 @@ class Ui_MainWindow(object):
         self.inventory_2.setFrameShape(QFrame.StyledPanel)
         self.inventory_2.setFrameShadow(QFrame.Raised)
         self.verticalLayout_14 = QVBoxLayout(self.inventory_2)
+        self.verticalLayout_14.setSpacing(0)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
-        self.label_2 = QLabel(self.inventory_2)
-        self.label_2.setObjectName(u"label_2")
-
-        self.verticalLayout_14.addWidget(self.label_2)
-
-        self.label_3 = QLabel(self.inventory_2)
+        self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
+        self.frame_17 = QFrame(self.inventory_2)
+        self.frame_17.setObjectName(u"frame_17")
+        self.frame_17.setFrameShape(QFrame.StyledPanel)
+        self.frame_17.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_19 = QHBoxLayout(self.frame_17)
+        self.horizontalLayout_19.setObjectName(u"horizontalLayout_19")
+        self.label_3 = QLabel(self.frame_17)
         self.label_3.setObjectName(u"label_3")
 
-        self.verticalLayout_14.addWidget(self.label_3)
+        self.horizontalLayout_19.addWidget(self.label_3, 0, Qt.AlignHCenter|Qt.AlignVCenter)
 
 
-        self.horizontalLayout_6.addWidget(self.inventory_2, 0, Qt.AlignTop)
+        self.verticalLayout_14.addWidget(self.frame_17)
+
+        self.label_4 = QLabel(self.inventory_2)
+        self.label_4.setObjectName(u"label_4")
+
+        self.verticalLayout_14.addWidget(self.label_4)
+
+        self.label_5 = QLabel(self.inventory_2)
+        self.label_5.setObjectName(u"label_5")
+
+        self.verticalLayout_14.addWidget(self.label_5)
+
+        self.label_6 = QLabel(self.inventory_2)
+        self.label_6.setObjectName(u"label_6")
+
+        self.verticalLayout_14.addWidget(self.label_6)
+
+        self.label_7 = QLabel(self.inventory_2)
+        self.label_7.setObjectName(u"label_7")
+
+        self.verticalLayout_14.addWidget(self.label_7)
+
+        self.label_8 = QLabel(self.inventory_2)
+        self.label_8.setObjectName(u"label_8")
+
+        self.verticalLayout_14.addWidget(self.label_8)
+
+        self.label_9 = QLabel(self.inventory_2)
+        self.label_9.setObjectName(u"label_9")
+
+        self.verticalLayout_14.addWidget(self.label_9)
+
+        self.label_10 = QLabel(self.inventory_2)
+        self.label_10.setObjectName(u"label_10")
+
+        self.verticalLayout_14.addWidget(self.label_10)
+
+
+        self.horizontalLayout_6.addWidget(self.inventory_2)
 
 
         self.horizontalLayout_5.addWidget(self.frame_10)
@@ -697,7 +743,13 @@ class Ui_MainWindow(object):
         self.damage_inv_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.nuke_icon_btn.setText(QCoreApplication.translate("MainWindow", u" Nukes", None))
         self.nuke_inv_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Stats", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Time", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Stats", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Time", None))
+        self.label_5.setText("")
+        self.label_6.setText("")
+        self.label_7.setText("")
+        self.label_8.setText("")
+        self.label_9.setText("")
+        self.label_10.setText("")
     # retranslateUi
 

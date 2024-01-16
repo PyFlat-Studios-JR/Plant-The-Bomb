@@ -77,7 +77,7 @@ class world():
                     case 6:
                         self.blocks[x][y] = enemy.enemy(self, (x,y),blockdata["objectData"]["health"],blockdata["objectData"]["id2"])
     def handle_uiupdate(self):
-        self.win.pr.ui.label_3.setText("Time {}:{}:{}:{}.{}".format(*self.win.api_get_runtime()))
+        self.win.pr.ui.time_label.setText("Time {}:{}:{}:{}.{}".format(*self.win.api_get_runtime()))
     def drawLater(self, e):
         self.draw_later.append(e)
     def tick(self):
