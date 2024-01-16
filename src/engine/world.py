@@ -50,7 +50,7 @@ class world():
         #self.win.pr.ui.stackedWidget.setCurrentIndex(0)
         self.win.world = None
         if ACCOUNTS.user_content != None:
-            ACCOUNTS.user_content.mark_as_completed(self.active_level)
+            ACCOUNTS.user_content.mark_as_completed(self.active_level, self.win.api_get_time())
             print("Completed: " + self.active_level)
             ACCOUNTS.saveData()
         self.win.pr.ui.normal_level_select.call_page()
