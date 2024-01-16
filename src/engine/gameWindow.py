@@ -18,7 +18,7 @@ class gameWindow(QWidget):
         files = os.listdir("src/maps/")
         ffiles = []
         for file in files:
-            if re.match(r"^[a-zA-Z0-9]+.ptb$",file):
+            if re.match(r"^[a-zA-Z0-9_-\() ]+.ptb$",file):
                 ffiles.append(file)
         return ffiles
     def start_level(self, level: str) -> None:

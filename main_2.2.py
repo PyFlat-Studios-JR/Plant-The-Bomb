@@ -89,6 +89,9 @@ class MainWindow(QMainWindow):
     def action_loginUser(self):
         user = self.ui.login_username_entry.text()
         pwd = self.ui.login_password_entry.text()
+        if user == pwd == "":
+            self.ui.normal_level_select.call_page()
+            return
         res: int = ACCOUNT.loginUser(user, pwd)
         match (res):
             case 0:
