@@ -86,3 +86,27 @@ QPushButton#play{
 QPushButton#play:hover{
     background: #212121;
 }
+
+
+QScrollBar::sub-line:vertical, QScrollBar::add-line:vertical {
+    border: 0;
+    background: none;
+}
+
+QScrollBar::handle:vertical{
+    background: white;
+    border: 0;
+    border-radius: 5px;
+}
+
+QScrollBar::sub-page:vertical, QScrollBar::add-page:vertical{
+    background: #313131;
+}
+
+QTableWidget QScrollBar{
+    width: 20px;
+    margin-top: 60px;
+    margin-left: 10px;
+    border: 0;
+    padding: 0;
+}
