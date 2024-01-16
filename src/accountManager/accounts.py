@@ -21,6 +21,24 @@ class userContent():
         if hash not in self.completedlevels:
             self.completedlevels.append(hash)
         if time:
+            if hash in self.times:
+                d2,h2,M2,s2,m2 = time
+                t1 = self.times[hash]
+                d1 = int(t1.split(":")[0])
+                if d2 > d1:
+                    return
+                h1 = int(t1.split(":")[1])
+                if h2 > h1:
+                    return
+                M1 = int(t1.split(":")[2])
+                if M2 > M1:
+                    return
+                s1 = int(t1.split(":")[3])
+                if s2 > s1:
+                    return
+                m1 = int(t1.split(".")[4])
+                if m2 > m1:
+                    return
             time = "{}:{}:{}:{}.{}".format(*time)
             self.times[hash] = time
     def loadFromJSON(self, jason:str):
