@@ -8,25 +8,38 @@ class userContent():
             self.usr = usr_or_json
             self.pwd = pwd
             self.completedlevels = []
+            self.times = {}
     def is_level_completed(self, filename):
         content = open(filename,"rb").read()
         hash = hashlib.sha256(content).hexdigest()
         return hash in self.completedlevels
-    def mark_as_completed(self, filename):
+    def mark_as_completed(self, filename, time = None):
         content = open(filename,"rb").read()
         hash = hashlib.sha256(content).hexdigest()
         if hash not in self.completedlevels:
             self.completedlevels.append(hash)
+        if time:
+            time = "{}:{}:{}:{}.{}".format(*time)
+            self.times[hash] = time
     def loadFromJSON(self, jason:str):
         dc: dict = json.loads(jason)
         self.usr = dc["user"]
         self.pwd = dc["password"]
         self.completedlevels = dc["levels"]
+        self.times = dc["times"]
+    def get_time(self, level):
+        content = open(level,"rb").read()
+        hash = hashlib.sha256(content).hexdigest()
+        if hash in self.completedlevels:
+            if hash in self.times:
+                return self.times[hash]
+        return "-"
     def dumptoJSOM(self):
         a = {}
         a["user"] = self.usr
         a["password"] = self.pwd
         a["levels"] = self.completedlevels
+        a["times"] = self.times
         return json.dumps(a)
     def create_recovery_code(self):
         data = json.loads(open("saves/recovery/backupcodebase.json").read())

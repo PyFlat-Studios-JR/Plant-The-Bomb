@@ -46,7 +46,10 @@ class gameWindow(QWidget):
         runtime = int(runtime/24)
         days = runtime
         return (days, hours, minutes, seconds, millies)
-        
+    def api_get_time(self, levelname):
+        if ACCOUNTS.user_content == None:
+            return "-"
+        return ACCOUNTS.user_content.get_time(levelname)
     def parenthook(self, prnt):
         self.pr = prnt
     def paintEvent(self, event):
