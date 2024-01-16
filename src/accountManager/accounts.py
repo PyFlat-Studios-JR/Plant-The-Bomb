@@ -26,7 +26,10 @@ class userContent():
         self.usr = dc["user"]
         self.pwd = dc["password"]
         self.completedlevels = dc["levels"]
-        self.times = dc["times"]
+        if "times" in self.times:
+            self.times = dc["times"]
+        else:
+            self.times = {}
     def get_time(self, level):
         content = open(level,"rb").read()
         hash = hashlib.sha256(content).hexdigest()
