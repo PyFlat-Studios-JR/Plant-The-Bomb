@@ -115,9 +115,9 @@ class enemy (entity.entity):
                 for dx, dy in [(-1,0),(1,0),(0,1),(0,-1)]:
                     nx = self.x + dx
                     ny = self.y + dy
-                if nx in range (0, 24) and ny in range (0, 24):
-                    if self.world.blocks[self.x+dx][self.y+dy].is_walkable:
-                        valid_dirs.append((dx,dy))
+                    if nx in range (0, 24) and ny in range (0, 24):
+                        if self.world.blocks[self.x+dx][self.y+dy].is_walkable:
+                            valid_dirs.append((dx,dy))
                 random.shuffle(valid_dirs)
                 if valid_dirs:
                     dx, dy = valid_dirs.pop()
