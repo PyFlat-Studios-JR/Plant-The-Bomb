@@ -46,7 +46,7 @@ class userContent():
         self.usr = dc["user"]
         self.pwd = dc["password"]
         self.completedlevels = dc["levels"]
-        if "times" in self.times:
+        if "times" in dc:
             self.times = dc["times"]
         else:
             self.times = {}
