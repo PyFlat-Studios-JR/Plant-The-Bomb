@@ -2,6 +2,7 @@ import src.crypto as crypto
 import os, json, random, hashlib
 class userContent():
     def __init__(self, usr_or_json: str, pwd: str | None = None):
+        self.times = {}
         if not pwd:
             self.loadFromJSON(usr_or_json)
         else:
@@ -9,6 +10,7 @@ class userContent():
             self.pwd = pwd
             self.completedlevels = []
             self.times = {}
+
     def is_level_completed(self, filename):
         content = open(filename,"rb").read()
         hash = hashlib.sha256(content).hexdigest()
