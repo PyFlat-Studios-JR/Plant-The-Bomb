@@ -48,11 +48,12 @@ class world():
         print("GG YOU WON")
         self.ticker.stop()
         #self.win.pr.ui.stackedWidget.setCurrentIndex(0)
-        self.win.world = None
+        
         if ACCOUNTS.user_content != None:
             ACCOUNTS.user_content.mark_as_completed(self.active_level, self.win.api_get_runtime())
             print("Completed: " + self.active_level)
             ACCOUNTS.saveData()
+        self.win.world = None
         self.win.pr.ui.normal_level_select.call_page()
     def load_file(self, file):
         c = compressor()
