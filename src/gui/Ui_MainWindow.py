@@ -339,7 +339,7 @@ class Ui_MainWindow(object):
         self.normal_level_select.setTextElideMode(Qt.ElideLeft)
         self.normal_level_select.setShowGrid(False)
         self.normal_level_select.setCornerButtonEnabled(False)
-        self.normal_level_select.horizontalHeader().setVisible(True)
+        self.normal_level_select.horizontalHeader().setVisible(False)
         self.normal_level_select.horizontalHeader().setHighlightSections(False)
         self.normal_level_select.verticalHeader().setVisible(False)
         self.normal_level_select.verticalHeader().setMinimumSectionSize(30)
@@ -619,8 +619,20 @@ class Ui_MainWindow(object):
         self.inventory_2.setObjectName(u"inventory_2")
         self.inventory_2.setFrameShape(QFrame.StyledPanel)
         self.inventory_2.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_14 = QVBoxLayout(self.inventory_2)
+        self.verticalLayout_14.setObjectName(u"verticalLayout_14")
+        self.label_2 = QLabel(self.inventory_2)
+        self.label_2.setObjectName(u"label_2")
 
-        self.horizontalLayout_6.addWidget(self.inventory_2)
+        self.verticalLayout_14.addWidget(self.label_2)
+
+        self.label_3 = QLabel(self.inventory_2)
+        self.label_3.setObjectName(u"label_3")
+
+        self.verticalLayout_14.addWidget(self.label_3)
+
+
+        self.horizontalLayout_6.addWidget(self.inventory_2, 0, Qt.AlignTop)
 
 
         self.horizontalLayout_5.addWidget(self.frame_10)
@@ -633,7 +645,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(4)
         self.stackedWidget_2.setCurrentIndex(1)
 
 
@@ -685,5 +697,7 @@ class Ui_MainWindow(object):
         self.damage_inv_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.nuke_icon_btn.setText(QCoreApplication.translate("MainWindow", u" Nukes", None))
         self.nuke_inv_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Stats", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", u"Time", None))
     # retranslateUi
 
