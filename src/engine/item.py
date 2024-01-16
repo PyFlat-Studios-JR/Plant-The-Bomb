@@ -69,7 +69,7 @@ class item(block.block):
         self.world.blocks[self.x][self.y] = block.air(self.world)
     def drawEvent(self, painter: QPainter):
         if self.player == None:
-            print("WARRN")
+            self.player = self.world.player
             return
         if self.player.curses["item_curse"] > 0 and self.player.curses["shield"] <= 0:
             painter.drawImage(QRect(self.x*20,self.y*20,20,20), textureLib.textureLib.getTexture(22))

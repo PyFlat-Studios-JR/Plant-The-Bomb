@@ -27,6 +27,7 @@ class world():
         self.win = application
         self.active_level = file
         self.runtime = 0
+        self.draw_later = []
         self.load_file(file)
         self.ticker = QTimer()
         self.ticker.timeout.connect(self.tick)
@@ -74,10 +75,14 @@ class world():
                     case 5:
                         self.blocks[x][y] = item.item(self, (x,y), blockdata["objectData"]["start"], blockdata["objectData"]["fin"])
                     case 6:
-                        self.blocks[x][y] = enemy.enemy(self, (x,y))
+                        self.blocks[x][y] = enemy.enemy(self, (x,y),blockdata["objectData"]["health"],blockdata["objectData"]["id2"])
+    def handle_uiupdate(self):
+        self.win.pr.ui.label_3.setText("Time {}:{}:{}:{}.{}".format(*self.win.api_get_runtime()))
+    def drawLater(self, e):
+        self.draw_later.append(e)
     def tick(self):
         self.runtime += 1
-        print(self.win.api_get_runtime())
+        self.handle_uiupdate()
         start = time.time()
         #try to explode any unexploded explosives
         self.bomb_manager.tick()
@@ -95,6 +100,9 @@ class world():
         for coloumn in self.blocks:
             for cell in coloumn:
                 cell.drawEvent(painter)
+        for e in self.draw_later:
+            painter.drawImage(*e)
+        self.draw_later = []
         #actually have to write this entire code ...
         for coloumn in self.overlay:
             for cell in coloumn:

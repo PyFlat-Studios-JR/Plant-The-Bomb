@@ -4,27 +4,32 @@ import src.engine.textureLib as textureLib
 import random
 from PySide6.QtCore import QRect
 from PySide6.QtGui import QPainter
-
+ENEMY_ATTACK_IDS = [[], [],[(-1,0),(0,-1),(0,0),(1,0),(0,1)]]
 class enemy (entity.entity):
     global_enemy_count = 0
-    def __init__(self, world, pos):
+    def __init__(self, world, pos, health = 1, attack_id = 0):
         super().__init__(world, pos)
         self.is_destructible = True
         self.allow_explosions = True
         self.is_alive = True
         self.path = []
-        self.health = 0
+        self.health = 1
         self.move_timer = 0
         self.attack_cooldown = 80
-        self.attack_pattern = []
+        self.attack_pattern = ENEMY_ATTACK_IDS[attack_id]
+        self.attack_pattern_ticker = 0
         self.holding = block.air(self.world)
+        self.attack_texture_list = []
         enemy.global_enemy_count += 1
         self.init_textureindex(2)
     def drawEvent(self, painter: QPainter):
         super().drawEvent(painter)
-        if self.attack_cooldown <= 20:
+        if self.attack_cooldown <= 10 and len(self.attack_pattern) > 0:
             region = QRect(self.x*20,self.y*20,20,20)
             painter.drawImage(region, textureLib.textureLib.getTexture(28))
+        if len(self.attack_texture_list) > 0:
+            for e in self.attack_texture_list:
+                self.world.drawLater((QRect(*e), textureLib.textureLib.getTexture(29)))
     def pathfind_to_player(self):
         distance_map = [[-1]*25 for i in range (25)] #A map that maps all reachable tiles by distance from self
         self.path = []                              #A list of vertices, that the enemy has to walk to get to the player!
@@ -124,10 +129,21 @@ class enemy (entity.entity):
                     self.y = y
     def onTick(self):
         self.handle_movement()
-        self.attack_cooldown -= 1
+        if len(self.attack_pattern) > 0:
+            self.attack_cooldown -= 1
         if self.attack_cooldown <= 0:
-            self.attack_cooldown = 80
-            print("ATAK")
+            self.attack_cooldown = 60 + random.randint(0,40)
+            for dx, dy in self.attack_pattern:
+                x = self.x+dx
+                y = self.y+dy
+                self.attack_texture_list.append((x*20,y*20,20,20))
+                if type(self.world.blocks[x][y]) != enemy and self.world.blocks[x][y].is_alive:
+                    self.world.blocks[x][y].onDamage(1)
+                self.attack_pattern_ticker = 10
+        if self.attack_pattern_ticker > 0:
+            self.attack_pattern_ticker -= 1
+        else:
+            self.attack_texture_list = []
     def _reset_enemies():
         enemy.global_enemy_count = 0
     def onDestroy(self):

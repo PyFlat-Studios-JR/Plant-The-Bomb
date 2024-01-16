@@ -31,7 +31,7 @@ class player(entity.entity):
             "poop": 0,
             "stat_rand": 0,
             "no_pickup": 0,
-            "item_curse": 1200,
+            "item_curse": 0,
             "exp_range": 0,
             "shield": 0
         }
