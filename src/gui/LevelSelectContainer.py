@@ -1,6 +1,4 @@
-import sys
 from PySide6.QtWidgets import (
-    QApplication,
     QTableWidget,
     QPushButton,
     QTableWidgetItem,
@@ -25,7 +23,6 @@ class LevelSelectContainer(QTableWidget):
 
     def call_page(self):
         self.ui.stackedWidget.setCurrentIndex(3)
-        self.ui.stackedWidget.update()
         self.levels = self.ui.game_widget.get_all_levels()
         self.create_all_levels()
 
@@ -51,10 +48,3 @@ class LevelSelectContainer(QTableWidget):
         play_button.setObjectName("play")
         play_button.clicked.connect(lambda: self.level_start(f"src/maps/{args[0]}"))
         self.setCellWidget(row_count, column_count - 1, play_button)
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    my_widget = LevelSelectContainer()
-    my_widget.show()
-    sys.exit(app.exec())
