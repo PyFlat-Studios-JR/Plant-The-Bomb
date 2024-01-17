@@ -50,6 +50,15 @@ class gameWindow(QWidget):
         if ACCOUNTS.user_content == None:
             return "-"
         return ACCOUNTS.user_content.get_time(levelname)
+    def api_get_all_times(self, levelfolder="src/maps/") -> list[str]:
+        if ACCOUNTS.user_content == None:
+                return "-"
+        res = []
+        for file in os.listdir(levelfolder):
+            if file.endswith(".ptb"):
+                if self.get_completed(levelfolder + file):
+                    res.append(self.api_get_time(levelfolder + file))
+        return res
     def parenthook(self, prnt):
         self.pr = prnt
     def paintEvent(self, event):
