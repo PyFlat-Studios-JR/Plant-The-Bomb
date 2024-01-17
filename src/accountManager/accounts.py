@@ -24,23 +24,19 @@ class userContent():
             if hash in self.times:
                 d2,h2,M2,s2,m2 = time
                 t1 = self.times[hash]
-                d1 = int(t1.split(":")[0])
-                if d2 > d1:
-                    return
-                h1 = int(t1.split(":")[1])
-                if h2 > h1:
-                    return
-                M1 = int(t1.split(":")[2])
-                if M2 > M1:
-                    return
-                s1 = int(t1.split(":")[3].split(".")[0])
-                if s2 > s1:
-                    return
-                m1 = int(t1.split(".")[1])
-                if m2 > m1:
-                    return
-            time = "{}:{}:{}:{}.{}".format(*time)
-            self.times[hash] = time
+                ticks_2 = m2
+                ticks_2 += s2 *1000
+                ticks_2 += M2 * 60 * 1000
+                ticks_2 += h2 * 60 * 60 * 1000
+                ticks_2 += d2 * 24 * 60 * 60 * 1000
+                ticks_1 = int(t1.split(".")[1])
+                ticks_1 += int(t1.split(":")[0]) * 1000
+                ticks_1 += int(t1.split(":")[1]) * 60 *  1000
+                ticks_1 += int(t1.split(":")[2]) * 60*60*1000
+                ticks_1 += int(t1.split(":")[3].split(".")[0]) * 60 *60*  1000*24
+                if ticks_2 < ticks_1:
+                    time = "{}:{}:{}:{}.{}".format(*time)
+                    self.times[hash] = time
     def loadFromJSON(self, jason:str):
         dc: dict = json.loads(jason)
         self.usr = dc["user"]
