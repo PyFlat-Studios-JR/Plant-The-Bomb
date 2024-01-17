@@ -637,10 +637,19 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_14.addWidget(self.frame_17)
 
-        self.time_label = QLabel(self.inventory_2)
+        self.frame = QFrame(self.inventory_2)
+        self.frame.setObjectName(u"frame")
+        self.frame.setFrameShape(QFrame.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_11 = QHBoxLayout(self.frame)
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.time_label = QLabel(self.frame)
         self.time_label.setObjectName(u"time_label")
 
-        self.verticalLayout_14.addWidget(self.time_label)
+        self.horizontalLayout_11.addWidget(self.time_label)
+
+
+        self.verticalLayout_14.addWidget(self.frame)
 
         self.label_5 = QLabel(self.inventory_2)
         self.label_5.setObjectName(u"label_5")
@@ -667,10 +676,20 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_14.addWidget(self.label_9)
 
-        self.label_10 = QLabel(self.inventory_2)
-        self.label_10.setObjectName(u"label_10")
+        self.frame_2 = QFrame(self.inventory_2)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setFrameShape(QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_18 = QHBoxLayout(self.frame_2)
+        self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
+        self.horizontalLayout_18.setContentsMargins(5, 0, 5, 0)
+        self.quit_button = QPushButton(self.frame_2)
+        self.quit_button.setObjectName(u"quit_button")
 
-        self.verticalLayout_14.addWidget(self.label_10)
+        self.horizontalLayout_18.addWidget(self.quit_button)
+
+
+        self.verticalLayout_14.addWidget(self.frame_2)
 
 
         self.horizontalLayout_6.addWidget(self.inventory_2)
@@ -686,7 +705,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(4)
         self.stackedWidget_2.setCurrentIndex(1)
 
 
@@ -720,7 +739,7 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem = self.normal_level_select.horizontalHeaderItem(0)
         ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Level Name", None));
         ___qtablewidgetitem1 = self.normal_level_select.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Completed", None));
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Completed in Time", None));
         ___qtablewidgetitem2 = self.normal_level_select.horizontalHeaderItem(2)
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Start Level", None));
         self.label.setText(QCoreApplication.translate("MainWindow", u"Inventory", None))
@@ -745,6 +764,6 @@ class Ui_MainWindow(object):
         self.label_7.setText("")
         self.label_8.setText("")
         self.label_9.setText("")
-        self.label_10.setText("")
+        self.quit_button.setText(QCoreApplication.translate("MainWindow", u"Quit", None))
     # retranslateUi
 
