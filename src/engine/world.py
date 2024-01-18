@@ -34,6 +34,7 @@ class world():
         self.load_file(file)
         self.ticker = QTimer()
         self.ticker.timeout.connect(self.tick)
+        self.win.pr.ui.quit_button.clicked.connect(self.loose)
         if ACCOUNTS.user_content == None:
             print("[WARN] No user is logged in. Your progress will NOT be saved!")
         self.ticker.start(50)

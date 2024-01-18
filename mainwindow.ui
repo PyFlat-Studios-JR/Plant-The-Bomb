@@ -104,9 +104,47 @@ QLabel#range_inv_label{
 QHeaderView::section{
     background: #303030;
     border: 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid white;
 }
-QTableView{
+QTableView, QTableView::item{
     border: 0;
+}
+QPushButton#quit_button{
+    background: #424242;
+    border-radius: 10px;
+}
+
+QPushButton#play{
+    background: #424242;
+    border-radius: 17px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+QPushButton#play:hover, QPushButton#quit_button:hover{
+    background: #212121;
+}
+QScrollBar::sub-line:vertical, QScrollBar::add-line:vertical {
+    border: 0;
+    background: none;
+}
+
+QScrollBar::handle:vertical{
+    background: white;
+    border: 0;
+    border-radius: 5px;
+}
+
+QScrollBar::sub-page:vertical, QScrollBar::add-page:vertical{
+    background: #313131;
+}
+
+QTableWidget QScrollBar{
+    width: 20px;
+    margin-top: 60px;
+    margin-left: 10px;
+    border: 0;
+    padding: 0;
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -724,9 +762,80 @@ Forgot Password</string>
            </sizepolicy>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
-          <widget class="QWidget" name="page_5"/>
+          <widget class="QWidget" name="page_5">
+           <layout class="QVBoxLayout" name="verticalLayout_15">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>15</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>15</number>
+            </property>
+            <item>
+             <widget class="StatsTableWidget" name="normal_level_select_2">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::NoSelection</enum>
+              </property>
+              <property name="textElideMode">
+               <enum>Qt::ElideLeft</enum>
+              </property>
+              <property name="showGrid">
+               <bool>false</bool>
+              </property>
+              <property name="cornerButtonEnabled">
+               <bool>false</bool>
+              </property>
+              <attribute name="horizontalHeaderVisible">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="horizontalHeaderHighlightSections">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderMinimumSectionSize">
+               <number>30</number>
+              </attribute>
+              <attribute name="verticalHeaderDefaultSectionSize">
+               <number>50</number>
+              </attribute>
+              <attribute name="verticalHeaderHighlightSections">
+               <bool>false</bool>
+              </attribute>
+              <column>
+               <property name="text">
+                <string>Category</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Amount</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+           </layout>
+          </widget>
           <widget class="QWidget" name="widget_2">
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <property name="spacing">
@@ -792,7 +901,7 @@ Forgot Password</string>
               </column>
               <column>
                <property name="text">
-                <string>Completed</string>
+                <string>Completed in Time</string>
                </property>
               </column>
               <column>
@@ -1420,10 +1529,22 @@ Forgot Password</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="time_label">
-                <property name="text">
-                 <string>Time</string>
+               <widget class="QFrame" name="frame">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
                 </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_11">
+                 <item>
+                  <widget class="QLabel" name="time_label">
+                   <property name="text">
+                    <string>Time</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </item>
               <item>
@@ -1462,10 +1583,34 @@ Forgot Password</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_10">
-                <property name="text">
-                 <string/>
+               <widget class="QFrame" name="frame_2">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
                 </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_18">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QPushButton" name="quit_button">
+                   <property name="text">
+                    <string>Quit</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </item>
              </layout>
@@ -1492,6 +1637,11 @@ Forgot Password</string>
    <class>LevelSelectContainer</class>
    <extends>QTableWidget</extends>
    <header>levelselectcontainer.h</header>
+  </customwidget>
+  <customwidget>
+   <class>StatsTableWidget</class>
+   <extends>QTableWidget</extends>
+   <header>statstablewidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

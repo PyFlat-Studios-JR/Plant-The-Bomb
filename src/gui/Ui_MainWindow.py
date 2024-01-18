@@ -3,6 +3,8 @@ from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 from src.engine.gameWindow import gameWindow
 from src.gui.LevelSelectContainer import LevelSelectContainer
+from src.gui.StatsTableWidget import StatsTableWidget
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
@@ -312,6 +314,37 @@ class Ui_MainWindow(object):
         self.stackedWidget_2.setSizePolicy(sizePolicy1)
         self.page_5 = QWidget()
         self.page_5.setObjectName(u"page_5")
+        self.verticalLayout_15 = QVBoxLayout(self.page_5)
+        self.verticalLayout_15.setSpacing(0)
+        self.verticalLayout_15.setObjectName(u"verticalLayout_15")
+        self.verticalLayout_15.setContentsMargins(0, 15, 0, 15)
+        self.normal_level_select_2 = StatsTableWidget(self.page_5)
+        if (self.normal_level_select_2.columnCount() < 2):
+            self.normal_level_select_2.setColumnCount(2)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.normal_level_select_2.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.normal_level_select_2.setHorizontalHeaderItem(1, __qtablewidgetitem1)
+        self.normal_level_select_2.setObjectName(u"normal_level_select_2")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.normal_level_select_2.sizePolicy().hasHeightForWidth())
+        self.normal_level_select_2.setSizePolicy(sizePolicy2)
+        self.normal_level_select_2.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.normal_level_select_2.setSelectionMode(QAbstractItemView.NoSelection)
+        self.normal_level_select_2.setTextElideMode(Qt.ElideLeft)
+        self.normal_level_select_2.setShowGrid(False)
+        self.normal_level_select_2.setCornerButtonEnabled(False)
+        self.normal_level_select_2.horizontalHeader().setVisible(True)
+        self.normal_level_select_2.horizontalHeader().setHighlightSections(False)
+        self.normal_level_select_2.verticalHeader().setVisible(False)
+        self.normal_level_select_2.verticalHeader().setMinimumSectionSize(30)
+        self.normal_level_select_2.verticalHeader().setDefaultSectionSize(50)
+        self.normal_level_select_2.verticalHeader().setHighlightSections(False)
+
+        self.verticalLayout_15.addWidget(self.normal_level_select_2)
+
         self.stackedWidget_2.addWidget(self.page_5)
         self.widget_2 = QWidget()
         self.widget_2.setObjectName(u"widget_2")
@@ -322,16 +355,13 @@ class Ui_MainWindow(object):
         self.normal_level_select = LevelSelectContainer(self.widget_2)
         if (self.normal_level_select.columnCount() < 3):
             self.normal_level_select.setColumnCount(3)
-        __qtablewidgetitem = QTableWidgetItem()
-        self.normal_level_select.setHorizontalHeaderItem(0, __qtablewidgetitem)
-        __qtablewidgetitem1 = QTableWidgetItem()
-        self.normal_level_select.setHorizontalHeaderItem(1, __qtablewidgetitem1)
         __qtablewidgetitem2 = QTableWidgetItem()
-        self.normal_level_select.setHorizontalHeaderItem(2, __qtablewidgetitem2)
+        self.normal_level_select.setHorizontalHeaderItem(0, __qtablewidgetitem2)
+        __qtablewidgetitem3 = QTableWidgetItem()
+        self.normal_level_select.setHorizontalHeaderItem(1, __qtablewidgetitem3)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.normal_level_select.setHorizontalHeaderItem(2, __qtablewidgetitem4)
         self.normal_level_select.setObjectName(u"normal_level_select")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.normal_level_select.sizePolicy().hasHeightForWidth())
         self.normal_level_select.setSizePolicy(sizePolicy2)
         self.normal_level_select.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -637,10 +667,19 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_14.addWidget(self.frame_17)
 
-        self.time_label = QLabel(self.inventory_2)
+        self.frame = QFrame(self.inventory_2)
+        self.frame.setObjectName(u"frame")
+        self.frame.setFrameShape(QFrame.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_11 = QHBoxLayout(self.frame)
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
+        self.time_label = QLabel(self.frame)
         self.time_label.setObjectName(u"time_label")
 
-        self.verticalLayout_14.addWidget(self.time_label)
+        self.horizontalLayout_11.addWidget(self.time_label)
+
+
+        self.verticalLayout_14.addWidget(self.frame)
 
         self.label_5 = QLabel(self.inventory_2)
         self.label_5.setObjectName(u"label_5")
@@ -667,10 +706,20 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_14.addWidget(self.label_9)
 
-        self.label_10 = QLabel(self.inventory_2)
-        self.label_10.setObjectName(u"label_10")
+        self.frame_2 = QFrame(self.inventory_2)
+        self.frame_2.setObjectName(u"frame_2")
+        self.frame_2.setFrameShape(QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_18 = QHBoxLayout(self.frame_2)
+        self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
+        self.horizontalLayout_18.setContentsMargins(5, 0, 5, 0)
+        self.quit_button = QPushButton(self.frame_2)
+        self.quit_button.setObjectName(u"quit_button")
 
-        self.verticalLayout_14.addWidget(self.label_10)
+        self.horizontalLayout_18.addWidget(self.quit_button)
+
+
+        self.verticalLayout_14.addWidget(self.frame_2)
 
 
         self.horizontalLayout_6.addWidget(self.inventory_2)
@@ -687,7 +736,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(3)
-        self.stackedWidget_2.setCurrentIndex(1)
+        self.stackedWidget_2.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -717,12 +766,16 @@ class Ui_MainWindow(object):
         self.recovery_submit_btn.setText(QCoreApplication.translate("MainWindow", u"Submit", None))
         self.recovery_login_btn.setText(QCoreApplication.translate("MainWindow", u"Login", None))
         self.recovery_help_btn.setText(QCoreApplication.translate("MainWindow", u"Help", None))
-        ___qtablewidgetitem = self.normal_level_select.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Level Name", None));
-        ___qtablewidgetitem1 = self.normal_level_select.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Completed", None));
-        ___qtablewidgetitem2 = self.normal_level_select.horizontalHeaderItem(2)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Start Level", None));
+        ___qtablewidgetitem = self.normal_level_select_2.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Category", None));
+        ___qtablewidgetitem1 = self.normal_level_select_2.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Amount", None));
+        ___qtablewidgetitem2 = self.normal_level_select.horizontalHeaderItem(0)
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Level Name", None));
+        ___qtablewidgetitem3 = self.normal_level_select.horizontalHeaderItem(1)
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"Completed in Time", None));
+        ___qtablewidgetitem4 = self.normal_level_select.horizontalHeaderItem(2)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"Start Level", None));
         self.label.setText(QCoreApplication.translate("MainWindow", u"Inventory", None))
         self.range_icon_btn.setText(QCoreApplication.translate("MainWindow", u" Range", None))
         self.range_inv_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
@@ -745,6 +798,6 @@ class Ui_MainWindow(object):
         self.label_7.setText("")
         self.label_8.setText("")
         self.label_9.setText("")
-        self.label_10.setText("")
+        self.quit_button.setText(QCoreApplication.translate("MainWindow", u"Quit", None))
     # retranslateUi
 
