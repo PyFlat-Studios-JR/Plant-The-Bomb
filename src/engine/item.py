@@ -3,6 +3,9 @@ from PySide6.QtCore import QRect
 import src.engine.block as block
 import src.engine.textureLib as textureLib
 import random
+import src.accountManager.statregister as stats
+
+SCTX = stats.getStatContext()
 class itemtype():
     NUKE = 0
     DYNAMITE = 1
@@ -76,28 +79,39 @@ class item(block.block):
             return
         super().drawEvent(painter)
     def onPickup(self, player=None):
+        SCTX.set("items_collected_total", 1)
         if player.curses["item_curse"] > 0 and player.curses["shield"] <= 0:
             player.addCurse()
+            SCTX.set("items_collected_curses", 1)
             player.repaint_inventory()
             return
         match (self.itemtype):
             case itemtype.NUKE:
                 player.item_nukes += 1
+                SCTX.set("items_collected_nukes", 1)
             case itemtype.DYNAMITE:
                 player.item_dynamite += 1
+                SCTX.set("items_collected_dynamite", 1)
             case itemtype.HEALTH:
                 player.health +=1 
+                SCTX.set("items_collected_health", 1)
             case itemtype.DAMAGE:
                 player.damage += 1
+                SCTX.set("items_collected_damage", 1)
             case itemtype.RANGE:
                 player.range += 1
+                SCTX.set("items_collected_range", 1)
             case itemtype.TIMEBOMB:
                 player.item_timebombs += 1
+                SCTX.set("items_collected_timebombs", 1)
             case itemtype.BOMB:
                 player.item_maxbombs += 1
                 player.stat_bombs += 1
+                SCTX.set("items_collected_bombs", 1)
             case itemtype.CURSE:
                 player.addCurse()
+                SCTX.set("items_collected_curses", 1)
             case itemtype.SHIELD:
                 player.addShield()
+                SCTX.set("items_collected_shields", 1)
         player.repaint_inventory()

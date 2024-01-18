@@ -2,6 +2,9 @@ from PySide6.QtCore import QRect
 from PySide6.QtGui import QImage, QPainter, QMovie
 import src.engine.textureLib as textureLib
 import random
+import src.accountManager.statregister as stats
+
+SCTX = stats.getStatContext()
 class block():
     def __init__(self, world, **kwargs):
         self.is_destructible = False        #block should have an onDestroy tick event
@@ -61,6 +64,7 @@ class brick(block):
         self.is_destructible = True
         self.init_textureindex(3)
     def onDestroy(self):
+        SCTX.set("blocks_exploded",1)
         if random.randint(0, 1):
             self.world.blocks[self.x][self.y] = item.item(self.world,(self.x,self.y),0,1000)
         else:

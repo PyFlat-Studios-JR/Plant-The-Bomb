@@ -11,6 +11,9 @@ import src.accountManager.accounts as accounts
 from src.compressor import compressor
 from PySide6.QtGui import QPainter
 from PySide6.QtCore import QTimer
+import src.accountManager.statregister as stats
+
+SCTX = stats.getStatContext()
 
 ACCOUNTS = accounts.getAccountContext()
 
