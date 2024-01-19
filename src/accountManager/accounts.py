@@ -35,7 +35,6 @@ class userContent():
 
         if time:
             d2,h2,M2,s2,m2 = time
-            t1 = self.times[hash]
             ticks_2 = m2
             ticks_2 += s2 *1000
             ticks_2 += M2 * 60 * 1000
@@ -48,6 +47,7 @@ class userContent():
             SCTX.data["levels_completed"][hash]["amount"] += 1
             SCTX.data["levels_completed_total"] += 1
             if hash in self.times:
+                t1 = self.times[hash]
                 ticks_1 = int(t1.split(".")[1])
                 ticks_1 += int(t1.split(":")[3].split(".")[0]) * 1000
                 ticks_1 += int(t1.split(":")[2]) * 60 *  1000
