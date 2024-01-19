@@ -1,10 +1,10 @@
-from PySide6.QtGui import QKeyEvent
+from PySide6.QtGui import QKeyEvent, QStandardItem, QStandardItemModel
 from PySide6.QtWidgets import (
-    QTableWidget,
-    QTableWidgetItem,
+    QTreeView,
     QHeaderView,
+    QItemDelegate
 )
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QSize
 
 import src.accountManager.statregister as stats
 
@@ -33,41 +33,51 @@ trivial_names = {
     "levels_completed_total": "Total Levels Completed",
     "levels_played_total": "Total Levels Played",
     "time_spent_levels_total": "Total Time Spent on Levels",
-    "levels_completed": "Level Completed: ",
-    "levels_played": "Level Played: ",
-    "time_spent_levels": "Time Spent on Level: ",
+    "levels_completed": "Levels Completed: ",
+    "levels_played": "Levels Played: ",
+    "time_spent_levels": "Time Spent on Levels: ",
 }
 
 
-class StatsTableWidget(QTableWidget):
+class StatsTableWidget(QTreeView):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
-        self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.model = QStandardItemModel()
+        self.setModel(self.model)
+        self.model.setHorizontalHeaderLabels(["Stat", "Value"])
+        self.header().setDefaultAlignment(Qt.AlignCenter)
+        self.header().setSectionResizeMode(QHeaderView.Stretch)
+        self.horizontalScrollBar().setVisible(False)
+        #self.setIconSize(QSize(50, 50))
 
     def setUI(self, ui):
         self.ui = ui
-        self.horizontalHeader().setVisible(True)
 
     def call_page(self):
-        for row in range(self.rowCount() - 1, -1, -1):
-            self.removeRow(row)
+        self.model.clear()
+        self.model.setHorizontalHeaderLabels(["Stat", "Value"])
 
         self.stats = stats.getStatContext()
-        for stat, data in self.stats.data.items():
-            if stat in trivial_names and trivial_names[stat][-1] != " ":
-                self.create_new_stat(trivial_names[stat], str(data))
-            else:
-                for level_data in data.values():
-                    name = trivial_names[stat] + level_data["name"].split("/")[-1]
-                    self.create_new_stat(name, str(level_data["amount"]))
 
-    def create_new_stat(self, *args):
-        row_count = self.rowCount()
-        self.insertRow(row_count)
-        for column, data in enumerate(args):
-            item = QTableWidgetItem(data)
-            item.setTextAlignment(Qt.AlignCenter)
-            self.setItem(row_count, column, item)
+        for stat, data in self.stats.data.items():
+            if stat in trivial_names:
+                if trivial_names[stat][-1] != " ":
+                    self.add_item(None, trivial_names[stat], str(data))
+                else:
+                    parent_item = self.add_item(None, trivial_names[stat], "")
+                    for level_data in data.values():
+                        name = level_data["name"].split("/")[-1]
+                        self.add_item(parent_item, name, str(level_data["amount"]))
+
+    def add_item(self, parent, name, value):
+        if parent is None:
+            parent = self.model.invisibleRootItem()
+        item = QStandardItem(name)
+        item.setTextAlignment(Qt.AlignCenter)
+        value_item = QStandardItem(value)
+        value_item.setTextAlignment(Qt.AlignCenter)
+        parent.appendRow([item, value_item])
+        return item
 
     def keyPressEvent(self, event: QKeyEvent) -> None:
         if event.type() == QKeyEvent.KeyPress and event.key() == Qt.Key_F5:

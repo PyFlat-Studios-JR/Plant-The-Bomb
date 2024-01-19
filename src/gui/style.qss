@@ -67,13 +67,16 @@ QLabel#range_inv_label{
 	padding: 4px;
 }
 
+QTreeView::item{
+    padding: 10px;
+}
 QHeaderView::section{
     background: #303030;
     border: 0;
     padding-bottom: 15px;
     border-bottom: 2px solid white;
 }
-QTableView, QTableView::item{
+QTableView, QTableView::item, QTreeView, QTreeView::item{
     border: 0;
 }
 QPushButton#quit_button, QPushButton#pause_button{

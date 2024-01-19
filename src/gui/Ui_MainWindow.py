@@ -319,12 +319,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_15.setObjectName(u"verticalLayout_15")
         self.verticalLayout_15.setContentsMargins(0, 15, 0, 15)
         self.normal_level_select_2 = StatsTableWidget(self.page_5)
-        if (self.normal_level_select_2.columnCount() < 2):
-            self.normal_level_select_2.setColumnCount(2)
-        __qtablewidgetitem = QTableWidgetItem()
-        self.normal_level_select_2.setHorizontalHeaderItem(0, __qtablewidgetitem)
-        __qtablewidgetitem1 = QTableWidgetItem()
-        self.normal_level_select_2.setHorizontalHeaderItem(1, __qtablewidgetitem1)
         self.normal_level_select_2.setObjectName(u"normal_level_select_2")
         sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         sizePolicy2.setHorizontalStretch(0)
@@ -333,15 +327,7 @@ class Ui_MainWindow(object):
         self.normal_level_select_2.setSizePolicy(sizePolicy2)
         self.normal_level_select_2.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.normal_level_select_2.setSelectionMode(QAbstractItemView.NoSelection)
-        self.normal_level_select_2.setTextElideMode(Qt.ElideLeft)
-        self.normal_level_select_2.setShowGrid(False)
-        self.normal_level_select_2.setCornerButtonEnabled(False)
-        self.normal_level_select_2.horizontalHeader().setVisible(False)
-        self.normal_level_select_2.horizontalHeader().setHighlightSections(False)
-        self.normal_level_select_2.verticalHeader().setVisible(False)
-        self.normal_level_select_2.verticalHeader().setMinimumSectionSize(30)
-        self.normal_level_select_2.verticalHeader().setDefaultSectionSize(50)
-        self.normal_level_select_2.verticalHeader().setHighlightSections(False)
+        self.normal_level_select_2.setIndentation(0)
 
         self.verticalLayout_15.addWidget(self.normal_level_select_2)
 
@@ -355,12 +341,12 @@ class Ui_MainWindow(object):
         self.normal_level_select = LevelSelectContainer(self.widget_2)
         if (self.normal_level_select.columnCount() < 3):
             self.normal_level_select.setColumnCount(3)
+        __qtablewidgetitem = QTableWidgetItem()
+        self.normal_level_select.setHorizontalHeaderItem(0, __qtablewidgetitem)
+        __qtablewidgetitem1 = QTableWidgetItem()
+        self.normal_level_select.setHorizontalHeaderItem(1, __qtablewidgetitem1)
         __qtablewidgetitem2 = QTableWidgetItem()
-        self.normal_level_select.setHorizontalHeaderItem(0, __qtablewidgetitem2)
-        __qtablewidgetitem3 = QTableWidgetItem()
-        self.normal_level_select.setHorizontalHeaderItem(1, __qtablewidgetitem3)
-        __qtablewidgetitem4 = QTableWidgetItem()
-        self.normal_level_select.setHorizontalHeaderItem(2, __qtablewidgetitem4)
+        self.normal_level_select.setHorizontalHeaderItem(2, __qtablewidgetitem2)
         self.normal_level_select.setObjectName(u"normal_level_select")
         sizePolicy2.setHeightForWidth(self.normal_level_select.sizePolicy().hasHeightForWidth())
         self.normal_level_select.setSizePolicy(sizePolicy2)
@@ -745,7 +731,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget.setCurrentIndex(3)
         self.stackedWidget_2.setCurrentIndex(0)
 
 
@@ -776,16 +762,12 @@ class Ui_MainWindow(object):
         self.recovery_submit_btn.setText(QCoreApplication.translate("MainWindow", u"Submit", None))
         self.recovery_login_btn.setText(QCoreApplication.translate("MainWindow", u"Login", None))
         self.recovery_help_btn.setText(QCoreApplication.translate("MainWindow", u"Help", None))
-        ___qtablewidgetitem = self.normal_level_select_2.horizontalHeaderItem(0)
-        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Category", None));
-        ___qtablewidgetitem1 = self.normal_level_select_2.horizontalHeaderItem(1)
-        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Amount", None));
-        ___qtablewidgetitem2 = self.normal_level_select.horizontalHeaderItem(0)
-        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Level Name", None));
-        ___qtablewidgetitem3 = self.normal_level_select.horizontalHeaderItem(1)
-        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"Completed in Time", None));
-        ___qtablewidgetitem4 = self.normal_level_select.horizontalHeaderItem(2)
-        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"Start Level", None));
+        ___qtablewidgetitem = self.normal_level_select.horizontalHeaderItem(0)
+        ___qtablewidgetitem.setText(QCoreApplication.translate("MainWindow", u"Level Name", None));
+        ___qtablewidgetitem1 = self.normal_level_select.horizontalHeaderItem(1)
+        ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Completed in Time", None));
+        ___qtablewidgetitem2 = self.normal_level_select.horizontalHeaderItem(2)
+        ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Start Level", None));
         self.label.setText(QCoreApplication.translate("MainWindow", u"Inventory", None))
         self.range_icon_btn.setText(QCoreApplication.translate("MainWindow", u" Range", None))
         self.range_inv_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
