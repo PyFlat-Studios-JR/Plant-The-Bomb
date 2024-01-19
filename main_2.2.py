@@ -135,6 +135,14 @@ class MainWindow(QMainWindow):
             self.temp_action_select_bypass
         )
 
+        self.ui.stackedWidget_2.currentChanged.connect(self.page_changed)
+
+    def page_changed(self, index):
+        if index == 0:
+            self.ui.normal_level_select_2.call_page()
+        elif index == 1:
+            self.ui.normal_level_select.call_page()
+
     def keyPressEvent(self, event) -> None:
         self.ui.normal_level_select.keyPressEvent(event)
         self.ui.normal_level_select_2.keyPressEvent(event)
