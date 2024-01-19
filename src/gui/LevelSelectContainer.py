@@ -1,3 +1,4 @@
+from PySide6.QtGui import QKeyEvent
 from PySide6.QtWidgets import (
     QTableWidget,
     QPushButton,
@@ -48,3 +49,10 @@ class LevelSelectContainer(QTableWidget):
         play_button.setObjectName("play")
         play_button.clicked.connect(lambda: self.level_start(f"src/maps/{args[0]}"))
         self.setCellWidget(row_count, column_count - 1, play_button)
+
+    def keyPressEvent(self, event: QKeyEvent) -> None:
+        if event.type() == QKeyEvent.KeyPress and event.key() == Qt.Key_F5:
+            if self.ui.stackedWidget_2.currentIndex() == 1:
+                self.call_page()
+
+        return super().keyPressEvent(event)

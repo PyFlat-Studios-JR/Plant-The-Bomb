@@ -1,4 +1,3 @@
-from src.gui.EventFilter import EventFilter
 from src.gui.Ui_MainWindow import Ui_MainWindow
 from PySide6.QtWidgets import (
     QMainWindow,
@@ -25,7 +24,6 @@ class MainWindow(QMainWindow):
         self.ui.normal_level_select_2.setUI(self.ui)
         self.ui.game_widget.parenthook(self)
         self.style_gui()
-        self.gui_stuff()
         self.initKeybinds()
         self.show()
         self.w = None
@@ -50,15 +48,6 @@ class MainWindow(QMainWindow):
                 else:
                     result = cur_page - 1
             return result
-
-    def gui_stuff(self):
-        function = self.ui.normal_level_select.call_page
-        self.event_filter_page1 = EventFilter(1, self.ui.stackedWidget_2, function)
-        self.ui.stackedWidget_2.widget(1).installEventFilter(self.event_filter_page1)
-
-        function = self.ui.normal_level_select_2.call_page
-        self.event_filter_page0 = EventFilter(0, self.ui.stackedWidget_2, function)
-        self.ui.stackedWidget_2.widget(0).installEventFilter(self.event_filter_page0)
 
     def style_gui(self):
         self.setStyleSheet(open("src/gui/style.qss").read())
@@ -147,6 +136,7 @@ class MainWindow(QMainWindow):
         )
 
     def keyPressEvent(self, event) -> None:
+        self.ui.normal_level_select.keyPressEvent(event)
         self.ui.normal_level_select_2.keyPressEvent(event)
         self.ui.game_widget.keyPressEvent(event)
 

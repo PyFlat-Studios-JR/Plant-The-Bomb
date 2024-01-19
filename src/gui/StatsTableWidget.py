@@ -36,5 +36,8 @@ class StatsTableWidget(QTableWidget):
             self.setItem(row_count, column, item)
 
     def keyPressEvent(self, event: QKeyEvent) -> None:
-        print(event.key() if event.type() == QKeyEvent.KeyPress else None)
+        if event.type() == QKeyEvent.KeyPress and event.key() == Qt.Key_F5:
+            if self.ui.stackedWidget_2.currentIndex() == 0:
+                self.call_page()
+
         return super().keyPressEvent(event)
