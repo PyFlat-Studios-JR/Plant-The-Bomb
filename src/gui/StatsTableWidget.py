@@ -10,10 +10,10 @@ class StatsTableWidget(QTableWidget):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.horizontalHeader().setVisible(True)
 
     def setUI(self, ui):
         self.ui = ui
+        self.horizontalHeader().setVisible(True)
 
     def create_new_stat(self, *args):
         row_count = self.rowCount()
