@@ -56,7 +56,8 @@ class MainWindow(QMainWindow):
         self.event_filter_page1 = EventFilter(1, self.ui.stackedWidget_2, function)
         self.ui.stackedWidget_2.widget(1).installEventFilter(self.event_filter_page1)
 
-        self.event_filter_page0 = EventFilter(0, self.ui.stackedWidget_2)
+        function = self.ui.normal_level_select_2.call_page
+        self.event_filter_page0 = EventFilter(0, self.ui.stackedWidget_2, function)
         self.ui.stackedWidget_2.widget(0).installEventFilter(self.event_filter_page0)
 
     def style_gui(self):
@@ -146,6 +147,7 @@ class MainWindow(QMainWindow):
         )
 
     def keyPressEvent(self, event) -> None:
+        self.ui.normal_level_select_2.keyPressEvent(event)
         self.ui.game_widget.keyPressEvent(event)
 
     def keyReleaseEvent(self, event) -> None:
