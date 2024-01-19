@@ -28,12 +28,12 @@ class register():
             #All times are in TICKS! (1/20)th of a second!
             "times_spent_total": 0,          
             
-            "levels_completed_total": 0,
-            "levels_completed": {},
-            "levels_played_total": 0,
-            "levels_played": {},
-            "time_spent_level_total": 0,
-            "time_spent_levels": {}
+            "levels_completed_total": 0,    #done
+            "levels_completed": {},         #done
+            "levels_played_total": 0,       #done
+            "levels_played": {},            #done
+            "time_spent_level_total": 0,    #done
+            "time_spent_levels": {}         #done
         }
     def load(self, initv={}):
         keys_completed = []

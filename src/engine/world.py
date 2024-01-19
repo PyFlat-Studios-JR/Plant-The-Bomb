@@ -55,6 +55,9 @@ class world():
         print("YOU SUCK")
         self.ticker.stop()
         #self.win.pr.ui.stackedWidget.setCurrentIndex(0)
+        if ACCOUNTS.user_content != None:
+            ACCOUNTS.user_content.mark_as_completed(self.active_level, self.win.api_get_runtime(),False)
+            ACCOUNTS.saveData()
         self.win.world = None
         self.win.pr.ui.normal_level_select.call_page()
     def winf(self):

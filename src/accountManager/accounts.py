@@ -1,5 +1,9 @@
 import src.crypto as crypto
 import os, json, random, hashlib
+
+import src.accountManager.statregister as stats
+
+SCTX = stats.getStatContext()
 class userContent():
     def __init__(self, usr_or_json: str, pwd: str | None = None):
         self.times = {}
@@ -15,20 +19,35 @@ class userContent():
         content = open(filename,"rb").read()
         hash = hashlib.sha256(content).hexdigest()
         return hash in self.completedlevels
-    def mark_as_completed(self, filename, time = None):
+    def mark_as_completed(self, filename, time = None, haswon=True):
         content = open(filename,"rb").read()
         hash = hashlib.sha256(content).hexdigest()
         if hash not in self.completedlevels:
             self.completedlevels.append(hash)
+        if hash not in SCTX.data["levels_completed"]:
+            SCTX.data["levels_completed"][hash] = {"name":filename, "amount":0}
+        if hash not in SCTX.data["levels_played"]:
+            SCTX.data["levels_played"][hash] = {"name":filename, "amount":0}
+        if hash not in SCTX.data["time_spent_levels"]:
+            SCTX.data["time_spent_levels"][hash] = {"name":filename, "amount":0}
+        SCTX.data["levels_played"][hash]["amount"] += 1
+        SCTX.data["levels_played_total"] += 1
+
         if time:
+            d2,h2,M2,s2,m2 = time
+            t1 = self.times[hash]
+            ticks_2 = m2
+            ticks_2 += s2 *1000
+            ticks_2 += M2 * 60 * 1000
+            ticks_2 += h2 * 60 * 60 * 1000
+            ticks_2 += d2 * 24 * 60 * 60 * 1000
+            SCTX.data["time_spent_levels"][hash]["amount"] += ticks_2
+            SCTX.data["time_spent_levels_total"] += ticks_2
+            if not haswon:
+                return
+            SCTX.data["levels_completed"][hash]["amount"] += 1
+            SCTX.data["levels_completed_total"] += 1
             if hash in self.times:
-                d2,h2,M2,s2,m2 = time
-                t1 = self.times[hash]
-                ticks_2 = m2
-                ticks_2 += s2 *1000
-                ticks_2 += M2 * 60 * 1000
-                ticks_2 += h2 * 60 * 60 * 1000
-                ticks_2 += d2 * 24 * 60 * 60 * 1000
                 ticks_1 = int(t1.split(".")[1])
                 ticks_1 += int(t1.split(":")[0]) * 1000
                 ticks_1 += int(t1.split(":")[1]) * 60 *  1000
@@ -46,6 +65,10 @@ class userContent():
             self.times = dc["times"]
         else:
             self.times = {}
+        if "stats" in dc:
+            SCTX.load(dc["stats"])
+        else:
+            SCTX.load()
     def get_time(self, level):
         content = open(level,"rb").read()
         hash = hashlib.sha256(content).hexdigest()
@@ -59,6 +82,7 @@ class userContent():
         a["password"] = self.pwd
         a["levels"] = self.completedlevels
         a["times"] = self.times
+        a["stats"] = SCTX.data
         return json.dumps(a)
     def create_recovery_code(self):
         data = json.loads(open("saves/recovery/backupcodebase.json").read())
