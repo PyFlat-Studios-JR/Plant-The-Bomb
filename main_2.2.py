@@ -22,6 +22,7 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget_2.setCurrentIndex(1)
         self.bindLevelButtons()
         self.ui.normal_level_select.setUI(self.ui)
+        self.ui.normal_level_select_2.setUI(self.ui)
         self.ui.game_widget.parenthook(self)
         self.style_gui()
         self.gui_stuff()
