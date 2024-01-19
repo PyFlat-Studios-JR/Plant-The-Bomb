@@ -33,9 +33,9 @@ trivial_names = {
     "levels_completed_total": "Total Levels Completed",
     "levels_played_total": "Total Levels Played",
     "time_spent_levels_total": "Total Time Spent on Levels",
-    "levels_completed": "Levels Completed: ",
-    "levels_played": "Levels Played: ",
-    "time_spent_levels": "Time Spent on Levels: ",
+    "levels_completed": "Levels Completed:",
+    "levels_played": "Levels Played:",
+    "time_spent_levels": "Time Spent on Levels:",
 }
 
 
@@ -61,7 +61,7 @@ class StatsTableWidget(QTreeView):
 
         for stat, data in self.stats.data.items():
             if stat in trivial_names:
-                if trivial_names[stat][-1] != " ":
+                if trivial_names[stat][-1] != ":":
                     self.add_item(None, trivial_names[stat], str(data))
                 else:
                     parent_item = self.add_item(None, trivial_names[stat], "")
