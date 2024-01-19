@@ -37,7 +37,7 @@ class world():
         self.paused = False
         self.win.pr.ui.quit_button.clicked.connect(self.loose)
         #self.win.pr.ui.quit_button.clickable(True)
-        #self.win.pr.ui.quit_button.clicked.connect(self.pauseunpause)
+        self.win.pr.ui.pause_button.clicked.connect(self.pauseunpause)
         if ACCOUNTS.user_content == None:
             print("[WARN] No user is logged in. Your progress will NOT be saved!")
         self.ticker.start(50)
