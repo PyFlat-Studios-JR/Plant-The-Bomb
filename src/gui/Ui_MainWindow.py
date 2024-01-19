@@ -327,7 +327,6 @@ class Ui_MainWindow(object):
         self.normal_level_select_2.setSizePolicy(sizePolicy2)
         self.normal_level_select_2.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.normal_level_select_2.setSelectionMode(QAbstractItemView.NoSelection)
-        self.normal_level_select_2.setIndentation(0)
 
         self.verticalLayout_15.addWidget(self.normal_level_select_2)
 

@@ -70,6 +70,21 @@ QLabel#range_inv_label{
 QTreeView::item{
     padding: 10px;
 }
+
+QTreeView::branch:has-children:!has-siblings:closed,
+QTreeView::branch:closed:has-children:has-siblings {
+        border-image: none;
+        image: url(src/gui/images/chevron-right.png);
+        icon-size: 50px;
+}
+
+QTreeView::branch:open:has-children:!has-siblings,
+QTreeView::branch:open:has-children:has-siblings  {
+        border-image: none;
+        image: url(src/gui/images/chevron-down.png);
+}
+
+
 QHeaderView::section{
     background: #303030;
     border: 0;
@@ -108,7 +123,7 @@ QScrollBar::sub-page:vertical, QScrollBar::add-page:vertical{
     background: #313131;
 }
 
-QTableWidget QScrollBar{
+QTableWidget QScrollBar, QTreeView QScrollBar{
     width: 20px;
     margin-top: 60px;
     margin-left: 10px;

@@ -48,7 +48,6 @@ class StatsTableWidget(QTreeView):
         self.header().setDefaultAlignment(Qt.AlignCenter)
         self.header().setSectionResizeMode(QHeaderView.Stretch)
         self.horizontalScrollBar().setVisible(False)
-        #self.setIconSize(QSize(50, 50))
 
     def setUI(self, ui):
         self.ui = ui
@@ -73,7 +72,6 @@ class StatsTableWidget(QTreeView):
         if parent is None:
             parent = self.model.invisibleRootItem()
         item = QStandardItem(name)
-        item.setTextAlignment(Qt.AlignCenter)
         value_item = QStandardItem(value)
         value_item.setTextAlignment(Qt.AlignCenter)
         parent.appendRow([item, value_item])
