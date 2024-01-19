@@ -110,7 +110,7 @@ QHeaderView::section{
 QTableView, QTableView::item{
     border: 0;
 }
-QPushButton#quit_button{
+QPushButton#quit_button, QPushButton#pause_button{
     background: #424242;
     border-radius: 10px;
 }
@@ -121,7 +121,7 @@ QPushButton#play{
     margin-top: 8px;
     margin-bottom: 8px;
 }
-QPushButton#play:hover, QPushButton#quit_button:hover{
+QPushButton#play:hover, QPushButton#quit_button:hover, QPushButton#pause_button:hover{
     background: #212121;
 }
 QScrollBar::sub-line:vertical, QScrollBar::add-line:vertical {
@@ -167,7 +167,7 @@ QTableWidget QScrollBar{
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <widget class="QWidget" name="mainpage_1">
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -805,7 +805,7 @@ Forgot Password</string>
                <bool>false</bool>
               </property>
               <attribute name="horizontalHeaderVisible">
-               <bool>true</bool>
+               <bool>false</bool>
               </attribute>
               <attribute name="horizontalHeaderHighlightSections">
                <bool>false</bool>
@@ -877,7 +877,7 @@ Forgot Password</string>
                <bool>false</bool>
               </property>
               <attribute name="horizontalHeaderVisible">
-               <bool>true</bool>
+               <bool>false</bool>
               </attribute>
               <attribute name="horizontalHeaderHighlightSections">
                <bool>false</bool>
@@ -1576,10 +1576,34 @@ Forgot Password</string>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="label_9">
-                <property name="text">
-                 <string/>
+               <widget class="QFrame" name="frame_3">
+                <property name="frameShape">
+                 <enum>QFrame::StyledPanel</enum>
                 </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_20">
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QPushButton" name="pause_button">
+                   <property name="text">
+                    <string>Pause</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </item>
               <item>

@@ -336,7 +336,7 @@ class Ui_MainWindow(object):
         self.normal_level_select_2.setTextElideMode(Qt.ElideLeft)
         self.normal_level_select_2.setShowGrid(False)
         self.normal_level_select_2.setCornerButtonEnabled(False)
-        self.normal_level_select_2.horizontalHeader().setVisible(True)
+        self.normal_level_select_2.horizontalHeader().setVisible(False)
         self.normal_level_select_2.horizontalHeader().setHighlightSections(False)
         self.normal_level_select_2.verticalHeader().setVisible(False)
         self.normal_level_select_2.verticalHeader().setMinimumSectionSize(30)
@@ -369,7 +369,7 @@ class Ui_MainWindow(object):
         self.normal_level_select.setTextElideMode(Qt.ElideLeft)
         self.normal_level_select.setShowGrid(False)
         self.normal_level_select.setCornerButtonEnabled(False)
-        self.normal_level_select.horizontalHeader().setVisible(True)
+        self.normal_level_select.horizontalHeader().setVisible(False)
         self.normal_level_select.horizontalHeader().setHighlightSections(False)
         self.normal_level_select.verticalHeader().setVisible(False)
         self.normal_level_select.verticalHeader().setMinimumSectionSize(30)
@@ -701,10 +701,20 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_14.addWidget(self.label_8)
 
-        self.label_9 = QLabel(self.inventory_2)
-        self.label_9.setObjectName(u"label_9")
+        self.frame_3 = QFrame(self.inventory_2)
+        self.frame_3.setObjectName(u"frame_3")
+        self.frame_3.setFrameShape(QFrame.StyledPanel)
+        self.frame_3.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_20 = QHBoxLayout(self.frame_3)
+        self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
+        self.horizontalLayout_20.setContentsMargins(5, 0, 5, 0)
+        self.pause_button = QPushButton(self.frame_3)
+        self.pause_button.setObjectName(u"pause_button")
 
-        self.verticalLayout_14.addWidget(self.label_9)
+        self.horizontalLayout_20.addWidget(self.pause_button)
+
+
+        self.verticalLayout_14.addWidget(self.frame_3)
 
         self.frame_2 = QFrame(self.inventory_2)
         self.frame_2.setObjectName(u"frame_2")
@@ -735,7 +745,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(4)
         self.stackedWidget_2.setCurrentIndex(0)
 
 
@@ -797,7 +807,7 @@ class Ui_MainWindow(object):
         self.label_6.setText("")
         self.label_7.setText("")
         self.label_8.setText("")
-        self.label_9.setText("")
+        self.pause_button.setText(QCoreApplication.translate("MainWindow", u"Pause", None))
         self.quit_button.setText(QCoreApplication.translate("MainWindow", u"Quit", None))
     # retranslateUi
 

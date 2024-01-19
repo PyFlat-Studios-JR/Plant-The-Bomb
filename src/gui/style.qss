@@ -76,7 +76,7 @@ QHeaderView::section{
 QTableView, QTableView::item{
     border: 0;
 }
-QPushButton#quit_button{
+QPushButton#quit_button, QPushButton#pause_button{
     background: #424242;
     border-radius: 10px;
 }
@@ -87,7 +87,7 @@ QPushButton#play{
     margin-top: 8px;
     margin-bottom: 8px;
 }
-QPushButton#play:hover, QPushButton#quit_button:hover{
+QPushButton#play:hover, QPushButton#quit_button:hover, QPushButton#pause_button:hover{
     background: #212121;
 }
 QScrollBar::sub-line:vertical, QScrollBar::add-line:vertical {
