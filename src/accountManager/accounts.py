@@ -49,13 +49,16 @@ class userContent():
             SCTX.data["levels_completed_total"] += 1
             if hash in self.times:
                 ticks_1 = int(t1.split(".")[1])
-                ticks_1 += int(t1.split(":")[0]) * 1000
-                ticks_1 += int(t1.split(":")[1]) * 60 *  1000
-                ticks_1 += int(t1.split(":")[2]) * 60*60*1000
-                ticks_1 += int(t1.split(":")[3].split(".")[0]) * 60 *60*  1000*24
+                ticks_1 += int(t1.split(":")[3].split(".")[0]) * 1000
+                ticks_1 += int(t1.split(":")[2]) * 60 *  1000
+                ticks_1 += int(t1.split(":")[1]) * 60*60*1000
+                ticks_1 += int(t1.split(":")[0]) * 60 *60*  1000*24
+                print(ticks_2, ticks_1)
                 if ticks_2 < ticks_1:
                     time = "{}:{}:{}:{}.{}".format(*time)
                     self.times[hash] = time
+            else:
+                self.times[hash] = "{}:{}:{}:{}.{}".format(*time)
     def loadFromJSON(self, jason:str):
         dc: dict = json.loads(jason)
         self.usr = dc["user"]
