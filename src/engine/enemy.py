@@ -4,6 +4,9 @@ import src.engine.textureLib as textureLib
 import random
 from PySide6.QtCore import QRect
 from PySide6.QtGui import QPainter, QColor
+import src.accountManager.statregister as stats
+
+SCTX = stats.getStatContext()
 ENEMY_ATTACK_IDS = [[], [],[(-1,0),(0,-1),(0,0),(1,0),(0,1)]]
 class enemy (entity.entity):
     global_enemy_count = 0
@@ -158,7 +161,9 @@ class enemy (entity.entity):
     def onDamage(self, damage):
         self.health -= damage
         self.healthbar_draw_timer = 20
+        SCTX.set("damage_dealt",damage)
         if self.health <= 0:
+            SCTX.set("enemies_killed",1)
             self.world.blocks[self.x][self.y] = self.holding
             print(f"Enemy dead: global count {enemy.global_enemy_count} -> {enemy.global_enemy_count-1}")
             enemy.global_enemy_count -= 1

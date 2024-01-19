@@ -7,7 +7,10 @@ from src.engine.block import air
 import src.engine.bomb as bomb
 import src.engine.block as block
 import src.engine.textureLib as textureLib
+import src.accountManager.statregister as stats
 import random
+
+STATCTX = stats.getStatContext()
 class player(entity.entity):
     def __init__(self, world, pos): 
         super().__init__(world, pos)
@@ -95,24 +98,32 @@ class player(entity.entity):
             if self.holding == None or type(self.holding) == block.air:
                 if self.stat_bombs > 0:
                     self.holding = bomb.bomb.normalbomb(self)
+                    STATCTX.set("bombs_placed", 1)
+                    STATCTX.set("bombs_placed_total", 1)
                     self.stat_bombs -= 1
                     self.repaint_inventory()
         if 84 in self.world.win.keys_held: #T
             if self.holding == None or type(self.holding) == block.air:
                 if self.item_timebombs > 0:
                     self.holding = bomb.bomb.timebomb(self)
+                    STATCTX.set("timebombs_placed", 1)
+                    STATCTX.set("bombs_placed_total", 1)
                     self.item_timebombs -= 1
                     self.repaint_inventory()
         if 89 in self.world.win.keys_held: #Y
             if self.holding == None or type(self.holding) == block.air:
                 if self.item_dynamite > 0:
                     self.holding = bomb.bomb.dynamite(self)
+                    STATCTX.set("dynamite_placed", 1)
+                    STATCTX.set("bombs_placed_total", 1)
                     self.item_dynamite -= 1
                     self.repaint_inventory()
         if 78 in self.world.win.keys_held: #N
             if self.holding == None or type(self.holding) == block.air:
                 if self.item_nukes > 0:
                     self.holding = bomb.bomb.nuke(self)
+                    STATCTX.set("nukes_placed", 1)
+                    STATCTX.set("bombs_placed_total", 1)
                     self.item_nukes -= 1
                     self.repaint_inventory()
     def onDestroy(self):
@@ -122,6 +133,7 @@ class player(entity.entity):
         if self.curses["shield"] > 0:
             return
         self.health -= amount
+        STATCTX.set("damage_recieved", amount)
         if self.health <= 0:
             if self.holding:
                 self.world.blocks[self.x][self.y] = self.holding
@@ -188,4 +200,5 @@ class player(entity.entity):
                         self.holding = air(self.world)
                 self.world.blocks[nx][ny] = self
                 self.world.blocks[nx-dx][ny-dy] = replacement
+                STATCTX.set("blocks_walked", 1)
         return True
