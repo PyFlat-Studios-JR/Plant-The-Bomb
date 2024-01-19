@@ -31,10 +31,19 @@ class world():
         self.load_file(file)
         self.ticker = QTimer()
         self.ticker.timeout.connect(self.tick)
+        self.paused = False
         self.win.pr.ui.quit_button.clicked.connect(self.loose)
+        #self.win.pr.ui.quit_button.clickable(True)
+        #self.win.pr.ui.quit_button.clicked.connect(self.pauseunpause)
         if ACCOUNTS.user_content == None:
             print("[WARN] No user is logged in. Your progress will NOT be saved!")
         self.ticker.start(50)
+    def pauseunpause(self):
+        self.paused = not self.paused
+        if self.paused:
+            self.ticker.stop()
+        else:
+            self.ticker.start()
     def reload_all(self):
         for coloumn in self.blocks:
             for cell in coloumn:
