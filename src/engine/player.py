@@ -12,7 +12,7 @@ import random
 
 STATCTX = stats.getStatContext()
 class player(entity.entity):
-    def __init__(self, world, pos): 
+    def __init__(self, world, pos):
         super().__init__(world, pos)
         self.texture = textureLib.textureLib.getTexture(0)
         self.health = 1
@@ -133,7 +133,7 @@ class player(entity.entity):
         if self.curses["shield"] > 0:
             return
         self.health -= amount
-        STATCTX.set("damage_recieved", amount)
+        STATCTX.set("damage_received", amount)
         if self.health <= 0:
             if self.holding:
                 self.world.blocks[self.x][self.y] = self.holding

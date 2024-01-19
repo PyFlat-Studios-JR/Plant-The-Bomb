@@ -8,8 +8,8 @@ class register():
             "bombs_placed_total": 0,    #done
 
             "damage_dealt": 0,          #done
-            "damage_recieved": 0,       #done
-            
+            "damage_received": 0,       #done
+
             "enemies_killed": 0,        #done
             "blocks_exploded": 0,       #done
             "blocks_walked": 0,         #done
@@ -26,8 +26,8 @@ class register():
             "items_collected_range": 0,         #done
 
             #All times are in TICKS! (1/20)th of a second!
-            "times_spent_total": 0,          
-            
+            "times_spent_total": 0,
+
             "levels_completed_total": 0,    #done
             "levels_completed": {},         #done
             "levels_played_total": 0,       #done
