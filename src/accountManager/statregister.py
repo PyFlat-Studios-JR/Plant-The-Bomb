@@ -32,7 +32,7 @@ class register():
             "levels_completed": {},         #done
             "levels_played_total": 0,       #done
             "levels_played": {},            #done
-            "time_spent_level_total": 0,    #done
+            "time_spent_levels_total": 0,    #done
             "time_spent_levels": {}         #done
         }
     def load(self, initv={}):
