@@ -37,8 +37,19 @@ trivial_names = {
     "levels_played": "Levels Played:",
     "time_spent_levels": "Time Spent on Levels:",
 }
-
-
+def milliesToTimeCode(millies):
+    d = h = M = s = m = 0
+    m = millies % 1000
+    millies = int(millies/1000)
+    s = millies % 60
+    millies = int(millies/60)
+    M = millies % 60
+    millies = int(millies/60)
+    h = millies % 24
+    millies = int(millies/24)
+    d = millies
+    return "{}:{}:{}:{}.{}".format(d,h,M,s,m)
+STATS_FORMAT_TIME = ["time_spent_levels", "time_spent_levels_total"]
 class StatsTableWidget(QTreeView):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -61,12 +72,18 @@ class StatsTableWidget(QTreeView):
         for stat, data in self.stats.data.items():
             if stat in trivial_names:
                 if trivial_names[stat][-1] != ":":
+                    if stat in STATS_FORMAT_TIME:
+                        data = milliesToTimeCode(data)
                     self.add_item(None, trivial_names[stat], str(data))
                 else:
                     parent_item = self.add_item(None, trivial_names[stat], "")
                     for level_data in data.values():
                         name = level_data["name"].split("/")[-1]
-                        self.add_item(parent_item, name, str(level_data["amount"]))
+                        if stat in STATS_FORMAT_TIME:
+                            data = milliesToTimeCode(level_data["amount"])
+                        else:
+                            data = level_data["amount"]
+                        self.add_item(parent_item, name, str(data))
 
     def add_item(self, parent, name, value):
         if parent is None:
