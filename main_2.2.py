@@ -5,6 +5,7 @@ from PySide6.QtWidgets import (
     QGraphicsOpacityEffect,
     QLineEdit,
 )
+from PySide6.QtCore import Qt, QObject, QEvent
 import sys
 from src.accountManager.accounts import getAccountContext
 import src.engine.textureLib as textureLib
@@ -12,9 +13,17 @@ import src.engine.textureLib as textureLib
 ACCOUNT = getAccountContext()
 
 
+class GlobalEventFilter(QObject):
+    def eventFilter(self, obj, event):
+        if event.type() == QEvent.KeyPress:
+            print(f"Key Pressed: {event.key()}")
+        return super(GlobalEventFilter, self).eventFilter(obj, event)
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
+        self.setFocusPolicy(Qt.NoFocus)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -153,6 +162,8 @@ class MainWindow(QMainWindow):
 
 
 a = QApplication()
+globalEventFilter = GlobalEventFilter()
+a.installEventFilter(globalEventFilter)
 textureLib.textureLib.loadFolder("src/textures/", "ERR_IMAGE.png")
 b = MainWindow()
 sys.exit(a.exec())

@@ -46,6 +46,7 @@ class LevelSelectContainer(QTableWidget):
             self.setItem(row_count, column, item)
 
         play_button = QPushButton("Play Level")
+        play_button.setFocusPolicy(Qt.NoFocus)
         play_button.setObjectName("play")
         play_button.clicked.connect(lambda: self.level_start(f"src/maps/{args[0]}"))
         self.setCellWidget(row_count, column_count - 1, play_button)
