@@ -94,7 +94,7 @@ class player(entity.entity):
             if type(self.holding) == bomb.bomb:
                 if self.holding.is_timed:
                     self.holding.timer = 0
-        if 75 in self.world.win.keys_held or (self.curses["poop"] > 0 and self.curses["shield"] <= 0): #K
+        if 32 in self.world.win.keys_held or (self.curses["poop"] > 0 and self.curses["shield"] <= 0): #K
             if self.holding == None or type(self.holding) == block.air:
                 if self.stat_bombs > 0:
                     self.holding = bomb.bomb.normalbomb(self)
@@ -170,16 +170,16 @@ class player(entity.entity):
             return True
         dx = 0
         dy = 0
-        if 87 in self.world.win.keys_held:
+        if 87 in self.world.win.keys_held or 16777235 in self.world.win.keys_held:
             dx = 0
             dy = -1
-        elif 65 in self.world.win.keys_held:
+        elif 65 in self.world.win.keys_held or 16777234 in self.world.win.keys_held:
             dx = -1
             dy = 0
-        elif 83 in self.world.win.keys_held:
+        elif 83 in self.world.win.keys_held or 16777237 in self.world.win.keys_held:
             dx = 0
             dy = 1
-        elif 68 in self.world.win.keys_held:
+        elif 68 in self.world.win.keys_held or 16777236 in self.world.win.keys_held:
             dx = 1
             dy = 0
         if (abs(dx)+abs(dy)):
