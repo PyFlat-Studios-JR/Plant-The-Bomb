@@ -4,6 +4,8 @@ from PySide6.QtWidgets import (
     QApplication,
     QGraphicsOpacityEffect,
     QLineEdit,
+    QWidget,
+    QPushButton,
 )
 from PySide6.QtCore import Qt, QObject, QEvent
 import sys
@@ -20,10 +22,16 @@ class GlobalEventFilter(QObject):
         return super(GlobalEventFilter, self).eventFilter(obj, event)
 
 
+def setFocusPolicyRecursive(widget, focusPolicy):
+    if isinstance(widget, QPushButton):
+        widget.setFocusPolicy(focusPolicy)
+    for child in widget.findChildren(QWidget):
+        setFocusPolicyRecursive(child, focusPolicy)
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
-        self.setFocusPolicy(Qt.NoFocus)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -36,6 +44,8 @@ class MainWindow(QMainWindow):
         self.initKeybinds()
         self.show()
         self.w = None
+
+        setFocusPolicyRecursive(self, Qt.NoFocus)
 
     def bindLevelButtons(self):
         self.ui.pushButton.clicked.connect(
