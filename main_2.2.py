@@ -18,7 +18,7 @@ ACCOUNT = getAccountContext()
 class GlobalEventFilter(QObject):
     def eventFilter(self, obj, event):
         if event.type() == QEvent.KeyPress:
-            print(f"Key Pressed: {event.key()}")
+            pass
         return super(GlobalEventFilter, self).eventFilter(obj, event)
 
 
