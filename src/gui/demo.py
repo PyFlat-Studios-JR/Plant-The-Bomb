@@ -8,9 +8,8 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QEvent
 from PySide6.QtGui import QKeySequence
-
 
 class KeyCaptureButton(QPushButton):
     def __init__(self, row, key_type, wid, parent=None):
@@ -22,15 +21,32 @@ class KeyCaptureButton(QPushButton):
         self.wid = wid
 
     def captureKey(self):
-        self.setText("Press a key...")
+        self.setText("Press a key or mouse button...")
         self.capturing = True
 
-    def keyPressEvent(self, event):
+    def event(self, event):
         if self.capturing:
-            key = event.key()
-            self.setText(QKeySequence(key).toString())
-            self.capturing = False
-            self.wid.updateKeybind(self.row, key, self.key_type)
+            if event.type() == QEvent.KeyPress:
+                key_event = event
+                key = key_event.key()
+                self.setText(QKeySequence(key).toString())
+                self.wid.updateKeybind(self.row, key, self.key_type)
+                self.capturing = False
+                return True
+            elif event.type() == QEvent.MouseButtonPress:
+                mouse_event = event
+                button = mouse_event.button()
+                buttonText = {
+                    Qt.LeftButton: "Left Click",
+                    Qt.RightButton: "Right Click",
+                    Qt.MiddleButton: "Middle Click",
+                }.get(button, f"Button {button}")
+                self.setText(buttonText)
+                self.wid.updateKeybind(self.row, button, self.key_type)
+                self.capturing = False
+                return True
+
+        return super().event(event)
 
 
 class KeybindsWidget(QMainWindow):
@@ -38,6 +54,7 @@ class KeybindsWidget(QMainWindow):
         super().__init__()
         self.initUI()
         self.keybinds = {}
+        self.setFocusPolicy(Qt.NoFocus)
 
     def initUI(self):
         self.table = QTableWidget()
@@ -71,7 +88,6 @@ class KeybindsWidget(QMainWindow):
             if action not in self.keybinds:
                 self.keybinds[action] = {}
             self.keybinds[action]["secondary"] = key
-        print(f"Set {key_type} key for {action}: {QKeySequence(key).toString()}")
 
 
 def main():
