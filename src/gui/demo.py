@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, QEvent
 from PySide6.QtGui import QKeySequence
 
+
 class KeyCaptureButton(QPushButton):
     def __init__(self, row, key_type, wid, parent=None):
         super().__init__("Set Key", parent)
@@ -29,6 +30,16 @@ class KeyCaptureButton(QPushButton):
             if event.type() == QEvent.KeyPress:
                 key_event = event
                 key = key_event.key()
+
+                # Prüfen, ob Modifier-Tasten gedrückt sind (außer bei speziellen Tasten wie Shift alleine)
+                if (
+                    (event.modifiers() & Qt.ShiftModifier and key != Qt.Key_Shift)
+                    or (event.modifiers() & Qt.ControlModifier)
+                    or (event.modifiers() & Qt.AltModifier)
+                    or (event.modifiers() & Qt.MetaModifier)
+                ):
+                    return True  # Ignoriere Tastenkombinationen mit Modifiern
+
                 self.setText(QKeySequence(key).toString())
                 self.wid.updateKeybind(self.row, key, self.key_type)
                 self.capturing = False
