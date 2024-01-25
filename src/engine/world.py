@@ -12,7 +12,7 @@ from src.compressor import compressor
 from PySide6.QtGui import QPainter
 from PySide6.QtCore import QTimer
 import src.accountManager.statregister as stats
-
+import src.engine.scripts as scripts
 SCTX = stats.getStatContext()
 
 ACCOUNTS = accounts.getAccountContext()
@@ -26,6 +26,10 @@ class world():
         self.overlay = [[overlayTile.overlayTile(self,(x,y)) for y in range (25)] for x in range (25)] #overlay drawing
         self.script_loader = None #scriptLoader
         self.player = None #player
+        self.sl = None  #scriptloader
+        self.flags = {
+            "drop_items":True
+                }
         self.bomb_manager = bombManager.bombManager(self) #bomb Manager
         self.win = application
         self.active_level = file
@@ -60,6 +64,8 @@ class world():
             ACCOUNTS.saveData()
         self.win.world = None
         self.win.pr.ui.normal_level_select.call_page()
+    def setFlag(self, flag, val):
+        self.flags[flag] = val
     def winf(self):
         print("GG YOU WON")
         self.ticker.stop()
@@ -75,7 +81,7 @@ class world():
         c = compressor()
         c.load(file)
         c.decompress()
-        res, _, _ = c.get_data()
+        res, s, _ = c.get_data()
         for x in range (len(res["world"])):
             for y in range (len(res["world"][x])):
                 blockdata = res["world"][x][y]
@@ -93,6 +99,8 @@ class world():
                         self.blocks[x][y] = item.item(self, (x,y), blockdata["objectData"]["start"], blockdata["objectData"]["fin"])
                     case 6:
                         self.blocks[x][y] = enemy.enemy(self, (x,y),blockdata["objectData"]["health"],blockdata["objectData"]["id2"])
+        self.sl = scripts.scriptLoader(self, s)
+        self.sl.event(scripts.trevent("on_init",0,0))
     def handle_uiupdate(self):
         self.win.pr.ui.time_label.setText("Time {}:{}:{}:{}.{}".format(*self.win.api_get_runtime()))
     def drawLater(self, e):

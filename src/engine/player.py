@@ -9,6 +9,7 @@ import src.engine.block as block
 import src.engine.textureLib as textureLib
 import src.accountManager.statregister as stats
 import random
+import src.engine.scripts as scripts
 
 STATCTX = stats.getStatContext()
 class player(entity.entity):
@@ -157,6 +158,29 @@ class player(entity.entity):
             self.curses[key] = max(0, self.curses[key]-1)
     def afterupdate(self):
         self.has_moved = False
+    def move(self, dx, dy):
+        if (abs(dx)+abs(dy)):
+            self.has_moved = True
+        nx = self.x+dx
+        ny = self.y+dy
+        if nx in range (0, 24) and ny in range (0, 24):
+            if self.world.blocks[nx][ny].is_walkable:
+                self.x = nx
+                self.y = ny
+                replacement = air(self.world)
+                if self.holding:
+                    replacement = self.holding
+                if self.world.blocks[nx][ny].is_enemy_pickable:
+                    self.holding = self.world.blocks[nx][ny]
+                    if self.holding.is_collectable and (self.curses["no_pickup"] <= 0 or self.curses["shield"] > 0):
+                        self.holding.onPickup(self)
+                        self.holding = air(self.world)
+                self.world.blocks[nx][ny] = self
+                self.world.blocks[nx-dx][ny-dy] = replacement
+                STATCTX.set("blocks_walked", 1)
+                self.world.sl.event(scripts.trevent("on_step", self.x,self.y))
+                self.world.sl.event(scripts.trevent("on_collect", self.x,self.y))
+        return True
     def handlemovement(self):
         if self.has_moved:
             return False
@@ -182,23 +206,4 @@ class player(entity.entity):
         elif 68 in self.world.win.keys_held or 16777236 in self.world.win.keys_held:
             dx = 1
             dy = 0
-        if (abs(dx)+abs(dy)):
-            self.has_moved = True
-        nx = self.x+dx
-        ny = self.y+dy
-        if nx in range (0, 24) and ny in range (0, 24):
-            if self.world.blocks[nx][ny].is_walkable:
-                self.x = nx
-                self.y = ny
-                replacement = air(self.world)
-                if self.holding:
-                    replacement = self.holding
-                if self.world.blocks[nx][ny].is_enemy_pickable:
-                    self.holding = self.world.blocks[nx][ny]
-                    if self.holding.is_collectable and (self.curses["no_pickup"] <= 0 or self.curses["shield"] > 0):
-                        self.holding.onPickup(self)
-                        self.holding = air(self.world)
-                self.world.blocks[nx][ny] = self
-                self.world.blocks[nx-dx][ny-dy] = replacement
-                STATCTX.set("blocks_walked", 1)
-        return True
+        self.move(dx,dy)

@@ -65,7 +65,7 @@ class brick(block):
         self.init_textureindex(3)
     def onDestroy(self):
         SCTX.set("blocks_exploded",1)
-        if random.randint(0, 1):
+        if random.randint(0, 1) and self.world.flags["drop_items"]:
             self.world.blocks[self.x][self.y] = item.item(self.world,(self.x,self.y),0,1000)
         else:
             self.world.blocks[self.x][self.y] = air(self.world)
