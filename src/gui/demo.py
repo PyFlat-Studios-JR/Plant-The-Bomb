@@ -4,7 +4,6 @@ from PySide6.QtWidgets import (
     QMainWindow,
     QTableWidget,
     QTableWidgetItem,
-    QPushButton,
     QVBoxLayout,
     QWidget,
 )
@@ -20,64 +19,6 @@ class GlobalEventFilter(QObject):
         return super(GlobalEventFilter, self).eventFilter(obj, event)
 
 
-class KeyCaptureButton(QPushButton):
-    def __init__(self, row, key_type, wid, parent=None):
-        super().__init__("Set Key", parent)
-        self.row = row
-        self.key_type = key_type
-        self.clicked.connect(self.captureKey)
-        self.capturing = False
-        self.wid = wid
-
-    def captureKey(self):
-        self.setText("Press a key or mouse button...")
-        self.capturing = True
-
-    def event(self, event):
-        if self.capturing:
-            if event.type() == QEvent.KeyPress:
-                key_event = event
-                key = key_event.key()
-
-                if (
-                    (event.modifiers() & Qt.ShiftModifier and key != Qt.Key_Shift)
-                    or (event.modifiers() & Qt.ControlModifier)
-                    or (event.modifiers() & Qt.AltModifier)
-                    or (event.modifiers() & Qt.MetaModifier)
-                ):
-                    return True
-
-                self.setText(QKeySequence(key).toString())
-                self.wid.updateKeybind(self.row, key, self.key_type)
-                self.capturing = False
-                return True
-            elif event.type() == QEvent.MouseButtonPress:
-                mouse_event = event
-                button = mouse_event.button()
-
-                buttonText = {
-                    Qt.LeftButton: "Left Click",
-                    Qt.RightButton: "Right Click",
-                    Qt.MiddleButton: "Middle Click",
-                    Qt.XButton1: "Extra Button 1",
-                    Qt.XButton2: "Extra Button 2",
-                }.get(button, f"Button {button}")
-
-                self.setText(buttonText)
-                self.wid.updateKeybind(self.row, button, self.key_type)
-                self.capturing = False
-                return True
-            elif event.type() == QEvent.Wheel:
-                self.setText("Mouse Wheel")
-                self.wid.updateKeybind(self.row, "Wheel", self.key_type)
-                self.capturing = False
-                return True
-            else:
-                print(event.type())
-
-        return super().event(event)
-
-
 class KeybindsWidget(QMainWindow):
     def __init__(self, eventhappend: Signal):
         super().__init__()
@@ -87,55 +28,55 @@ class KeybindsWidget(QMainWindow):
         eventhappend.connect(self.handleEvent)
         self.capturing = False
 
-    def handleEvent(self, event:QEvent):
-        if self.capturing:
-            if event.type() == QEvent.KeyPress:
-                key_event = event
-                key = key_event.key()
+    def handleEvent(self, event: QEvent):
+        if not self.capturing:
+            return False
 
-                if (
-                    (event.modifiers() & Qt.ShiftModifier and key != Qt.Key_Shift)
-                    or (event.modifiers() & Qt.ControlModifier)
-                    or (event.modifiers() & Qt.AltModifier)
-                    or (event.modifiers() & Qt.MetaModifier)
-                ):
-                    return True
+        new_key_text = ""
+        key = None
+        event_type = event.type()
 
-                #self.setText(QKeySequence(key).toString())
-                #self.wid.updateKeybind(self.row, key, self.key_type)
-                self.capturing = False
+        if event_type == QEvent.KeyPress:
+            key_event = event
+            key = key_event.key()
+            modifiers = event.modifiers()
+            non_modifier_keys = [Qt.Key_Shift, Qt.Key_Control, Qt.Key_Alt, Qt.Key_Meta]
+
+            if modifiers & ~Qt.NoModifier and key not in non_modifier_keys:
                 return True
-            elif event.type() == QEvent.MouseButtonPress:
-                mouse_event = event
-                button = mouse_event.button()
+            new_key_text = QKeySequence(key).toString()
 
-                buttonText = {
-                    Qt.LeftButton: "Left Click",
-                    Qt.RightButton: "Right Click",
-                    Qt.MiddleButton: "Middle Click",
-                    Qt.XButton1: "Extra Button 1",
-                    Qt.XButton2: "Extra Button 2",
-                }.get(button, f"Button {button}")
+        elif event_type == QEvent.MouseButtonPress:
+            button = event.button()
+            key = button.value
+            buttonText = {
+                Qt.LeftButton: "Left Click",
+                Qt.RightButton: "Right Click",
+                Qt.MiddleButton: "Middle Click",
+                Qt.XButton1: "Mouse Button 1",
+                Qt.XButton2: "Mouse Button 2",
+            }
+            new_key_text = buttonText.get(button, f"Button {button}")
 
-                #self.setText(buttonText)
-                #self.wid.updateKeybind(self.row, button, self.key_type)
-                self.capturing = False
-                return True
-            elif event.type() == QEvent.Wheel:
-                #self.setText("Mouse Wheel")
-                #self.wid.updateKeybind(self.row, "Wheel", self.key_type)
-                self.capturing = False
-                return True
-            else:
-                print(event.type())
+        elif event_type == QEvent.Wheel:
+            new_key_text = "Mouse Wheel"
+            key = 31
 
-        return super().event(event)
+        if new_key_text and key:
+            self.table.setItem(self.row, self.column, QTableWidgetItem(new_key_text))
+            self.updateKeybind(self.row, self.column, key)
+            self.capturing = False
 
-    def handleCellClicked(self):
+        return False
+
+    def handleCellClicked(self, row, column):
         self.capturing = True
+        self.row = row
+        self.column = column
 
     def initUI(self):
         self.table = QTableWidget()
+        self.table.setEditTriggers(QTableWidget.NoEditTriggers)
         self.table.cellClicked.connect(self.handleCellClicked)
         self.table.setColumnCount(3)
         self.table.setHorizontalHeaderLabels(
@@ -147,9 +88,7 @@ class KeybindsWidget(QMainWindow):
         for i, action in enumerate(actions):
             self.table.setItem(i, 0, QTableWidgetItem(action))
             self.table.setItem(i, 1, QTableWidgetItem("test"))
-
-            secondary_btn = KeyCaptureButton(i, "secondary", self, self.table)
-            self.table.setCellWidget(i, 2, secondary_btn)
+            self.table.setItem(i, 2, QTableWidgetItem("testi"))
 
         layout = QVBoxLayout()
         layout.addWidget(self.table)
@@ -157,14 +96,16 @@ class KeybindsWidget(QMainWindow):
         centralWidget.setLayout(layout)
         self.setCentralWidget(centralWidget)
 
-    def updateKeybind(self, row, key, key_type):
+    def updateKeybind(self, row, column, key):
         action = self.table.item(row, 0).text()
-        if key_type == "primary":
+        if column == 1:
             self.keybinds[action] = {"primary": key}
-        else:
+        elif column == 2:
             if action not in self.keybinds:
                 self.keybinds[action] = {}
             self.keybinds[action]["secondary"] = key
+
+        print(self.keybinds)
 
 
 def main():
