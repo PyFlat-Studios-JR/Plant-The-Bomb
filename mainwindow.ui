@@ -101,13 +101,31 @@ QLabel#range_inv_label{
 	padding: 4px;
 }
 
+QTreeView::item{
+    padding: 10px;
+}
+
+QTreeView::branch:has-children:!has-siblings:closed,
+QTreeView::branch:closed:has-children:has-siblings {
+        border-image: none;
+        image: url(src/gui/images/chevron-right.png);
+        icon-size: 50px;
+}
+
+QTreeView::branch:open:has-children:!has-siblings,
+QTreeView::branch:open:has-children:has-siblings  {
+        border-image: none;
+        image: url(src/gui/images/chevron-down.png);
+}
+
+
 QHeaderView::section{
     background: #303030;
     border: 0;
     padding-bottom: 15px;
     border-bottom: 2px solid white;
 }
-QTableView, QTableView::item{
+QTableView, QTableView::item, QTreeView, QTreeView::item{
     border: 0;
 }
 QPushButton#quit_button, QPushButton#pause_button{
@@ -139,12 +157,54 @@ QScrollBar::sub-page:vertical, QScrollBar::add-page:vertical{
     background: #313131;
 }
 
-QTableWidget QScrollBar{
+QTableWidget QScrollBar, QTreeView QScrollBar{
     width: 20px;
     margin-top: 60px;
     margin-left: 10px;
     border: 0;
     padding: 0;
+}
+QTabWidget::tab-bar {
+    alignment: center;
+}
+
+QTabBar::tab {
+    background: #424242;
+    color: white;
+    border: 0;
+    border-radius: 4px;
+    padding: 5px;
+    min-width: 80px;
+    margin: 10px;
+}
+
+QTabBar::tab:hover {
+    background: gray;
+}
+
+QTabBar::tab:selected {
+    background: white;
+    color: black;
+    border: 0;
+}
+
+QTabWidget::pane {
+    border: 0;
+}
+QTableWidget::item:selected {
+    background-color: #424242;
+    color: white;
+    border: 0;
+}
+
+QMessageBox QPushButton {
+    background: #212121;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+QMessageBox QLabel{
+    qproperty-alignment: 'AlignCenter';
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
