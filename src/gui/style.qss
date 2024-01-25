@@ -130,3 +130,45 @@ QTableWidget QScrollBar, QTreeView QScrollBar{
     border: 0;
     padding: 0;
 }
+QTabWidget::tab-bar {
+    alignment: center;
+}
+
+QTabBar::tab {
+    background: #424242;
+    color: white;
+    border: 0;
+    border-radius: 4px;
+    padding: 5px;
+    min-width: 80px;
+    margin: 10px;
+}
+
+QTabBar::tab:hover {
+    background: gray;
+}
+
+QTabBar::tab:selected {
+    background: white;
+    color: black;
+    border: 0;
+}
+
+QTabWidget::pane {
+    border: 0;
+}
+QTableWidget::item:selected {
+    background-color: #424242;
+    color: white;
+    border: 0;
+}
+
+QMessageBox QPushButton {
+    background: #212121;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+QMessageBox QLabel{
+    qproperty-alignment: 'AlignCenter';
+}

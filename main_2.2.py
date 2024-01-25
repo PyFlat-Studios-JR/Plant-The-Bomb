@@ -32,7 +32,7 @@ class MainWindow(QMainWindow):
         self.bindLevelButtons()
         self.ui.normal_level_select.setUI(self.ui)
         self.ui.normal_level_select_2.setUI(self.ui)
-        self.ui.tableWidget.setupKeyBinds(["Forward", "Left", "Right", "Backward"], globalEventFilter.eventhappend)
+        self.ui.tableWidget.setupKeyBinds(["Walk Forward", "Walk Left", "Walk Right", "Walk Backward"], globalEventFilter.eventhappend)
         self.ui.game_widget.parenthook(self)
         self.style_gui()
         self.initKeybinds()

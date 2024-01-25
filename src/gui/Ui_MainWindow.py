@@ -397,6 +397,11 @@ class Ui_MainWindow(object):
         __qtablewidgetitem5 = QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem5)
         self.tableWidget.setObjectName(u"tableWidget")
+        self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.tableWidget.setShowGrid(False)
+        self.tableWidget.horizontalHeader().setHighlightSections(False)
+        self.tableWidget.verticalHeader().setHighlightSections(False)
 
         self.horizontalLayout_23.addWidget(self.tableWidget)
 
