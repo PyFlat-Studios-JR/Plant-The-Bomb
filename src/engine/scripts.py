@@ -262,7 +262,7 @@ class scriptLoader():
             if a >= b:
                 self.ram[c] = 1
     def jmp(self, rel_line, cond):
-        if self.ram[cond] > 0:
+        if self.ram[cond] != 0:
             self.parser["position"] += (rel_line-1)
     def jmpr(self, rel_line, cond):
         self.jmp(self.ram[rel_line], cond)
