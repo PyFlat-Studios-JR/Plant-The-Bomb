@@ -7,26 +7,62 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
-from PySide6.QtCore import Qt, QEvent, QObject, Signal
+from PySide6.QtCore import Qt, QEvent
 from PySide6.QtGui import QKeySequence
+from GlobalEventFilter import GlobalEventFilter
 
 
-class GlobalEventFilter(QObject):
-    eventhappend = Signal(QObject)
-
-    def eventFilter(self, obj, event):
-        self.eventhappend.emit(event)
-        return super(GlobalEventFilter, self).eventFilter(obj, event)
-
-
-class KeybindsWidget(QMainWindow):
-    def __init__(self, eventhappend: Signal):
+class MainWindow(QMainWindow):
+    def __init__(self):
         super().__init__()
         self.initUI()
-        self.keybinds = {}
         self.setFocusPolicy(Qt.NoFocus)
+
+    def initUI(self):
+        self.table = KeyBindTable(None, eventfilter.eventhappend)
+        layout = QVBoxLayout()
+        layout.addWidget(self.table)
+        centralWidget = QWidget()
+        centralWidget.setLayout(layout)
+        self.setCentralWidget(centralWidget)
+
+
+class KeyBindTable(QTableWidget):
+    def __init__(self, actions, eventhappend):
+        super().__init__()
         eventhappend.connect(self.handleEvent)
+        self.setEditTriggers(QTableWidget.NoEditTriggers)
+        self.cellClicked.connect(self.handleCellClicked)
+        self.setColumnCount(3)
+        self.verticalHeader().setVisible(True)
+        self.keybinds = {}
+        self.setHorizontalHeaderLabels(
+            ["Action", "Primary Keybind", "Secondary Keybind"]
+        )
+        self.actions = ["Move Forward", "Move Backward", "Jump", "Crouch"]
+        self.setRowCount(len(self.actions))
         self.capturing = False
+
+        for i, action in enumerate(self.actions):
+            self.setItem(i, 0, QTableWidgetItem(action))
+            self.setItem(i, 1, QTableWidgetItem(""))
+            self.setItem(i, 2, QTableWidgetItem(""))
+
+    def handleCellClicked(self, row, column):
+        self.capturing = True
+        self.row = row
+        self.column = column
+
+    def updateKeybind(self, row, column, key):
+        action = self.item(row, 0).text()
+        if column == 1:
+            self.keybinds[action] = {"primary": key}
+        elif column == 2:
+            if action not in self.keybinds:
+                self.keybinds[action] = {}
+            self.keybinds[action]["secondary"] = key
+
+        print(self.keybinds)
 
     def handleEvent(self, event: QEvent):
         if not self.capturing:
@@ -63,56 +99,19 @@ class KeybindsWidget(QMainWindow):
             key = 31
 
         if new_key_text and key:
-            self.table.setItem(self.row, self.column, QTableWidgetItem(new_key_text))
+            self.setItem(self.row, self.column, QTableWidgetItem(new_key_text))
             self.updateKeybind(self.row, self.column, key)
             self.capturing = False
 
         return False
 
-    def handleCellClicked(self, row, column):
-        self.capturing = True
-        self.row = row
-        self.column = column
-
-    def initUI(self):
-        self.table = QTableWidget()
-        self.table.setEditTriggers(QTableWidget.NoEditTriggers)
-        self.table.cellClicked.connect(self.handleCellClicked)
-        self.table.setColumnCount(3)
-        self.table.setHorizontalHeaderLabels(
-            ["Action", "Primary Keybind", "Secondary Keybind"]
-        )
-        actions = ["Move Forward", "Move Backward", "Jump", "Crouch"]
-        self.table.setRowCount(len(actions))
-
-        for i, action in enumerate(actions):
-            self.table.setItem(i, 0, QTableWidgetItem(action))
-            self.table.setItem(i, 1, QTableWidgetItem("test"))
-            self.table.setItem(i, 2, QTableWidgetItem("testi"))
-
-        layout = QVBoxLayout()
-        layout.addWidget(self.table)
-        centralWidget = QWidget()
-        centralWidget.setLayout(layout)
-        self.setCentralWidget(centralWidget)
-
-    def updateKeybind(self, row, column, key):
-        action = self.table.item(row, 0).text()
-        if column == 1:
-            self.keybinds[action] = {"primary": key}
-        elif column == 2:
-            if action not in self.keybinds:
-                self.keybinds[action] = {}
-            self.keybinds[action]["secondary"] = key
-
-        print(self.keybinds)
-
 
 def main():
     app = QApplication(sys.argv)
+    global eventfilter
     eventfilter = GlobalEventFilter()
     app.installEventFilter(eventfilter)
-    ex = KeybindsWidget(eventfilter.eventhappend)
+    ex = MainWindow()
     ex.show()
     sys.exit(app.exec())
 
