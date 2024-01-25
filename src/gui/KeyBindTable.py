@@ -29,6 +29,7 @@ class KeyBindTable(QTableWidget):
                 self.setItem(i, j, item)
 
     def handleCellClicked(self, row, column):
+        if column == 0: return
         self.capturing = True
         self.row = row
         self.column = column
