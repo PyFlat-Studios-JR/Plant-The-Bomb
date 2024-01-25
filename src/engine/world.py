@@ -24,6 +24,8 @@ class world():
         self.blocks = [[block.air(self) for x in range (25)] for y in range (25)] #very good world right now :)
         self.background = background.background(textureLib.textureLib.getTexture(27))
         self.overlay = [[overlayTile.overlayTile(self,(x,y)) for y in range (25)] for x in range (25)] #overlay drawing
+        self.script_overlay = [[None for y in range (25)] for x in range (25)] #script-overlay layer
+        self.script_overlay_active = False
         self.script_loader = None #scriptLoader
         self.player = None #player
         self.sl = None  #scriptloader
@@ -133,3 +135,8 @@ class world():
             for cell in coloumn:
                 if cell.is_occupied:
                     cell.drawEvent(painter)
+        if self.script_overlay_active:
+            for c in self.script_overlay:
+                for i in c:
+                    if i:
+                        i.drawEvent(painter)

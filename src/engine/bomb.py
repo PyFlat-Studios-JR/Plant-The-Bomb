@@ -1,6 +1,7 @@
 import src.engine.entity as entity
 import src.engine.textureLib as textureLib
 import src.engine.block as block
+import src.engine.scripts as scripts
 import random
 class bomb(entity.entity):
     def __init__(self, world, pos, type, timer, player):
@@ -103,11 +104,15 @@ class bomb(entity.entity):
                         if self.world.blocks[x][y].is_alive:
                             self.world.blocks[x][y].onDamage(self.damage)
                         textureList.append((x,y))
+                        self.world.sl.event(scripts.trevent("on_destroy",x,y))
+                        self.world.sl.event(scripts.trevent("on_explode",x,y))
                         plc = True
                     if not cnt:
                         break
                     if not plc:
                         textureList.append((x,y))
+                        self.world.sl.event(scripts.trevent("on_destroy",x,y))
+                        self.world.sl.event(scripts.trevent("on_explode",x,y))
             self.world.bomb_manager.add_explosion(textureList, 10)
         else:
             textureList = []

@@ -1,4 +1,5 @@
 import random, copy
+import src.engine.scriptGraphic as sc
 class trevent():
     def __init__(self, code, x, y):
         self.x = x
@@ -89,9 +90,9 @@ class scriptLoader():
         self._register_command(10, self.set_global, "*§")  #set command (world)               set_global *adress $item
         self._register_command(11,self.win,"")            #win
         self._register_command(12,self.loose,"")          #loose
-        self._register_command(13,self.draw_image,"****")     #draw image to screen              drI *stor *x *y *image
-        self._register_command(14,self.draw_rect,"******")      #draw rectangle to scrren          drR *stor *x *y *color_R *color_G *color_B
-        self._register_command(15,self.draw_clear,"*")    #clear graphics                    clr *adress
+        self._register_command(13,self.draw_image,"***")     #draw image to screen              drI *x *y *image
+        self._register_command(14,self.draw_rect,"*****")      #draw rectangle to scrren          drR *x *y *color_R *color_G *color_B
+        self._register_command(15,self.draw_clear,"**")    #clear graphics                    clr *x *y
         self._register_command(16,self.compare,"*§**"),     #compare a with op to b and save c comp *a §op *c => *c
         self._register_command(17,self.jmp, "**")           #jump x lines if cond is > 0  using * for jump lines, to allow for 2 byte input but more realistically it is constant
         self._register_command(18,self.set_flag, "§$")        #apply an flag to your very world setFlag §flag $value
@@ -198,13 +199,9 @@ class scriptLoader():
         self.world.win()
     def loose(self):
         self.world.loose()
-    def draw_image(self, stor, x, y, i):
-        print("this command was disabled!")
-        return
-        self.ram[stor] = self.world.display.drawImage(self.ram[x],self.ram[y],self.ram[i])
-    def draw_rect(self, stor, x,y,r,g,b):
-        print("this command was disabled!")
-        return
+    def draw_image(self,x, y, i):
+        self.world.script_overlay[x][y] = sc.scriptGraphic(x,y,txtID=i)
+    def draw_rect(self,x,y,r,g,b):
         r = self.ram[r]
         g = self.ram[g]
         b = self.ram[b]
@@ -219,15 +216,9 @@ class scriptLoader():
         b = hex(b)[2:]
         if len(b ) < 2:
             b = "0" + b
-        #self.world.display.frame.update()
-        #self.world.display.frame.update_idletasks()
-        self.ram[stor] = self.world.display.canvas.create_rectangle(x*20,y*20,x*20+20,y*20+20,width=0,fill="#" + r + g + b)
-    def draw_clear(self, adress):
-        print("this command was disabled!")
-        return
-        self.world.display.remove(self.ram[adress])
-        #self.world.display.frame.update()
-        #self.world.display.frame.update_idletasks()
+        self.world.script_overlay[x][y] = sc.scriptGraphic(x,y,color="#"+r+g+b)
+    def draw_clear(self, x,y):
+        self.world.script_overlay[x][y] = None
     def place_block(self, adress):
         print("this command was disabled!")
         return
