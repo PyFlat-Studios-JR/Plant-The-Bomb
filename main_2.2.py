@@ -11,16 +11,9 @@ from PySide6.QtCore import Qt, QObject, QEvent
 import sys
 from src.accountManager.accounts import getAccountContext
 import src.engine.textureLib as textureLib
+from src.gui.GlobalEventFilter import GlobalEventFilter
 
 ACCOUNT = getAccountContext()
-
-
-class GlobalEventFilter(QObject):
-    def eventFilter(self, obj, event):
-        if event.type() == QEvent.KeyPress:
-            pass
-        return super(GlobalEventFilter, self).eventFilter(obj, event)
-
 
 def setFocusPolicyRecursive(widget, focusPolicy):
     if isinstance(widget, QPushButton):
@@ -30,7 +23,7 @@ def setFocusPolicyRecursive(widget, focusPolicy):
 
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, globalEventFilter:GlobalEventFilter):
         QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -39,6 +32,7 @@ class MainWindow(QMainWindow):
         self.bindLevelButtons()
         self.ui.normal_level_select.setUI(self.ui)
         self.ui.normal_level_select_2.setUI(self.ui)
+        self.ui.tableWidget.setupKeyBinds(["Walk Forward", "Walk Left", "Walk Right", "Walk Backward"], globalEventFilter.eventhappend)
         self.ui.game_widget.parenthook(self)
         self.style_gui()
         self.initKeybinds()
@@ -175,5 +169,5 @@ a = QApplication()
 globalEventFilter = GlobalEventFilter()
 a.installEventFilter(globalEventFilter)
 textureLib.textureLib.loadFolder("src/textures/", "ERR_IMAGE.png")
-b = MainWindow()
+b = MainWindow(globalEventFilter)
 sys.exit(a.exec())

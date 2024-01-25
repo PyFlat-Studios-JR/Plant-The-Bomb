@@ -4,6 +4,7 @@ from PySide6.QtWidgets import *
 from src.engine.gameWindow import gameWindow
 from src.gui.LevelSelectContainer import LevelSelectContainer
 from src.gui.StatsTableWidget import StatsTableWidget
+from src.gui.KeyBindTable import KeyBindTable
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -312,25 +313,6 @@ class Ui_MainWindow(object):
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.stackedWidget_2.sizePolicy().hasHeightForWidth())
         self.stackedWidget_2.setSizePolicy(sizePolicy1)
-        self.page_5 = QWidget()
-        self.page_5.setObjectName(u"page_5")
-        self.verticalLayout_15 = QVBoxLayout(self.page_5)
-        self.verticalLayout_15.setSpacing(0)
-        self.verticalLayout_15.setObjectName(u"verticalLayout_15")
-        self.verticalLayout_15.setContentsMargins(0, 15, 0, 15)
-        self.normal_level_select_2 = StatsTableWidget(self.page_5)
-        self.normal_level_select_2.setObjectName(u"normal_level_select_2")
-        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.normal_level_select_2.sizePolicy().hasHeightForWidth())
-        self.normal_level_select_2.setSizePolicy(sizePolicy2)
-        self.normal_level_select_2.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.normal_level_select_2.setSelectionMode(QAbstractItemView.NoSelection)
-
-        self.verticalLayout_15.addWidget(self.normal_level_select_2)
-
-        self.stackedWidget_2.addWidget(self.page_5)
         self.widget_2 = QWidget()
         self.widget_2.setObjectName(u"widget_2")
         self.verticalLayout_3 = QVBoxLayout(self.widget_2)
@@ -347,6 +329,9 @@ class Ui_MainWindow(object):
         __qtablewidgetitem2 = QTableWidgetItem()
         self.normal_level_select.setHorizontalHeaderItem(2, __qtablewidgetitem2)
         self.normal_level_select.setObjectName(u"normal_level_select")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
         sizePolicy2.setHeightForWidth(self.normal_level_select.sizePolicy().hasHeightForWidth())
         self.normal_level_select.setSizePolicy(sizePolicy2)
         self.normal_level_select.setEditTriggers(QAbstractItemView.NoEditTriggers)
@@ -364,8 +349,93 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.addWidget(self.normal_level_select)
 
         self.stackedWidget_2.addWidget(self.widget_2)
+        self.page_5 = QWidget()
+        self.page_5.setObjectName(u"page_5")
+        self.verticalLayout_15 = QVBoxLayout(self.page_5)
+        self.verticalLayout_15.setSpacing(0)
+        self.verticalLayout_15.setObjectName(u"verticalLayout_15")
+        self.verticalLayout_15.setContentsMargins(0, 15, 0, 15)
+        self.normal_level_select_2 = StatsTableWidget(self.page_5)
+        self.normal_level_select_2.setObjectName(u"normal_level_select_2")
+        sizePolicy2.setHeightForWidth(self.normal_level_select_2.sizePolicy().hasHeightForWidth())
+        self.normal_level_select_2.setSizePolicy(sizePolicy2)
+        self.normal_level_select_2.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.normal_level_select_2.setSelectionMode(QAbstractItemView.NoSelection)
+
+        self.verticalLayout_15.addWidget(self.normal_level_select_2)
+
+        self.stackedWidget_2.addWidget(self.page_5)
         self.page_4 = QWidget()
         self.page_4.setObjectName(u"page_4")
+        self.horizontalLayout_21 = QHBoxLayout(self.page_4)
+        self.horizontalLayout_21.setSpacing(0)
+        self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
+        self.horizontalLayout_21.setContentsMargins(0, 0, 0, 0)
+        self.tabWidget = QTabWidget(self.page_4)
+        self.tabWidget.setObjectName(u"tabWidget")
+        self.tab = QWidget()
+        self.tab.setObjectName(u"tab")
+        self.verticalLayout_16 = QVBoxLayout(self.tab)
+        self.verticalLayout_16.setSpacing(0)
+        self.verticalLayout_16.setObjectName(u"verticalLayout_16")
+        self.verticalLayout_16.setContentsMargins(0, 0, 0, 0)
+        self.frame_24 = QFrame(self.tab)
+        self.frame_24.setObjectName(u"frame_24")
+        self.frame_24.setFrameShape(QFrame.StyledPanel)
+        self.frame_24.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_23 = QHBoxLayout(self.frame_24)
+        self.horizontalLayout_23.setSpacing(0)
+        self.horizontalLayout_23.setObjectName(u"horizontalLayout_23")
+        self.horizontalLayout_23.setContentsMargins(0, 0, 0, 0)
+        self.tableWidget = KeyBindTable(self.frame_24)
+        if (self.tableWidget.columnCount() < 3):
+            self.tableWidget.setColumnCount(3)
+        __qtablewidgetitem3 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(0, __qtablewidgetitem3)
+        __qtablewidgetitem4 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(1, __qtablewidgetitem4)
+        __qtablewidgetitem5 = QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(2, __qtablewidgetitem5)
+        self.tableWidget.setObjectName(u"tableWidget")
+        self.tableWidget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tableWidget.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.tableWidget.setShowGrid(False)
+        self.tableWidget.horizontalHeader().setHighlightSections(False)
+        self.tableWidget.verticalHeader().setHighlightSections(False)
+
+        self.horizontalLayout_23.addWidget(self.tableWidget)
+
+
+        self.verticalLayout_16.addWidget(self.frame_24)
+
+        self.frame_25 = QFrame(self.tab)
+        self.frame_25.setObjectName(u"frame_25")
+        self.frame_25.setFrameShape(QFrame.StyledPanel)
+        self.frame_25.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_22 = QHBoxLayout(self.frame_25)
+        self.horizontalLayout_22.setSpacing(0)
+        self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
+        self.horizontalLayout_22.setContentsMargins(0, 15, 0, 15)
+        self.pushButton_3 = QPushButton(self.frame_25)
+        self.pushButton_3.setObjectName(u"pushButton_3")
+
+        self.horizontalLayout_22.addWidget(self.pushButton_3)
+
+        self.pushButton_4 = QPushButton(self.frame_25)
+        self.pushButton_4.setObjectName(u"pushButton_4")
+
+        self.horizontalLayout_22.addWidget(self.pushButton_4)
+
+
+        self.verticalLayout_16.addWidget(self.frame_25)
+
+        self.tabWidget.addTab(self.tab, "")
+        self.tab_2 = QWidget()
+        self.tab_2.setObjectName(u"tab_2")
+        self.tabWidget.addTab(self.tab_2, "")
+
+        self.horizontalLayout_21.addWidget(self.tabWidget)
+
         self.stackedWidget_2.addWidget(self.page_4)
 
         self.horizontalLayout_2.addWidget(self.stackedWidget_2)
@@ -731,7 +801,8 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         self.stackedWidget.setCurrentIndex(3)
-        self.stackedWidget_2.setCurrentIndex(0)
+        self.stackedWidget_2.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -767,6 +838,16 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem1.setText(QCoreApplication.translate("MainWindow", u"Completed in Time", None));
         ___qtablewidgetitem2 = self.normal_level_select.horizontalHeaderItem(2)
         ___qtablewidgetitem2.setText(QCoreApplication.translate("MainWindow", u"Start Level", None));
+        ___qtablewidgetitem3 = self.tableWidget.horizontalHeaderItem(0)
+        ___qtablewidgetitem3.setText(QCoreApplication.translate("MainWindow", u"Action", None));
+        ___qtablewidgetitem4 = self.tableWidget.horizontalHeaderItem(1)
+        ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"Primary", None));
+        ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(2)
+        ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"Secondary", None));
+        self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Tab 1", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Tab 2", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Inventory", None))
         self.range_icon_btn.setText(QCoreApplication.translate("MainWindow", u" Range", None))
         self.range_inv_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
