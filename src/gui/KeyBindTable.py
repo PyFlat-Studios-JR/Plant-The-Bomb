@@ -1,52 +1,33 @@
-import sys
-from PySide6.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QTableWidget,
-    QTableWidgetItem,
-    QVBoxLayout,
-    QWidget,
-)
+from PySide6.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView
 from PySide6.QtCore import Qt, QEvent
 from PySide6.QtGui import QKeySequence
-from GlobalEventFilter import GlobalEventFilter
-
-
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.initUI()
-        self.setFocusPolicy(Qt.NoFocus)
-
-    def initUI(self):
-        self.table = KeyBindTable(None, eventfilter.eventhappend)
-        layout = QVBoxLayout()
-        layout.addWidget(self.table)
-        centralWidget = QWidget()
-        centralWidget.setLayout(layout)
-        self.setCentralWidget(centralWidget)
+from src.gui.GlobalEventFilter import GlobalEventFilter
 
 
 class KeyBindTable(QTableWidget):
-    def __init__(self, actions, eventhappend):
-        super().__init__()
-        eventhappend.connect(self.handleEvent)
+    def __init__(self, parent=None):
+        super().__init__(parent=parent)
         self.setEditTriggers(QTableWidget.NoEditTriggers)
         self.cellClicked.connect(self.handleCellClicked)
-        self.setColumnCount(3)
-        self.verticalHeader().setVisible(True)
+        self.verticalHeader().setVisible(False)
+        self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.keybinds = {}
-        self.setHorizontalHeaderLabels(
-            ["Action", "Primary Keybind", "Secondary Keybind"]
-        )
-        self.actions = ["Move Forward", "Move Backward", "Jump", "Crouch"]
-        self.setRowCount(len(self.actions))
         self.capturing = False
 
+    def setupKeyBinds(self, actions, eventHappend):
+        self.actions = actions
+        self.setRowCount(len(self.actions))
+        eventHappend.connect(self.handleEvent)
         for i, action in enumerate(self.actions):
-            self.setItem(i, 0, QTableWidgetItem(action))
-            self.setItem(i, 1, QTableWidgetItem(""))
-            self.setItem(i, 2, QTableWidgetItem(""))
+            item1 = QTableWidgetItem(action)
+            item1.setTextAlignment(Qt.AlignCenter)
+            item2 = QTableWidgetItem("")
+            item2.setTextAlignment(Qt.AlignCenter)
+            item3 = QTableWidgetItem("")
+            item3.setTextAlignment(Qt.AlignCenter)
+            self.setItem(i, 0, item1)
+            self.setItem(i, 1, item2)
+            self.setItem(i, 2, item3)
 
     def handleCellClicked(self, row, column):
         self.capturing = True
@@ -98,23 +79,11 @@ class KeyBindTable(QTableWidget):
             new_key_text = "Mouse Wheel"
             key = 31
 
-        if new_key_text and key:
-            self.setItem(self.row, self.column, QTableWidgetItem(new_key_text))
+        if new_key_text and key and self.column > 0:
+            item = QTableWidgetItem(new_key_text)
+            item.setTextAlignment(Qt.AlignCenter)
+            self.setItem(self.row, self.column, item)
             self.updateKeybind(self.row, self.column, key)
             self.capturing = False
 
         return False
-
-
-def main():
-    app = QApplication(sys.argv)
-    global eventfilter
-    eventfilter = GlobalEventFilter()
-    app.installEventFilter(eventfilter)
-    ex = MainWindow()
-    ex.show()
-    sys.exit(app.exec())
-
-
-if __name__ == "__main__":
-    main()
