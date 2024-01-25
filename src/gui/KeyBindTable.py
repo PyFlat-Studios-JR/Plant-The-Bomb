@@ -111,6 +111,8 @@ class KeyBindTable(QTableWidget):
             self.capturing = False
             if alreadyExisting:
                 self.dialog.accept()
+                if self.row == alreadyExisting[1] and self.column == alreadyExisting[2]:
+                    return False
                 msg = QMessageBox(self.parent())
                 msg.setWindowTitle("Overwrite Keybind")
                 msg.setText(f"The key '{new_key_text}' is already assigned to '{alreadyExisting[3]}'.")
