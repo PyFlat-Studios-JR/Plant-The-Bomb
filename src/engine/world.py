@@ -121,6 +121,7 @@ class world():
         self.win.update()
         if self.player:
             self.player.afterupdate()
+        self.sl.event(scripts.trevent("on_tick",0,0))
         #print(time.time()-start)
     def paintEvent(self, painter: QPainter): #do the initialization from elsewhere :)
         self.background.paintEvent(painter) #draw background

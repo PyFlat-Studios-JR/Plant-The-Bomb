@@ -196,7 +196,7 @@ class scriptLoader():
             self.world.player.item_nukes = self.ram[adress]
         self.world.player.repaint_inventory()
     def win(self):
-        self.world.win()
+        self.world.winf()
     def loose(self):
         self.world.loose()
     def draw_image(self,x, y, i):
