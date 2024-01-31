@@ -29,6 +29,9 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.stackedWidget_2.setCurrentIndex(1)
+        self.eventFilter = globalEventFilter
+        self.eventFilter.keypress.connect(self.ui.game_widget.keyPressEvent)
+        self.eventFilter.keyrelease.connect(self.ui.game_widget.keyReleaseEvent)
         self.bindLevelButtons()
         self.ui.normal_level_select.setUI(self.ui)
         self.ui.normal_level_select_2.setUI(self.ui)
@@ -159,10 +162,7 @@ class MainWindow(QMainWindow):
     def keyPressEvent(self, event) -> None:
         self.ui.normal_level_select.keyPressEvent(event)
         self.ui.normal_level_select_2.keyPressEvent(event)
-        self.ui.game_widget.keyPressEvent(event)
 
-    def keyReleaseEvent(self, event) -> None:
-        self.ui.game_widget.keyReleaseEvent(event)
 
 
 a = QApplication()
