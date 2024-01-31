@@ -148,8 +148,8 @@ class player(entity.entity):
             self.world.reload_all()
             inventoryReloader.inventoryReloader.reloadInventoryIcons(self.world.win.pr.ui)
         dotk = self.handlemovement()
-        if not dotk:
-            return
+        #if not dotk:
+        #    return
         self.handle_bomb()
         if self.holding:
             if self.holding.is_tickable:

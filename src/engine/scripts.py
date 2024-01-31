@@ -200,7 +200,7 @@ class scriptLoader():
     def loose(self):
         self.world.loose()
     def draw_image(self,x, y, i):
-        self.world.script_overlay[x][y] = sc.scriptGraphic(x,y,txtID=i)
+        self.world.script_overlay[self.ram[x]][self.ram[y]] = sc.scriptGraphic(self.ram[x],self.ram[y],txtID=self.ram[i])
     def draw_rect(self,x,y,r,g,b):
         r = self.ram[r]
         g = self.ram[g]
