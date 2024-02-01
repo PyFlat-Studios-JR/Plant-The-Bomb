@@ -8,6 +8,8 @@ import src.engine.background as background
 import src.engine.enemy as enemy
 import src.engine.textureLib as textureLib
 import src.accountManager.accounts as accounts
+from src.gui.ScreenCapture import ScreenRecorder
+
 from src.compressor import compressor
 from PySide6.QtGui import QPainter
 from PySide6.QtCore import QTimer
@@ -46,6 +48,8 @@ class world():
         self.win.pr.ui.pause_button.clicked.connect(self.pauseunpause)
         if ACCOUNTS.user_content == None:
             print("[WARN] No user is logged in. Your progress will NOT be saved!")
+        self.recorder = ScreenRecorder(self.win.pr)
+        self.recorder.start_recording()
         self.ticker.start(50)
     def pauseunpause(self):
         self.paused = not self.paused
@@ -60,6 +64,7 @@ class world():
     def loose(self):
         print("YOU SUCK")
         self.ticker.stop()
+        self.recorder.stop_recording()
         #self.win.pr.ui.stackedWidget.setCurrentIndex(0)
         if ACCOUNTS.user_content != None:
             ACCOUNTS.user_content.mark_as_completed(self.active_level, self.win.api_get_runtime(),False)
@@ -71,8 +76,9 @@ class world():
     def winf(self):
         print("GG YOU WON")
         self.ticker.stop()
+        self.recorder.stop_recording()
         #self.win.pr.ui.stackedWidget.setCurrentIndex(0)
-        
+
         if ACCOUNTS.user_content != None:
             ACCOUNTS.user_content.mark_as_completed(self.active_level, self.win.api_get_runtime())
             print("Completed: " + self.active_level)

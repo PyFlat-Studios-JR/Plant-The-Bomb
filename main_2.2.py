@@ -28,8 +28,9 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(0)
-        self.ui.stackedWidget_2.setCurrentIndex(1)
+        self.ui.stackedWidget_2.setCurrentIndex(0)
         self.eventFilter = globalEventFilter
+        self.eventFilter.keypress.connect(self.keyPressEvent)
         self.eventFilter.keypress.connect(self.ui.game_widget.keyPressEvent)
         self.eventFilter.keyrelease.connect(self.ui.game_widget.keyReleaseEvent)
         self.bindLevelButtons()
@@ -162,6 +163,10 @@ class MainWindow(QMainWindow):
     def keyPressEvent(self, event) -> None:
         self.ui.normal_level_select.keyPressEvent(event)
         self.ui.normal_level_select_2.keyPressEvent(event)
+        if event.type() == QEvent.KeyPress:
+            if event.key() == Qt.Key_Return:
+                if self.ui.stackedWidget.currentIndex() == 0:
+                    self.action_loginUser()
 
 
 
@@ -170,4 +175,5 @@ globalEventFilter = GlobalEventFilter()
 a.installEventFilter(globalEventFilter)
 textureLib.textureLib.loadFolder("src/textures/", "ERR_IMAGE.png")
 b = MainWindow(globalEventFilter)
+
 sys.exit(a.exec())
