@@ -84,6 +84,8 @@ class KeyBindTable(QTableWidget):
                 return True
             modifiers = event.modifiers()
             non_modifier_keys = [Qt.Key_Shift, Qt.Key_Control, Qt.Key_Alt, Qt.Key_Meta]
+            if modifiers == (Qt.AltModifier | Qt.ControlModifier):
+                return True
 
             if modifiers & ~Qt.NoModifier and key not in non_modifier_keys:
                 return True
