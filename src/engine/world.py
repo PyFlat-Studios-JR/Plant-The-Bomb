@@ -48,8 +48,8 @@ class world():
         self.win.pr.ui.pause_button.clicked.connect(self.pauseunpause)
         if ACCOUNTS.user_content == None:
             print("[WARN] No user is logged in. Your progress will NOT be saved!")
-        self.recorder = ScreenRecorder(self.win.pr)
-        self.recorder.start_recording()
+        #self.recorder = ScreenRecorder(self.win.pr)
+        #self.recorder.start_recording()
         self.ticker.start(50)
     def pauseunpause(self):
         self.paused = not self.paused
@@ -76,7 +76,7 @@ class world():
     def winf(self):
         print("GG YOU WON")
         self.ticker.stop()
-        self.recorder.stop_recording()
+        #self.recorder.stop_recording()
         #self.win.pr.ui.stackedWidget.setCurrentIndex(0)
 
         if ACCOUNTS.user_content != None:
