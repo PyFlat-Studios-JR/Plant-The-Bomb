@@ -64,7 +64,7 @@ class world():
     def loose(self):
         print("YOU SUCK")
         self.ticker.stop()
-        self.recorder.stop_recording()
+        #self.recorder.stop_recording()
         #self.win.pr.ui.stackedWidget.setCurrentIndex(0)
         if ACCOUNTS.user_content != None:
             ACCOUNTS.user_content.mark_as_completed(self.active_level, self.win.api_get_runtime(),False)
