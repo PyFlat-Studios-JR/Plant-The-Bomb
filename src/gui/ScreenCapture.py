@@ -4,10 +4,9 @@ import imageio
 import numpy as np
 
 class ScreenRecorder:
-    def __init__(self, window, duration=60, fps=30):
+    def __init__(self, window, fps=30):
         self.window = window
         self.output_file = f"records/{time.strftime('%Y-%m-%d_%H-%M-%S', time.localtime())}.mp4"
-        self.duration = duration
         self.fps = fps
         self.frames_count = 0
         self.writer = None
