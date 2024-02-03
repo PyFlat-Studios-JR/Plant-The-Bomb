@@ -12,6 +12,7 @@ import sys
 from src.accountManager.accounts import getAccountContext
 import src.engine.textureLib as textureLib
 from src.gui.GlobalEventFilter import GlobalEventFilter
+from src.gui.Dialogs import BasicDialog
 
 ACCOUNT = getAccountContext()
 
@@ -105,7 +106,8 @@ class MainWindow(QMainWindow):
         pwd = self.ui.register_password_entry.text()
         cpd = self.ui.register_confirm_entry.text()
         if len(user) < 1:
-            print("Username must be at least 1 character long!")
+            BasicDialog(self, "Register Error", "Username must be at least 1 character long!", 0x1)
+            #print("Username must be at least 1 character long!")
             return
         if len(pwd) < 1:
             print("Password must be at least 1 character long")

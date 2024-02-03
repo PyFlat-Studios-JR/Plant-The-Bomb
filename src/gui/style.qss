@@ -13,7 +13,7 @@ QLineEdit{
 QPushButton{
 	border: 0;
 }
-QPushButton#login_btn, QPushButton#register_btn, QPushButton#recovery_submit_btn{
+QPushButton#login_btn, QPushButton#register_btn, QPushButton#recovery_submit_btn, QMessageBox QPushButton{
 	border-radius: 16px;
 	background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 #00BCD4, stop:0.5 #9C27B0, stop:1 #E91E63);
 	padding: 4px 0px;
