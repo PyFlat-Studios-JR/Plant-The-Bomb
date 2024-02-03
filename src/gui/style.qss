@@ -19,6 +19,9 @@ QPushButton#login_btn, QPushButton#register_btn, QPushButton#recovery_submit_btn
 	padding: 4px 0px;
 	margin: 0 16px;
 }
+QMessageBox QPushButton{
+    padding: 4px 15px;
+}
 QWidget#mainpage_1,
 QWidget#mainpage_2,
 QWidget#mainpage_3 {
@@ -161,12 +164,6 @@ QTableWidget::item:selected {
     background-color: #424242;
     color: white;
     border: 0;
-}
-
-QMessageBox QPushButton {
-    background: #212121;
-    padding: 3px 8px;
-    border-radius: 4px;
 }
 
 QMessageBox QLabel{

@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (
     QLineEdit,
     QWidget,
     QPushButton,
+    QMessageBox
 )
 from PySide6.QtCore import Qt, QObject, QEvent
 import sys
@@ -106,21 +107,22 @@ class MainWindow(QMainWindow):
         pwd = self.ui.register_password_entry.text()
         cpd = self.ui.register_confirm_entry.text()
         if len(user) < 1:
-            BasicDialog(self, "Register Error", "Username must be at least 1 character long!", 0x1)
-            #print("Username must be at least 1 character long!")
+            BasicDialog(self, "Register Error", "Username must be at least 1 character long!", QMessageBox.Critical)
             return
         if len(pwd) < 1:
-            print("Password must be at least 1 character long")
+            BasicDialog(self, "Register Error", "Password must be at least 1 character long!", QMessageBox.Critical)
             return
         if pwd != cpd:
-            print("Password missmatch!")
+            BasicDialog(self, "Register Error", "Passwords don't match!", QMessageBox.Critical)
             return
         res = ACCOUNT.createUser(user, pwd)
         match (res):
             case 0:
-                print("All OKAY")
+                BasicDialog(self, "Successfully registered", "Successfully created account", QMessageBox.Information)
+                ACCOUNT.loginUser(user, pwd)
+                self.ui.normal_level_select.call_page()
             case 1:
-                print("Cannot create user: user exists!")
+                BasicDialog(self, "Register Warning", "Warning: Account already exists", QMessageBox.Warning)
 
     def action_loginUser(self):
         user = self.ui.login_username_entry.text()
@@ -131,15 +133,15 @@ class MainWindow(QMainWindow):
         res: int = ACCOUNT.loginUser(user, pwd)
         match (res):
             case 0:
-                print("All Okay!")
+                print("Succesfully logged in")
             case 1:
-                print("User does not exist!")
+                BasicDialog(self, "Login Error", "User does not exist!", QMessageBox.Critical)
                 return
             case 2:
-                print("Invalid password!")
+                BasicDialog(self, "Login Error", "Invalid password", QMessageBox.Critical)
                 return
             case other:
-                print(f"Unknown error code: {res}")
+                BasicDialog(self, "Login Error", f"Unknown error! Error-Code: {res}", QMessageBox.Critical)
                 return
 
         self.ui.normal_level_select.call_page()

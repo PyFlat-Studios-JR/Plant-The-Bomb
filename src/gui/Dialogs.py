@@ -13,6 +13,6 @@ class BasicDialog(QMessageBox):
         super().__init__(parent=parent)
         self.setWindowTitle(title)
         self.setText(message)
-        self.setIcon(QMessageBox.Critical)
+        self.setIcon(icon)
         self.exec()
 
