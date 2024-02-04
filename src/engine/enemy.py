@@ -93,6 +93,8 @@ class enemy (entity.entity):
                         minv = distance_map[nx][ny]
             self.path.append(mindist)
     def handle_movement(self):
+        if not self.world.flags["enemy_ai"]:
+            return
         self.move_timer += 1
         if random.randint(0,10) > 0 or self.move_timer < 2:
             return
@@ -135,8 +137,9 @@ class enemy (entity.entity):
                     self.world.blocks[self.x][self.y] = deposit
                     self.x = x
                     self.y = y
-    def onTick(self):
-        self.handle_movement()
+    def handle_attack(self):
+        if not self.world.flags["enemy_damage"]:
+            return
         if len(self.attack_pattern) > 0:
             self.attack_cooldown -= 1
         if self.healthbar_draw_timer > 0:
@@ -150,6 +153,9 @@ class enemy (entity.entity):
                 if type(self.world.blocks[x][y]) != enemy and self.world.blocks[x][y].is_alive:
                     self.world.blocks[x][y].onDamage(1)
                 self.attack_pattern_ticker = 10
+    def onTick(self):
+        self.handle_movement()
+        self.handle_attack()
         if self.attack_pattern_ticker > 0:
             self.attack_pattern_ticker -= 1
         else:
