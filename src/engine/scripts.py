@@ -1,5 +1,10 @@
 import random, copy
 import src.engine.scriptGraphic as sc
+import src.engine.block as block
+import src.engine.item as item
+import src.engine.enemy as enemy
+
+
 class trevent():
     def __init__(self, code, x, y):
         self.x = x
@@ -220,26 +225,22 @@ class scriptLoader():
     def draw_clear(self, x,y):
         self.world.script_overlay[x][y] = None
     def place_block(self, adress):
-        print("this command was disabled!")
-        return
-        pass
+
         ID = self.ram[adress]
         X = self.ram[adress+1]
         Y = self.ram[adress+2]
-        if self.world.blocks[X][Y].idx != -1:
-            return
-        match (ID):
-            case 6:
-                self.world.replace_block(X,Y,enemy(self.world,self.world.display,X,Y,self.ram[adress+3],ATTACK.callType(self.ram[adress+4])))
-            case 5:
-                self.world.replace_block(X,Y,item(self.world,self.world.display,X,Y,self.ram[adress+3],self.ram[adress+4]))
-            case 2:
-                raise ValueError("ERR_CANNOT_CREATE_PLAYER")
-            case 8:
-                print("Nope, not implemented")
-                return
+        blocktypes = [block.air, block.bedrock, block.brick, block.water, item.item, enemy.enemy]
+        bt = blocktypes[ID]
+        match (bt):
+            case item.item:
+                self.world.blocks[X][Y] = item.item(self.world,(X,Y),self.ram[adress+3],self.ram[adress+4])
+            case enemy.enemy:
+                self.world.blocks[X][Y] = enemy.enemy(self.world, (X,Y),self.ram[adress+3],self.ram[adress+4])
+            case block.air:
+                self.world.blocks[X][Y] = block.air(self.world)
             case other:
-                self.world.replace_block(X,Y,block(self.world,self.world.display,ID,textureManager.get(self.ram[adress+3])))
+                self.world.blocks[X][Y] = bt(self.world, (X,Y))
+        return
     def compare(self, a, op, b, c): #Save 0 if false, save 1 if true
         a = self.ram[a]
         b = self.ram[b]
