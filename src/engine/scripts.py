@@ -62,7 +62,7 @@ class scriptLoader():
         #4: on_destroy
         #5: on_explode
         #6: on_tick (note that trigger executes AFTER the tick)
-        trl = [None, (self,l,"on_init",x,y,False,True),(self,l,"on_step",x,y,True,False),(self, l, "on_collect", x, y, False, False),(self, l, "on_destroy", x,y,False,False),(self,l,"on_explode",x,y,True,False),(self, l, "on_tick", x, y, True, True)]
+        trl = [None, (self,l,"on_init",x,y,False,True),(self,l,"on_step",x,y,True,False),(self, l, "on_collect", x, y, False, False),(self,l,"on_explode",x,y,True,False),(self, l, "on_destroy", x,y,False,False),(self, l, "on_tick", x, y, True, True)]
         return trl[trtp]
     def _find_triggers(self):
         for i in range (len(self.lines)):
@@ -268,7 +268,7 @@ class scriptLoader():
         self.jmp(self.ram[rel_line], cond)
     def set_flag(self, flag, value):
         val = True if value != 0 else False
-        flags = [None,"drop_items"]
+        flags = [None,"drop_items","enemy_damage","enemy_ai"]
         flag = flags[flag]
         self.world.setFlag(flag,val)
     def tp(self, x, y):

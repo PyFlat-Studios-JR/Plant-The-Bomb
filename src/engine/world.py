@@ -33,7 +33,9 @@ class world():
         self.sl = None  #scriptloader
         self.is_active = True
         self.flags = {
-            "drop_items":True
+            "drop_items":True,
+            "enemy_damage":True,
+            "enemy_ai":True
                 }
         self.bomb_manager = bombManager.bombManager(self) #bomb Manager
         self.win = application
