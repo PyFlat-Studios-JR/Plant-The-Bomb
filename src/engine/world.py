@@ -31,6 +31,7 @@ class world():
         self.script_loader = None #scriptLoader
         self.player = None #player
         self.sl = None  #scriptloader
+        self.is_active = True
         self.flags = {
             "drop_items":True
                 }
@@ -62,6 +63,9 @@ class world():
             for cell in coloumn:
                 cell.reload_texture()
     def loose(self):
+        if not self.is_active:
+            return
+        self.is_active = False
         print("YOU SUCK")
         self.ticker.stop()
         #self.recorder.stop_recording()
@@ -74,6 +78,9 @@ class world():
     def setFlag(self, flag, val):
         self.flags[flag] = val
     def winf(self):
+        if not self.is_active:
+            return
+        self.is_active = False
         print("GG YOU WON")
         self.ticker.stop()
         #self.recorder.stop_recording()
