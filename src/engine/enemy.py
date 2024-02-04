@@ -140,10 +140,6 @@ class enemy (entity.entity):
     def handle_attack(self):
         if not self.world.flags["enemy_damage"]:
             return
-        if len(self.attack_pattern) > 0:
-            self.attack_cooldown -= 1
-        if self.healthbar_draw_timer > 0:
-            self.healthbar_draw_timer -= 1
         if self.attack_cooldown <= 0:
             self.attack_cooldown = 60 + random.randint(0,40)
             for dx, dy in self.attack_pattern:
@@ -156,6 +152,10 @@ class enemy (entity.entity):
     def onTick(self):
         self.handle_movement()
         self.handle_attack()
+        if len(self.attack_pattern) > 0:
+            self.attack_cooldown -= 1
+        if self.healthbar_draw_timer > 0:
+            self.healthbar_draw_timer -= 1
         if self.attack_pattern_ticker > 0:
             self.attack_pattern_ticker -= 1
         else:
