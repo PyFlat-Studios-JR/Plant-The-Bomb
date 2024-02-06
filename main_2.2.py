@@ -166,6 +166,8 @@ class MainWindow(QMainWindow):
             self.ui.normal_level_select_2.call_page()
         elif index == 1:
             self.ui.normal_level_select.call_page()
+        elif index == 2:
+            self.ui.tableWidget.setupKeyBinds(self.eventFilter.eventhappend)
 
     def keyPressEvent(self, event) -> None:
         self.ui.normal_level_select.keyPressEvent(event)
