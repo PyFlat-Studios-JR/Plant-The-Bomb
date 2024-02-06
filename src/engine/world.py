@@ -8,7 +8,7 @@ import src.engine.background as background
 import src.engine.enemy as enemy
 import src.engine.textureLib as textureLib
 import src.accountManager.accounts as accounts
-from src.gui.ScreenCapture import ScreenRecorder
+#from src.gui.ScreenCapture import ScreenRecorder
 
 from src.compressor import compressor
 from PySide6.QtGui import QPainter

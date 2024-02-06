@@ -1,6 +1,6 @@
 import time
 from PySide6.QtCore import QTimer
-import imageio
+#import imageio
 import numpy as np
 
 class ScreenRecorder:
