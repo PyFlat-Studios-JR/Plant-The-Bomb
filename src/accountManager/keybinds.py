@@ -8,6 +8,7 @@ class keybindManager():
             "place_bomb_normal":[32,75],
             "place_bomb_dynamite":[89,0],
             "place_bomb_timed":[84,0],
+            "detonate_timed_bomb": [35, 0],
             "place_bomb_nuke":[78,0]
         }
     def load(self, initv={}):

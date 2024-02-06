@@ -93,7 +93,7 @@ class player(entity.entity):
                 return True
         return False
     def handle_bomb(self):
-        if 35 in self.world.win.keys_held:
+        if self.is_key_enabled("detonate_timed_bomb"): # '#'
             for row in self.world.blocks:
                 for blck in row:
                     if type(blck) == bomb.bomb:

@@ -5,6 +5,18 @@ from PySide6.QtGui import QKeySequence
 from src.gui.Dialogs import BasicDialog, KeybindDialog
 import src.accountManager.keybinds as keys
 
+trivial_names = {
+    "move_up": "Move Up",
+    "move_down": "Move Down",
+    "move_right": "Move Right",
+    "move_left": "Move Left",
+    "place_bomb_normal": "Place Normal Bomb",
+    "place_bomb_dynamite": "Place Dynamite",
+    "place_bomb_timed": "Place Timed Bomb",
+    "detonate_timed_bomb": "Detonate Timed Bomb",
+    "place_bomb_nuke": "Place Nuke"
+}
+
 class KeyBindTable(QTableWidget):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -23,7 +35,7 @@ class KeyBindTable(QTableWidget):
         self.setRowCount(len(self.actions))
         eventHappened.connect(self.handleEvent)
         for i, action in enumerate(self.actions):
-            item1 = QTableWidgetItem(action)
+            item1 = QTableWidgetItem(trivial_names.get(action))
             item1.setTextAlignment(Qt.AlignCenter)
             self.setItem(i, 0, item1)
             keybinds = self.keys.get(action)
