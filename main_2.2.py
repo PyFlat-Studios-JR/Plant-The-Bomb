@@ -176,6 +176,7 @@ class MainWindow(QMainWindow):
 
 
 a = QApplication()
+a.aboutToQuit.connect(ACCOUNT.saveData)
 globalEventFilter = GlobalEventFilter()
 a.installEventFilter(globalEventFilter)
 textureLib.textureLib.loadFolder("src/textures/", "ERR_IMAGE.png")
