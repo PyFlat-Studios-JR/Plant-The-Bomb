@@ -8,10 +8,12 @@ import src.engine.bomb as bomb
 import src.engine.block as block
 import src.engine.textureLib as textureLib
 import src.accountManager.statregister as stats
+import src.accountManager.keybinds as keybinds
 import random
 import src.engine.scripts as scripts
 
 STATCTX = stats.getStatContext()
+KEYS = keybinds.getKeybindManager()
 class player(entity.entity):
     def __init__(self, world, pos):
         super().__init__(world, pos)
@@ -85,6 +87,11 @@ class player(entity.entity):
         self.world.win.pr.ui.nuke_inv_label.setText(f"{self.item_nukes}")
         self.world.win.pr.ui.timebomb_inv_label.setText(f"{self.item_timebombs}")
         self.world.win.pr.ui.damage_inv_label.setText(f"{self.damage}")
+    def is_key_enabled(self, key):
+        for keyop in KEYS.get(key):
+            if keyop in self.world.win.keys_held:
+                return True
+        return False
     def handle_bomb(self):
         if 35 in self.world.win.keys_held:
             for row in self.world.blocks:
@@ -95,7 +102,7 @@ class player(entity.entity):
             if type(self.holding) == bomb.bomb:
                 if self.holding.is_timed:
                     self.holding.timer = 0
-        if 32 in self.world.win.keys_held or (self.curses["poop"] > 0 and self.curses["shield"] <= 0): #K
+        if self.is_key_enabled("place_bomb_normal") or (self.curses["poop"] > 0 and self.curses["shield"] <= 0): #K
             if self.holding == None or type(self.holding) == block.air:
                 if self.stat_bombs > 0:
                     self.holding = bomb.bomb.normalbomb(self)
@@ -103,7 +110,7 @@ class player(entity.entity):
                     STATCTX.set("bombs_placed_total", 1)
                     self.stat_bombs -= 1
                     self.repaint_inventory()
-        if 84 in self.world.win.keys_held: #T
+        if self.is_key_enabled("place_bomb_timed"): #T
             if self.holding == None or type(self.holding) == block.air:
                 if self.item_timebombs > 0:
                     self.holding = bomb.bomb.timebomb(self)
@@ -111,7 +118,7 @@ class player(entity.entity):
                     STATCTX.set("bombs_placed_total", 1)
                     self.item_timebombs -= 1
                     self.repaint_inventory()
-        if 89 in self.world.win.keys_held: #Y
+        if self.is_key_enabled("place_bomb_dynamite"):
             if self.holding == None or type(self.holding) == block.air:
                 if self.item_dynamite > 0:
                     self.holding = bomb.bomb.dynamite(self)
@@ -119,7 +126,7 @@ class player(entity.entity):
                     STATCTX.set("bombs_placed_total", 1)
                     self.item_dynamite -= 1
                     self.repaint_inventory()
-        if 78 in self.world.win.keys_held: #N
+        if self.is_key_enabled("place_bomb_nuke"): #N
             if self.holding == None or type(self.holding) == block.air:
                 if self.item_nukes > 0:
                     self.holding = bomb.bomb.nuke(self)
@@ -143,7 +150,7 @@ class player(entity.entity):
             self.world.loose()
         self.repaint_inventory()
     def onTick(self):
-        if 82 in self.world.win.keys_held:
+        if 82 in self.world.win.keys_held and False: #texture hot reload disabled
             textureLib.textureLib.hotreload()
             self.world.reload_all()
             inventoryReloader.inventoryReloader.reloadInventoryIcons(self.world.win.pr.ui)
@@ -194,16 +201,16 @@ class player(entity.entity):
             return True
         dx = 0
         dy = 0
-        if 87 in self.world.win.keys_held or 16777235 in self.world.win.keys_held:
+        if self.is_key_enabled("move_up"):
             dx = 0
             dy = -1
-        elif 65 in self.world.win.keys_held or 16777234 in self.world.win.keys_held:
+        elif self.is_key_enabled("move_left"):
             dx = -1
             dy = 0
-        elif 83 in self.world.win.keys_held or 16777237 in self.world.win.keys_held:
+        elif self.is_key_enabled("move_down"):
             dx = 0
             dy = 1
-        elif 68 in self.world.win.keys_held or 16777236 in self.world.win.keys_held:
+        elif self.is_key_enabled("move_right"):
             dx = 1
             dy = 0
         self.move(dx,dy)

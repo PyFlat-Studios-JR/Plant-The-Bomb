@@ -2,8 +2,10 @@ import src.crypto as crypto
 import os, json, random, hashlib
 
 import src.accountManager.statregister as stats
+import src.accountManager.keybinds as keys
 
 SCTX = stats.getStatContext()
+KEYS = keys.getKeybindManager()
 class userContent():
     def __init__(self, usr_or_json: str, pwd: str | None = None):
         self.times = {}
@@ -72,6 +74,10 @@ class userContent():
             SCTX.load(dc["stats"])
         else:
             SCTX.load()
+        if "keys" in dc:
+            KEYS.load(dc["keys"])
+        else:
+            KEYS.load()
     def get_time(self, level):
         content = open(level,"rb").read()
         hash = hashlib.sha256(content).hexdigest()
@@ -86,6 +92,7 @@ class userContent():
         a["levels"] = self.completedlevels
         a["times"] = self.times
         a["stats"] = SCTX.data
+        a["keys"] = KEYS.data
         return json.dumps(a)
     def create_recovery_code(self):
         data = json.loads(open("saves/recovery/backupcodebase.json").read())
