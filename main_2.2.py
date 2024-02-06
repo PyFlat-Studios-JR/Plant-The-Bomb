@@ -1,3 +1,4 @@
+from PySide6.QtGui import QKeyEvent
 from src.gui.Ui_MainWindow import Ui_MainWindow
 from PySide6.QtWidgets import (
     QMainWindow,
@@ -38,8 +39,9 @@ class MainWindow(QMainWindow):
         self.bindLevelButtons()
         self.ui.normal_level_select.setUI(self.ui)
         self.ui.normal_level_select_2.setUI(self.ui)
-        self.ui.tableWidget.setupKeyBinds(["Walk Forward", "Walk Left", "Walk Right", "Walk Backward"], globalEventFilter.eventhappend)
+        self.ui.tableWidget.setupKeyBinds(globalEventFilter.eventhappend)
         self.ui.game_widget.parenthook(self)
+        self.ui.login_btn.setShortcut("Return")
         self.style_gui()
         self.initKeybinds()
         self.show()
@@ -155,6 +157,7 @@ class MainWindow(QMainWindow):
         self.ui.login_forgot_password_btn.clicked.connect(
             self.temp_action_select_bypass
         )
+        self.ui.pushButton_4.clicked.connect(self.ui.tableWidget.saveKeybinds)
 
         self.ui.stackedWidget_2.currentChanged.connect(self.page_changed)
 
@@ -167,10 +170,6 @@ class MainWindow(QMainWindow):
     def keyPressEvent(self, event) -> None:
         self.ui.normal_level_select.keyPressEvent(event)
         self.ui.normal_level_select_2.keyPressEvent(event)
-        if event.type() == QEvent.KeyPress:
-            if event.key() == Qt.Key_Return:
-                if self.ui.stackedWidget.currentIndex() == 0:
-                    self.action_loginUser()
 
 
 

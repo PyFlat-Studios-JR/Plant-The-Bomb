@@ -103,6 +103,7 @@ class player(entity.entity):
                 if self.holding.is_timed:
                     self.holding.timer = 0
         if self.is_key_enabled("place_bomb_normal") or (self.curses["poop"] > 0 and self.curses["shield"] <= 0): #K
+            print("HI")
             if self.holding == None or type(self.holding) == block.air:
                 if self.stat_bombs > 0:
                     self.holding = bomb.bomb.normalbomb(self)

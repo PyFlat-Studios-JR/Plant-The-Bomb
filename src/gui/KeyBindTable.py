@@ -3,10 +3,12 @@ from PySide6.QtCore import Qt, QEvent
 from PySide6.QtGui import QKeySequence
 
 from src.gui.Dialogs import KeybindDialog
+import src.accountManager.keybinds as keys
 
 class KeyBindTable(QTableWidget):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
+        self.keys = keys.getKeybindManager()
         self.setFocusPolicy(Qt.NoFocus)
         self.setEditTriggers(QTableWidget.NoEditTriggers)
         self.cellDoubleClicked.connect(self.handleCellClicked)
@@ -15,7 +17,8 @@ class KeyBindTable(QTableWidget):
         self.keybinds = {}
         self.capturing = False
 
-    def setupKeyBinds(self, actions, eventHappened):
+    def setupKeyBinds(self, eventHappened):
+        actions = self.keys.get_data()
         self.actions = actions
         self.setRowCount(len(self.actions))
         eventHappened.connect(self.handleEvent)
@@ -23,10 +26,22 @@ class KeyBindTable(QTableWidget):
             item1 = QTableWidgetItem(action)
             item1.setTextAlignment(Qt.AlignCenter)
             self.setItem(i, 0, item1)
+            keybinds = self.keys.get(action)
             for j in range(1, 3):
-                item = QTableWidgetItem("")
+                self.keybinds.setdefault(action, {})["primary" if j == 1 else "secondary"] = keybinds[j-1]
+                item = QTableWidgetItem(self.getKeyById(keybinds[j-1]))
                 item.setTextAlignment(Qt.AlignCenter)
                 self.setItem(i, j, item)
+
+    def saveKeybinds(self, *args):
+        for action, keys in self.keybinds.items():
+            newBinds = [0]*2
+            for key_type, value in keys.items():
+                if key_type == "primary":
+                    newBinds[0] = value
+                else:
+                    newBinds[1] = value
+            self.keys.set(action, newBinds)
 
     def handleCellClicked(self, row, column):
         if column == 0: return
@@ -67,6 +82,10 @@ class KeyBindTable(QTableWidget):
                     return (True, row, column, action)
 
         return False
+
+    def getKeyById(self, key:int):
+        key_text = QKeySequence(key).toString()
+        return key_text
 
     def handleEvent(self, event: QEvent):
         if not self.capturing:

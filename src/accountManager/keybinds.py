@@ -27,6 +27,8 @@ class keybindManager():
     def get(self, item):
         if item in self.data:
             return self.data[item]
+    def get_data(self):
+        return list(self.data.keys())
 __GLOBAL_REG = None
 
 def getKeybindManager():
