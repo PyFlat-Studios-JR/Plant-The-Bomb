@@ -9,7 +9,7 @@ from PySide6.QtWidgets import (
     QPushButton,
     QMessageBox
 )
-from PySide6.QtCore import Qt, QObject, QEvent
+from PySide6.QtCore import Qt
 import sys
 from src.accountManager.accounts import getAccountContext
 import src.engine.textureLib as textureLib

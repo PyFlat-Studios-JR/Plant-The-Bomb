@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView, QMess
 from PySide6.QtCore import Qt, QEvent
 from PySide6.QtGui import QKeySequence
 
-from src.gui.Dialogs import KeybindDialog
+from src.gui.Dialogs import BasicDialog, KeybindDialog
 import src.accountManager.keybinds as keys
 
 class KeyBindTable(QTableWidget):
@@ -42,6 +42,7 @@ class KeyBindTable(QTableWidget):
                 else:
                     newBinds[1] = value
             self.keys.set(action, newBinds)
+        BasicDialog(self, "Keybind Saving", "Saved keybinds succesfully", QMessageBox.Information)
 
     def handleCellClicked(self, row, column):
         if column == 0: return
