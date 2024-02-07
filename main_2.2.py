@@ -157,7 +157,7 @@ class MainWindow(QMainWindow):
         self.ui.login_forgot_password_btn.clicked.connect(
             self.temp_action_select_bypass
         )
-        self.ui.pushButton_4.clicked.connect(self.ui.tableWidget.saveKeybinds)
+        self.ui.save_keybinds_btn.clicked.connect(self.ui.tableWidget.saveKeybinds)
 
         self.ui.stackedWidget_2.currentChanged.connect(self.page_changed)
 

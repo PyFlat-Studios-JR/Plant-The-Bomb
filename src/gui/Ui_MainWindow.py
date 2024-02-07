@@ -413,18 +413,18 @@ class Ui_MainWindow(object):
         self.frame_25.setFrameShape(QFrame.StyledPanel)
         self.frame_25.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_22 = QHBoxLayout(self.frame_25)
-        self.horizontalLayout_22.setSpacing(0)
+        self.horizontalLayout_22.setSpacing(50)
         self.horizontalLayout_22.setObjectName(u"horizontalLayout_22")
-        self.horizontalLayout_22.setContentsMargins(0, 15, 0, 15)
-        self.pushButton_3 = QPushButton(self.frame_25)
-        self.pushButton_3.setObjectName(u"pushButton_3")
+        self.horizontalLayout_22.setContentsMargins(0, 10, 0, 10)
+        self.reset_keybinds_btn = QPushButton(self.frame_25)
+        self.reset_keybinds_btn.setObjectName(u"reset_keybinds_btn")
 
-        self.horizontalLayout_22.addWidget(self.pushButton_3)
+        self.horizontalLayout_22.addWidget(self.reset_keybinds_btn)
 
-        self.pushButton_4 = QPushButton(self.frame_25)
-        self.pushButton_4.setObjectName(u"pushButton_4")
+        self.save_keybinds_btn = QPushButton(self.frame_25)
+        self.save_keybinds_btn.setObjectName(u"save_keybinds_btn")
 
-        self.horizontalLayout_22.addWidget(self.pushButton_4)
+        self.horizontalLayout_22.addWidget(self.save_keybinds_btn)
 
 
         self.verticalLayout_16.addWidget(self.frame_25)
@@ -844,8 +844,8 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem4.setText(QCoreApplication.translate("MainWindow", u"Primary", None));
         ___qtablewidgetitem5 = self.tableWidget.horizontalHeaderItem(2)
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"Secondary", None));
-        self.pushButton_3.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
-        self.pushButton_4.setText(QCoreApplication.translate("MainWindow", u"Save", None))
+        self.reset_keybinds_btn.setText(QCoreApplication.translate("MainWindow", u"Reset Keybinds", None))
+        self.save_keybinds_btn.setText(QCoreApplication.translate("MainWindow", u"Save Keybinds", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Tab 1", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Tab 2", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Inventory", None))
