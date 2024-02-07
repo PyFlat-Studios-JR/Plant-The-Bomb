@@ -12,7 +12,7 @@ class KeybindDialog(QDialog):
 class BasicDialog(QMessageBox):
     def __init__(self, parent=None, title:str="", message:str="", icon:int=None, fadeout:int=None):
         super().__init__(parent=parent)
-        if fadeout is not None:
+        if fadeout:
             self.timer = QTimer()
             self.timer.setSingleShot(True)
             self.timer.timeout.connect(self.close)
