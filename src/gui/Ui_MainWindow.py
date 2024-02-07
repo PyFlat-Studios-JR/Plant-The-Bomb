@@ -707,7 +707,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_14 = QVBoxLayout(self.inventory_2)
         self.verticalLayout_14.setSpacing(10)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
-        self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_14.setContentsMargins(0, 0, 0, 10)
         self.frame_17 = QFrame(self.inventory_2)
         self.frame_17.setObjectName(u"frame_17")
         self.frame_17.setFrameShape(QFrame.StyledPanel)
@@ -789,7 +789,7 @@ class Ui_MainWindow(object):
         self.frame_3.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_20 = QHBoxLayout(self.frame_3)
         self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
-        self.horizontalLayout_20.setContentsMargins(5, 0, 5, 15)
+        self.horizontalLayout_20.setContentsMargins(5, 0, 5, 0)
         self.pause_button = QPushButton(self.frame_3)
         self.pause_button.setObjectName(u"pause_button")
 

@@ -1684,7 +1684,7 @@ Forgot Password</string>
                <number>0</number>
               </property>
               <property name="bottomMargin">
-               <number>0</number>
+               <number>10</number>
               </property>
               <item>
                <widget class="QFrame" name="frame_17">
@@ -1806,7 +1806,7 @@ Forgot Password</string>
                   <number>5</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>15</number>
+                  <number>0</number>
                  </property>
                  <item>
                   <widget class="QPushButton" name="pause_button">

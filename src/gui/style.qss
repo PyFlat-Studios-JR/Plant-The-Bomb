@@ -102,7 +102,7 @@ QPushButton#quit_button, QPushButton#pause_button, QPushButton#reset_keybinds_bt
     border-radius: 10px;
 }
 
-QPushButton#play, QPushButton#quit_button, QPushButton#pause_button{
+QPushButton#play{
     background: #424242;
     border-radius: 17px;
     margin-top: 8px;
