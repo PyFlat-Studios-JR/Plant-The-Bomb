@@ -34,7 +34,6 @@ class KeyBindTable(QTableWidget):
 
     def setupKeyBinds(self, eventHappened=None):
         actions = self.keys.get_data()
-        print(actions)
         self.actions = actions
         self.setRowCount(len(self.actions))
         if eventHappened:
