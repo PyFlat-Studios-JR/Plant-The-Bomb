@@ -705,7 +705,7 @@ class Ui_MainWindow(object):
         self.inventory_2.setFrameShape(QFrame.StyledPanel)
         self.inventory_2.setFrameShadow(QFrame.Raised)
         self.verticalLayout_14 = QVBoxLayout(self.inventory_2)
-        self.verticalLayout_14.setSpacing(0)
+        self.verticalLayout_14.setSpacing(10)
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
         self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
         self.frame_17 = QFrame(self.inventory_2)
@@ -736,25 +736,52 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_14.addWidget(self.frame)
 
-        self.label_5 = QLabel(self.inventory_2)
-        self.label_5.setObjectName(u"label_5")
+        self.frame_26 = QFrame(self.inventory_2)
+        self.frame_26.setObjectName(u"frame_26")
+        self.frame_26.setFrameShape(QFrame.StyledPanel)
+        self.frame_26.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_24 = QHBoxLayout(self.frame_26)
+        self.horizontalLayout_24.setObjectName(u"horizontalLayout_24")
+        self.shield_label = QLabel(self.frame_26)
+        self.shield_label.setObjectName(u"shield_label")
 
-        self.verticalLayout_14.addWidget(self.label_5)
+        self.horizontalLayout_24.addWidget(self.shield_label)
 
-        self.label_6 = QLabel(self.inventory_2)
-        self.label_6.setObjectName(u"label_6")
 
-        self.verticalLayout_14.addWidget(self.label_6)
+        self.verticalLayout_14.addWidget(self.frame_26)
 
-        self.label_7 = QLabel(self.inventory_2)
-        self.label_7.setObjectName(u"label_7")
+        self.frame_27 = QFrame(self.inventory_2)
+        self.frame_27.setObjectName(u"frame_27")
+        self.frame_27.setFrameShape(QFrame.StyledPanel)
+        self.frame_27.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_25 = QHBoxLayout(self.frame_27)
+        self.horizontalLayout_25.setObjectName(u"horizontalLayout_25")
+        self.ghost_label = QLabel(self.frame_27)
+        self.ghost_label.setObjectName(u"ghost_label")
 
-        self.verticalLayout_14.addWidget(self.label_7)
+        self.horizontalLayout_25.addWidget(self.ghost_label)
 
-        self.label_8 = QLabel(self.inventory_2)
-        self.label_8.setObjectName(u"label_8")
 
-        self.verticalLayout_14.addWidget(self.label_8)
+        self.verticalLayout_14.addWidget(self.frame_27)
+
+        self.frame_28 = QFrame(self.inventory_2)
+        self.frame_28.setObjectName(u"frame_28")
+        self.frame_28.setFrameShape(QFrame.StyledPanel)
+        self.frame_28.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_26 = QHBoxLayout(self.frame_28)
+        self.horizontalLayout_26.setObjectName(u"horizontalLayout_26")
+        self.sidebar_label = QLabel(self.frame_28)
+        self.sidebar_label.setObjectName(u"sidebar_label")
+        sizePolicy3 = QSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.sidebar_label.sizePolicy().hasHeightForWidth())
+        self.sidebar_label.setSizePolicy(sizePolicy3)
+
+        self.horizontalLayout_26.addWidget(self.sidebar_label)
+
+
+        self.verticalLayout_14.addWidget(self.frame_28)
 
         self.frame_3 = QFrame(self.inventory_2)
         self.frame_3.setObjectName(u"frame_3")
@@ -762,7 +789,7 @@ class Ui_MainWindow(object):
         self.frame_3.setFrameShadow(QFrame.Raised)
         self.horizontalLayout_20 = QHBoxLayout(self.frame_3)
         self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
-        self.horizontalLayout_20.setContentsMargins(5, 0, 5, 0)
+        self.horizontalLayout_20.setContentsMargins(5, 0, 5, 15)
         self.pause_button = QPushButton(self.frame_3)
         self.pause_button.setObjectName(u"pause_button")
 
@@ -800,7 +827,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(4)
         self.stackedWidget_2.setCurrentIndex(2)
         self.tabWidget.setCurrentIndex(0)
 
@@ -864,11 +891,10 @@ class Ui_MainWindow(object):
         self.nuke_icon_btn.setText(QCoreApplication.translate("MainWindow", u" Nukes", None))
         self.nuke_inv_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Stats", None))
-        self.time_label.setText(QCoreApplication.translate("MainWindow", u"Time", None))
-        self.label_5.setText("")
-        self.label_6.setText("")
-        self.label_7.setText("")
-        self.label_8.setText("")
+        self.time_label.setText(QCoreApplication.translate("MainWindow", u"Time: ", None))
+        self.shield_label.setText(QCoreApplication.translate("MainWindow", u"Shield: ", None))
+        self.ghost_label.setText(QCoreApplication.translate("MainWindow", u"Ghost: ", None))
+        self.sidebar_label.setText("")
         self.pause_button.setText(QCoreApplication.translate("MainWindow", u"Pause", None))
         self.quit_button.setText(QCoreApplication.translate("MainWindow", u"Quit", None))
     # retranslateUi
