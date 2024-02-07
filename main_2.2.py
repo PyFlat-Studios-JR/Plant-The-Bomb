@@ -158,6 +158,7 @@ class MainWindow(QMainWindow):
             self.temp_action_select_bypass
         )
         self.ui.save_keybinds_btn.clicked.connect(self.ui.tableWidget.saveKeybinds)
+        self.ui.reset_keybinds_btn.clicked.connect(self.ui.tableWidget.resetKeybinds)
 
         self.ui.stackedWidget_2.currentChanged.connect(self.page_changed)
 

@@ -4,6 +4,9 @@ from PySide6.QtGui import QKeySequence
 
 from src.gui.Dialogs import BasicDialog, KeybindDialog
 import src.accountManager.keybinds as keys
+import src.accountManager.accounts as acc
+
+ACCOUNTS = acc.getAccountContext()
 
 trivial_names = {
     "move_up": "Move Up",
@@ -29,11 +32,12 @@ class KeyBindTable(QTableWidget):
         self.keybinds = {}
         self.capturing = False
 
-    def setupKeyBinds(self, eventHappened):
+    def setupKeyBinds(self, eventHappened=None):
         actions = self.keys.get_data()
         self.actions = actions
         self.setRowCount(len(self.actions))
-        eventHappened.connect(self.handleEvent)
+        if eventHappened:
+            eventHappened.connect(self.handleEvent)
         for i, action in enumerate(self.actions):
             item1 = QTableWidgetItem(trivial_names.get(action))
             item1.setTextAlignment(Qt.AlignCenter)
@@ -54,7 +58,18 @@ class KeyBindTable(QTableWidget):
                 else:
                     newBinds[1] = value
             self.keys.set(action, newBinds)
+        ACCOUNTS.saveData()
         BasicDialog(self, "Keybind Saving", "Saved keybinds succesfully", QMessageBox.Information)
+
+    def getOriginalName(self, search):
+        for org, trv in trivial_names.items():
+            if trv == search:
+                return org
+
+    def resetKeybinds(self, *args):
+        self.keybinds.__init__()
+        self.setupKeyBinds()
+        ACCOUNTS.saveData()
 
     def handleCellClicked(self, row, column):
         if column == 0: return
@@ -69,7 +84,7 @@ class KeyBindTable(QTableWidget):
         self.capturing = False
 
     def updateKeybind(self, row, column, key, text, operation):
-        action = self.item(row, 0).text()
+        action = self.getOriginalName(self.item(row, 0).text())
         item = QTableWidgetItem(text)
         item.setTextAlignment(Qt.AlignCenter)
 
