@@ -121,6 +121,7 @@ class scriptLoader():
                 break
         if type (cmd) == int:
             raise RuntimeError("Could not find command for byte {}".format(cmd))
+        #print(cmd)
         exc_arg_length = 0
         for c in cmd["arginf"]:
             if c == "*":
@@ -139,7 +140,6 @@ class scriptLoader():
                 else:
                     args = args + (line[b],)
                     b += 1
-        ##print(cmd, args)
         cmd["method"](*args)
     def _psr_start(self):
         self.parser["running"] = True
@@ -290,8 +290,15 @@ class scriptLoader():
     def rand(self, i, a,d):
         self.ram[d] = random.randint(self.ram[i],self.ram[a])
     def show_text(self, mode, textp):
+        #print(mode, textp)
+        #print("HELLO",self.world.texts)
         #mapping 0: popup; 1: top; ???
-        text_to_show = self.world.texts[self.ram[textp]]
+        try:
+            text_to_show = self.world.texts[self.ram[textp]]
+        except Exception as e:
+            print("EXCEPTION", e)
+            raise RuntimeError(e)
+        #print("BYE")
         match (mode):
             case 0:
                 Dialogs.BasicDialog(self.world.win.pr,"TEXT",text_to_show,fadeout=1000)

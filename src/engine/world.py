@@ -42,11 +42,12 @@ class world():
         self.active_level = file
         self.runtime = 0
         self.draw_later = []
+        self.texts = []
         self.load_file(file)
         self.ticker = QTimer()
         self.ticker.timeout.connect(self.tick)
         self.paused = False
-        self.texts = []
+        
         self.win.pr.ui.quit_button.clicked.connect(self.loose)
         #self.win.pr.ui.quit_button.clickable(True)
         self.win.pr.ui.pause_button.clicked.connect(self.pauseunpause)
@@ -100,6 +101,7 @@ class world():
         c.load(file)
         c.decompress()
         res, s, self.texts = c.get_data()
+        #print(self.texts)
         for x in range (len(res["world"])):
             for y in range (len(res["world"][x])):
                 blockdata = res["world"][x][y]
