@@ -20,6 +20,8 @@ trivial_names = {
     "place_bomb_nuke": "Place Nuke"
 }
 
+original_names = dict((v,k) for k,v in trivial_names.items())
+
 class KeyBindTable(QTableWidget):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -61,11 +63,6 @@ class KeyBindTable(QTableWidget):
         ACCOUNTS.saveData()
         BasicDialog(self, "Keybind Saving", "Saved keybinds succesfully", QMessageBox.Information)
 
-    def getOriginalName(self, search):
-        for org, trv in trivial_names.items():
-            if trv == search:
-                return org
-
     def resetKeybinds(self, *args):
         self.keys.__init__()
         self.setupKeyBinds()
@@ -84,7 +81,7 @@ class KeyBindTable(QTableWidget):
         self.capturing = False
 
     def updateKeybind(self, row, column, key, text, operation):
-        action = self.getOriginalName(self.item(row, 0).text())
+        action = original_names.get(self.item(row, 0).text())
         item = QTableWidgetItem(text)
         item.setTextAlignment(Qt.AlignCenter)
 
@@ -108,12 +105,35 @@ class KeyBindTable(QTableWidget):
                     row = self.actions.index(action)
                     column = 1 if key_type == "primary" else 2
                     return (True, row, column, action)
-
         return False
 
     def getKeyById(self, key:int):
         key_text = QKeySequence(key).toString()
         return key_text
+
+    def handleKeyPress(self, key, new_key_text:str):
+        alreadyExisting = self.checkIfExisting(key)
+
+        if new_key_text and key and self.column > 0:
+            self.capturing = False
+            if alreadyExisting:
+                self.dialog.accept()
+                if self.row == alreadyExisting[1] and self.column == alreadyExisting[2]:
+                    return False
+                msg = QMessageBox(self.parent())
+                msg.setWindowTitle("Overwrite Keybind")
+                msg.setText(f"The key '{new_key_text}' is already assigned to '{alreadyExisting[3]}'.")
+                msg.setInformativeText("Do you want to overwrite it?")
+                msg.addButton(QMessageBox.Yes)
+                msg.addButton(QMessageBox.No)
+                result = msg.exec()
+                if result == QMessageBox.No:
+                    return False
+                else:
+                    self.updateKeybind(alreadyExisting[1], alreadyExisting[2], None, None, "delete")
+
+            self.updateKeybind(self.row, self.column, key, new_key_text, "add")
+            self.dialog.accept()
 
     def handleEvent(self, event: QEvent):
         if not self.capturing:
@@ -138,44 +158,7 @@ class KeyBindTable(QTableWidget):
                 return True
             new_key_text = QKeySequence(key).toString()
 
-        elif event_type == QEvent.MouseButtonPress:
-            button = event.button()
-            key = button
-            buttonText = {
-                Qt.LeftButton: "Left Click",
-                Qt.RightButton: "Right Click",
-                Qt.MiddleButton: "Middle Click",
-                Qt.XButton1: "Mouse Button 1",
-                Qt.XButton2: "Mouse Button 2",
-            }
-            new_key_text = buttonText.get(button, f"Button {button}")
-
-        elif event_type == QEvent.Wheel:
-            new_key_text = "Mouse Wheel"
-            key = 31
-
-        alreadyExisting = self.checkIfExisting(key)
-
-        if new_key_text and key and self.column > 0:
-            self.capturing = False
-            if alreadyExisting:
-                self.dialog.accept()
-                if self.row == alreadyExisting[1] and self.column == alreadyExisting[2]:
-                    return False
-                msg = QMessageBox(self.parent())
-                msg.setWindowTitle("Overwrite Keybind")
-                msg.setText(f"The key '{new_key_text}' is already assigned to '{alreadyExisting[3]}'.")
-                msg.setInformativeText("Do you want to overwrite it?")
-                msg.addButton(QMessageBox.Yes)
-                msg.addButton(QMessageBox.No)
-                result = msg.exec()
-                if result == QMessageBox.No:
-                    return False
-                else:
-                    self.updateKeybind(alreadyExisting[1], alreadyExisting[2], None, None, "delete")
-
-            self.updateKeybind(self.row, self.column, key, new_key_text, "add")
-            self.dialog.accept()
+        self.handleKeyPress(key, new_key_text)
 
         return False
 
