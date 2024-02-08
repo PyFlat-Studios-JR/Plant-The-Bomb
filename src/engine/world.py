@@ -123,6 +123,8 @@ class world():
         self.sl.event(scripts.trevent("on_init",0,0))
     def handle_uiupdate(self):
         self.win.pr.ui.time_label.setText("Time {}:{}:{}:{}.{}".format(*self.win.api_get_runtime()))
+        self.win.pr.ui.ghost_label.setText("Curses: {}s".format(self.player.getCurseTime()//20))
+        self.win.pr.ui.shield_label.setText("Shield: {}s".format(self.player.getShieldTime()//20))
     def drawLater(self, e):
         self.draw_later.append(e)
     def tick(self):

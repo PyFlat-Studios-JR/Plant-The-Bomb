@@ -189,6 +189,14 @@ class player(entity.entity):
                 self.world.sl.event(scripts.trevent("on_step", self.x,self.y))
                 self.world.sl.event(scripts.trevent("on_collect", self.x,self.y))
         return True
+    def getCurseTime(self):
+        mxt = 0
+        for key in self.curses:
+            if key != "shield":
+                mxt = max(0,max(mxt,self.curses[key]))
+        return mxt
+    def getShieldTime(self):
+        return max(self.curses["shield"],0)
     def handlemovement(self):
         if self.has_moved:
             return False
