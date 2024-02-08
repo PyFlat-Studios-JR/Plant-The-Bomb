@@ -131,9 +131,14 @@ QHeaderView::section{
 QTableView, QTableView::item, QTreeView, QTreeView::item{
     border: 0;
 }
-QPushButton#quit_button, QPushButton#pause_button, QPushButton#reset_keybinds_btn, QPushButton#save_keybinds_btn{
+QPushButton#quit_button,
+QPushButton#pause_button,
+QPushButton#reset_keybinds_btn,
+QPushButton#save_keybinds_btn,
+QPushButton#logout_button{
     background: #424242;
     border-radius: 10px;
+    padding: 5px;
 }
 
 QPushButton#play{
@@ -142,7 +147,13 @@ QPushButton#play{
     margin-top: 8px;
     margin-bottom: 8px;
 }
-QPushButton#play:hover, QPushButton#quit_button:hover, QPushButton#pause_button:hover, QPushButton#save_keybinds_btn:hover, QPushButton#reset_keybinds_btn:hover{
+
+QPushButton#play:hover,
+QPushButton#quit_button:hover,
+QPushButton#pause_button:hover,
+QPushButton#save_keybinds_btn:hover,
+QPushButton#reset_keybinds_btn:hover,
+QPushButton#logout_button:hover{
     background: #212121;
 }
 QScrollBar::sub-line:vertical, QScrollBar::add-line:vertical {
@@ -224,7 +235,7 @@ QMessageBox QLabel{
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>4</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="mainpage_1">
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -953,11 +964,11 @@ Forgot Password</string>
             <item>
              <widget class="QTabWidget" name="tabWidget">
               <property name="currentIndex">
-               <number>0</number>
+               <number>1</number>
               </property>
               <widget class="QWidget" name="tab">
                <attribute name="title">
-                <string>Tab 1</string>
+                <string>Keybinds</string>
                </attribute>
                <layout class="QVBoxLayout" name="verticalLayout_16">
                 <property name="spacing">
@@ -1081,8 +1092,71 @@ Forgot Password</string>
               </widget>
               <widget class="QWidget" name="tab_2">
                <attribute name="title">
-                <string>Tab 2</string>
+                <string>General</string>
                </attribute>
+               <layout class="QHBoxLayout" name="horizontalLayout_27">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QFrame" name="frame_29">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_17">
+                   <item alignment="Qt::AlignLeft|Qt::AlignTop">
+                    <widget class="QFrame" name="frame_30">
+                     <property name="frameShape">
+                      <enum>QFrame::StyledPanel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Raised</enum>
+                     </property>
+                     <layout class="QHBoxLayout" name="horizontalLayout_28">
+                      <property name="spacing">
+                       <number>0</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <widget class="QPushButton" name="logout_button">
+                        <property name="text">
+                         <string>Logout</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </widget>
             </item>

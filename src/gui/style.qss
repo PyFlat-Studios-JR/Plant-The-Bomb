@@ -97,9 +97,14 @@ QHeaderView::section{
 QTableView, QTableView::item, QTreeView, QTreeView::item{
     border: 0;
 }
-QPushButton#quit_button, QPushButton#pause_button, QPushButton#reset_keybinds_btn, QPushButton#save_keybinds_btn{
+QPushButton#quit_button,
+QPushButton#pause_button,
+QPushButton#reset_keybinds_btn,
+QPushButton#save_keybinds_btn,
+QPushButton#logout_button{
     background: #424242;
     border-radius: 10px;
+    padding: 5px;
 }
 
 QPushButton#play{
@@ -108,7 +113,13 @@ QPushButton#play{
     margin-top: 8px;
     margin-bottom: 8px;
 }
-QPushButton#play:hover, QPushButton#quit_button:hover, QPushButton#pause_button:hover, QPushButton#save_keybinds_btn:hover, QPushButton#reset_keybinds_btn:hover{
+
+QPushButton#play:hover,
+QPushButton#quit_button:hover,
+QPushButton#pause_button:hover,
+QPushButton#save_keybinds_btn:hover,
+QPushButton#reset_keybinds_btn:hover,
+QPushButton#logout_button:hover{
     background: #212121;
 }
 QScrollBar::sub-line:vertical, QScrollBar::add-line:vertical {

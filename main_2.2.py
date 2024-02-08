@@ -32,6 +32,7 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.stackedWidget_2.setCurrentIndex(0)
+        self.ui.tabWidget.setCurrentIndex(0)
         self.eventFilter = globalEventFilter
         self.eventFilter.keypress.connect(self.keyPressEvent)
         self.eventFilter.keypress.connect(self.ui.game_widget.keyPressEvent)

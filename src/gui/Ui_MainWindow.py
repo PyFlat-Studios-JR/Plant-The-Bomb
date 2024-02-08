@@ -432,6 +432,35 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
+        self.horizontalLayout_27 = QHBoxLayout(self.tab_2)
+        self.horizontalLayout_27.setSpacing(0)
+        self.horizontalLayout_27.setObjectName(u"horizontalLayout_27")
+        self.horizontalLayout_27.setContentsMargins(0, 0, 0, 0)
+        self.frame_29 = QFrame(self.tab_2)
+        self.frame_29.setObjectName(u"frame_29")
+        self.frame_29.setFrameShape(QFrame.StyledPanel)
+        self.frame_29.setFrameShadow(QFrame.Raised)
+        self.verticalLayout_17 = QVBoxLayout(self.frame_29)
+        self.verticalLayout_17.setObjectName(u"verticalLayout_17")
+        self.frame_30 = QFrame(self.frame_29)
+        self.frame_30.setObjectName(u"frame_30")
+        self.frame_30.setFrameShape(QFrame.StyledPanel)
+        self.frame_30.setFrameShadow(QFrame.Raised)
+        self.horizontalLayout_28 = QHBoxLayout(self.frame_30)
+        self.horizontalLayout_28.setSpacing(0)
+        self.horizontalLayout_28.setObjectName(u"horizontalLayout_28")
+        self.horizontalLayout_28.setContentsMargins(0, 0, 0, 0)
+        self.logout_button = QPushButton(self.frame_30)
+        self.logout_button.setObjectName(u"logout_button")
+
+        self.horizontalLayout_28.addWidget(self.logout_button)
+
+
+        self.verticalLayout_17.addWidget(self.frame_30, 0, Qt.AlignLeft|Qt.AlignTop)
+
+
+        self.horizontalLayout_27.addWidget(self.frame_29)
+
         self.tabWidget.addTab(self.tab_2, "")
 
         self.horizontalLayout_21.addWidget(self.tabWidget)
@@ -827,9 +856,9 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget.setCurrentIndex(3)
         self.stackedWidget_2.setCurrentIndex(2)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -873,8 +902,9 @@ class Ui_MainWindow(object):
         ___qtablewidgetitem5.setText(QCoreApplication.translate("MainWindow", u"Secondary", None));
         self.reset_keybinds_btn.setText(QCoreApplication.translate("MainWindow", u"Reset Keybinds", None))
         self.save_keybinds_btn.setText(QCoreApplication.translate("MainWindow", u"Save Keybinds", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Tab 1", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"Tab 2", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Keybinds", None))
+        self.logout_button.setText(QCoreApplication.translate("MainWindow", u"Logout", None))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"General", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Inventory", None))
         self.range_icon_btn.setText(QCoreApplication.translate("MainWindow", u" Range", None))
         self.range_inv_label.setText(QCoreApplication.translate("MainWindow", u"0", None))
