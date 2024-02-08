@@ -46,6 +46,7 @@ class world():
         self.ticker = QTimer()
         self.ticker.timeout.connect(self.tick)
         self.paused = False
+        self.texts = []
         self.win.pr.ui.quit_button.clicked.connect(self.loose)
         #self.win.pr.ui.quit_button.clickable(True)
         self.win.pr.ui.pause_button.clicked.connect(self.pauseunpause)
@@ -98,7 +99,7 @@ class world():
         c = compressor()
         c.load(file)
         c.decompress()
-        res, s, _ = c.get_data()
+        res, s, self.texts = c.get_data()
         for x in range (len(res["world"])):
             for y in range (len(res["world"][x])):
                 blockdata = res["world"][x][y]

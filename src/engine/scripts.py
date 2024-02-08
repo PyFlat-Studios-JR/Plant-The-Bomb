@@ -3,7 +3,7 @@ import src.engine.scriptGraphic as sc
 import src.engine.block as block
 import src.engine.item as item
 import src.engine.enemy as enemy
-
+import src.gui.Dialogs as Dialogs
 
 class trevent():
     def __init__(self, code, x, y):
@@ -110,6 +110,7 @@ class scriptLoader():
         self._register_command(25,self.load_ptr,"**") #loadFromPointer at *from to *to
         self._register_command(26,self.store_ptr,"**") # storeToPointer value *val to *ptr
         self._register_command(27,self.place_block,"*")
+        self._register_command(28,self.show_text,"$*") #showtext *text using $mode
     def _waste(self, *args):
         return None
     def _exec(self, line):
@@ -288,3 +289,13 @@ class scriptLoader():
         self.ram[destination] = copy.deepcopy(self.ram[location][index])
     def rand(self, i, a,d):
         self.ram[d] = random.randint(self.ram[i],self.ram[a])
+    def show_text(self, mode, textp):
+        #mapping 0: popup; 1: top; ???
+        text_to_show = self.world.texts[self.ram[textp]]
+        match (mode):
+            case 0:
+                Dialogs.BasicDialog(self.world.win.pr,"TEXT",text_to_show,fadeout=1000)
+                pass
+            case 1:
+                self.world.win.pr.ui.sidebar_label.setText(text_to_show)
+                pass
