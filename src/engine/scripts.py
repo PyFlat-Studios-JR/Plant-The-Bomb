@@ -293,7 +293,7 @@ class scriptLoader():
         #print(mode, textp)
         #print("HELLO",self.world.texts)
         #mapping 0: popup; 1: top; ???
-        #mode = mode - 1
+        mode -= 1
         try:
             text_to_show = self.world.texts[self.ram[textp]]
         except Exception as e:

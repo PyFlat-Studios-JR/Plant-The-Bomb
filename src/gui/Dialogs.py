@@ -10,7 +10,7 @@ class KeybindDialog(QDialog):
         self.setWindowTitle("Keybind Instruction")
 
 class BasicDialog(QMessageBox):
-    def __init__(self, parent=None, title:str="", message:str="", icon:int=None, fadeout:int=None):
+    def __init__(self, parent=None, title:str="", message:str="", icon:int=QMessageBox.Information, fadeout:int=None):
         super().__init__(parent=parent)
         if fadeout:
             self.timer = QTimer()
