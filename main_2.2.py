@@ -15,6 +15,7 @@ from src.accountManager.accounts import getAccountContext
 import src.engine.textureLib as textureLib
 from src.gui.GlobalEventFilter import GlobalEventFilter
 from src.gui.Dialogs import BasicDialog
+import src.accountManager.statregister as stats
 
 ACCOUNT = getAccountContext()
 
@@ -57,6 +58,8 @@ class MainWindow(QMainWindow):
         self.ui.pushButton_2.clicked.connect(
             lambda: self.ui.stackedWidget_2.setCurrentIndex(change_page(True))
         )
+        self.ui.pushButton.setShortcut("Left")
+        self.ui.pushButton_2.setShortcut("Right")
 
         def change_page(dir: bool):
             cur_page = self.ui.stackedWidget_2.currentIndex()
@@ -137,6 +140,8 @@ class MainWindow(QMainWindow):
         match (res):
             case 0:
                 print("Succesfully logged in")
+                self.ui.login_username_entry.clear()
+                self.ui.login_password_entry.clear()
             case 1:
                 BasicDialog(self, "Login Error", "User does not exist!", QMessageBox.Critical)
                 return
@@ -148,6 +153,15 @@ class MainWindow(QMainWindow):
                 return
 
         self.ui.normal_level_select.call_page()
+
+    def action_logoutUser(self):
+        ACCOUNT.saveData()
+        ACCOUNT.user_content = None
+        stats.getStatContext().__init__()
+        self.ui.stackedWidget_2.setCurrentIndex(0)
+        self.ui.tabWidget.setCurrentIndex(0)
+        self.ui.stackedWidget.setCurrentIndex(0)
+
 
     def initKeybinds(self):
         self.ui.login_register_btn.clicked.connect(self.action_registerPage)
@@ -162,12 +176,13 @@ class MainWindow(QMainWindow):
         self.ui.reset_keybinds_btn.clicked.connect(self.ui.tableWidget.resetKeybinds)
 
         self.ui.stackedWidget_2.currentChanged.connect(self.page_changed)
+        self.ui.logout_button.clicked.connect(self.action_logoutUser)
 
     def page_changed(self, index):
         if index == 0:
-            self.ui.normal_level_select_2.call_page()
-        elif index == 1:
             self.ui.normal_level_select.call_page()
+        elif index == 1:
+            self.ui.normal_level_select_2.call_page()
         elif index == 2:
             self.ui.tableWidget.setupKeyBinds(self.eventFilter.eventhappend)
 
