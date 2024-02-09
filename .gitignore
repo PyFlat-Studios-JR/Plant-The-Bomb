@@ -7,3 +7,4 @@ setup.py
 mainwindow_ui.py
 records/
 *.mp4
+*.ptb
