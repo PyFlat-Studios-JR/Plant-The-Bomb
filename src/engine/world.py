@@ -123,8 +123,10 @@ class world():
         self.sl.event(scripts.trevent("on_init",0,0))
     def handle_uiupdate(self):
         self.win.pr.ui.time_label.setText("Time {}:{}:{}:{}.{}".format(*self.win.api_get_runtime()))
-        self.win.pr.ui.ghost_label.setText("Curses: {}s".format(self.player.getCurseTime()//20))
-        self.win.pr.ui.shield_label.setText("Shield: {}s".format(self.player.getShieldTime()//20))
+        ct = self.player.getCurseTime()
+        st = self.player.getShieldTime()
+        self.win.pr.ui.ghost_label.setText("Curses: {}.{}s".format(ct//20,(ct%20)//2))
+        self.win.pr.ui.shield_label.setText("Shield: {}.{}s".format(st//20,(st%20)//2))
     def drawLater(self, e):
         self.draw_later.append(e)
     def tick(self):
