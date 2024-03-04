@@ -49,7 +49,7 @@ class world():
         self.ticker.timeout.connect(self.tick)
         self.paused = False
 
-        self.win.pr.ui.quit_button.clicked.connect(self.loose)
+        self.win.pr.ui.quit_button.clicked.connect(lambda: self.loose(True))
         #self.win.pr.ui.quit_button.clickable(True)
         self.win.pr.ui.pause_button.clicked.connect(self.pauseunpause)
         if ACCOUNTS.user_content == None:
@@ -67,7 +67,7 @@ class world():
         for coloumn in self.blocks:
             for cell in coloumn:
                 cell.reload_texture()
-    def loose(self):
+    def loose(self, isquit = False):
         if not self.is_active:
             return
         self.is_active = False
@@ -81,7 +81,10 @@ class world():
         #self.win.world = None
         #self.win.pr.ui.normal_level_select.call_page()
         self.win.update()
-        self.make_sth()
+        if not isquit:
+            self.make_sth()
+        else:
+            self.loose_win()
     def setFlag(self, flag, val):
         self.flags[flag] = val
     def winf(self):
