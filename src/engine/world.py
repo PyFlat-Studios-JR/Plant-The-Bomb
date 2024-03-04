@@ -77,8 +77,9 @@ class world():
         if ACCOUNTS.user_content != None:
             ACCOUNTS.user_content.mark_as_completed(self.active_level, self.win.api_get_runtime(),False)
             ACCOUNTS.saveData()
-        self.win.world = None
-        self.win.pr.ui.normal_level_select.call_page()
+        #self.win.world = None
+        #self.win.pr.ui.normal_level_select.call_page()
+        self.win.update()
     def setFlag(self, flag, val):
         self.flags[flag] = val
     def winf(self):
@@ -94,8 +95,9 @@ class world():
             ACCOUNTS.user_content.mark_as_completed(self.active_level, self.win.api_get_runtime())
             print("Completed: " + self.active_level)
             ACCOUNTS.saveData()
-        self.win.world = None
-        self.win.pr.ui.normal_level_select.call_page()
+        #self.win.world = None
+        #self.win.pr.ui.normal_level_select.call_page()
+        self.win.update()
     def load_file(self, file):
         c = compressor()
         c.load(file)
@@ -146,6 +148,8 @@ class world():
         self.sl.event(scripts.trevent("on_tick",0,0))
         #print(time.time()-start)
     def paintEvent(self, painter: QPainter): #do the initialization from elsewhere :)
+        if not self.is_active:
+            return
         self.background.paintEvent(painter) #draw background
         for coloumn in self.blocks:
             for cell in coloumn:
