@@ -11,8 +11,9 @@ import src.accountManager.accounts as accounts
 #from src.gui.ScreenCapture import ScreenRecorder
 
 from src.compressor import compressor
-from PySide6.QtGui import QPainter
+from PySide6.QtGui import QPainter, QColor, QRadialGradient, QBrush
 from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import QPushButton, QVBoxLayout
 import src.accountManager.statregister as stats
 import src.engine.scripts as scripts
 SCTX = stats.getStatContext()
@@ -47,7 +48,7 @@ class world():
         self.ticker = QTimer()
         self.ticker.timeout.connect(self.tick)
         self.paused = False
-        
+
         self.win.pr.ui.quit_button.clicked.connect(self.loose)
         #self.win.pr.ui.quit_button.clickable(True)
         self.win.pr.ui.pause_button.clicked.connect(self.pauseunpause)
@@ -80,6 +81,7 @@ class world():
         #self.win.world = None
         #self.win.pr.ui.normal_level_select.call_page()
         self.win.update()
+        self.make_sth()
     def setFlag(self, flag, val):
         self.flags[flag] = val
     def winf(self):
@@ -98,6 +100,7 @@ class world():
         #self.win.world = None
         #self.win.pr.ui.normal_level_select.call_page()
         self.win.update()
+        self.make_sth()
     def load_file(self, file):
         c = compressor()
         c.load(file)
@@ -147,9 +150,26 @@ class world():
             self.player.afterupdate()
         self.sl.event(scripts.trevent("on_tick",0,0))
         #print(time.time()-start)
+
+    def loose_win(self):
+        self.win.world = None
+        self.win.pr.ui.normal_level_select.call_page()
+
+    def make_sth(self):
+        layout = QVBoxLayout(self.win)
+
+        # Create the QPushButton widget
+        widget = QPushButton("Loose / Win", self.win)
+        widget.clicked.connect(lambda: [self.loose_win()])
+
+        # Add the QPushButton to the layout
+        layout.addWidget(widget)
+
+        # Set the layout to the QWidget
+        self.win.setLayout(layout)
+
+
     def paintEvent(self, painter: QPainter): #do the initialization from elsewhere :)
-        if not self.is_active:
-            return
         self.background.paintEvent(painter) #draw background
         for coloumn in self.blocks:
             for cell in coloumn:
@@ -167,3 +187,22 @@ class world():
                 for i in c:
                     if i:
                         i.drawEvent(painter)
+        if not self.is_active:
+            painter.fillRect(0, 0, 500, 500, QColor(128, 128, 128, 200))
+            # shimmer_color = QColor(255, 0, 0, 150)  # Red with alpha value
+
+            # # Define the gradient points for the corners
+            # gradient_points = [
+            #     (0, 0, shimmer_color),
+            #     (500, 0, shimmer_color),
+            #     (0, 500, shimmer_color),
+            #     (500, 500, shimmer_color)
+            # ]
+
+            # # Draw a radial gradient in the corners
+            # for x, y, color in gradient_points:
+            #     gradient = QRadialGradient(x, y, 100, x, y)
+            #     gradient.setColorAt(0, color)
+            #     gradient.setColorAt(1, QColor(0, 0, 0, 0))  # Fully transparent at the outer edge
+            #     painter.setBrush(QBrush(gradient))
+            #     painter.drawRect(0, 0, 500, 500)
