@@ -152,23 +152,29 @@ class world():
         #print(time.time()-start)
 
     def loose_win(self):
+        old_layout = self.win.layout()
+        if old_layout is not None:
+            while old_layout.count():
+                item = old_layout.takeAt(0)
+                widget = item.widget()
+                if widget is not None:
+                    widget.deleteLater()
+
         self.win.world = None
+
         self.win.pr.ui.normal_level_select.call_page()
 
     def make_sth(self):
-        layout = QVBoxLayout(self.win)
+        if self.win.layout() is None:
+            layout = QVBoxLayout(self.win)
+            self.win.setLayout(layout)
+        else:
+            layout = self.win.layout()
 
-        # Create the QPushButton widget
         widget = QPushButton("Loose / Win", self.win)
-        widget.setVisible(True)
-        widget.clicked.connect(lambda: [self.loose_win(),"self.win.setLayout(self.win.defaultLayout)",widget.setVisible(False),widget.clicked.connect(lambda: [])])
+        widget.clicked.connect(self.loose_win)
 
-        # Add the QPushButton to the layout
         layout.addWidget(widget)
-
-        # Set the layout to the QWidget
-        self.win.setLayout(layout)
-
 
     def paintEvent(self, painter: QPainter): #do the initialization from elsewhere :)
         self.background.paintEvent(painter) #draw background
