@@ -48,7 +48,7 @@ class world():
         self.ticker = QTimer()
         self.ticker.timeout.connect(self.tick)
         self.paused = False
-
+        self.endstate_is_won = False
         self.win.pr.ui.quit_button.clicked.connect(lambda: self.loose(True))
         #self.win.pr.ui.quit_button.clickable(True)
         self.win.pr.ui.pause_button.clicked.connect(self.pauseunpause)
@@ -90,6 +90,7 @@ class world():
     def winf(self):
         if not self.is_active:
             return
+        self.endstate_is_won = True
         self.is_active = False
         print("GG YOU WON")
         self.ticker.stop()
@@ -174,7 +175,7 @@ class world():
         else:
             layout = self.win.layout()
 
-        widget = QPushButton("Loose / Win", self.win)
+        widget = QPushButton("GG, You Win" if self.endstate_is_won else "OH NO, You Lost", self.win)
         widget.clicked.connect(self.loose_win)
 
         layout.addWidget(widget)
