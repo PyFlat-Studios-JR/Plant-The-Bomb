@@ -160,7 +160,8 @@ class world():
 
         # Create the QPushButton widget
         widget = QPushButton("Loose / Win", self.win)
-        widget.clicked.connect(lambda: [self.loose_win()])
+        widget.setVisible(True)
+        widget.clicked.connect(lambda: [self.loose_win(),"self.win.setLayout(self.win.defaultLayout)",widget.setVisible(False),widget.clicked.connect(lambda: [])])
 
         # Add the QPushButton to the layout
         layout.addWidget(widget)

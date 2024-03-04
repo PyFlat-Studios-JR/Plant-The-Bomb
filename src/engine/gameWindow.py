@@ -1,5 +1,5 @@
 from PySide6.QtGui import QPainter
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QLayout, QWidget
 from src.engine.world import world
 from PySide6.QtGui import QKeyEvent
 import os, re
@@ -11,6 +11,11 @@ class gameWindow(QWidget):
         self.world = None
         self.keys_held = []
         self.pr = None
+        self.defaultLayout = None
+    def setLayout(self, arg__1: QLayout) -> None:
+        if not self.defaultLayout:
+            self.defaultLayout = arg__1
+        return super().setLayout(arg__1)
     def initworld(self, file):
         self.world = world(self, file)
         self.update()
