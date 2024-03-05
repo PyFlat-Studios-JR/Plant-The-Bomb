@@ -20,7 +20,7 @@ class CustomSyntaxHighlighter(QSyntaxHighlighter):
 
 
         self.unique_keywords = []
-        for keyword in src.KEYWORDS.keywords:
+        for keyword in src.mapBuilder.src.KEYWORDS.keywords:
             format = QTextCharFormat()
             format.setForeground(QColor(keyword["color"]))
             self.unique_keywords.append((keyword["keywords"], format))
