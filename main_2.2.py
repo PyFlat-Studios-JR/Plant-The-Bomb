@@ -16,6 +16,7 @@ import src.engine.textureLib as textureLib
 from src.gui.GlobalEventFilter import GlobalEventFilter
 from src.gui.Dialogs import BasicDialog
 import src.accountManager.statregister as stats
+from src.mapBuilder import main
 
 ACCOUNT = getAccountContext()
 
@@ -31,6 +32,7 @@ class MainWindow(QMainWindow):
         QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.map_builder = main.MainWindow(mw=self)
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.stackedWidget_2.setCurrentIndex(0)
         self.ui.tabWidget.setCurrentIndex(0)
@@ -50,6 +52,7 @@ class MainWindow(QMainWindow):
         self.w = None
 
         setFocusPolicyRecursive(self, Qt.NoFocus)
+        self.ui.stackedWidget.setCurrentIndex(5)
 
     def bindLevelButtons(self):
         self.ui.pushButton.clicked.connect(

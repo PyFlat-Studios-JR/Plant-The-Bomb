@@ -235,7 +235,7 @@ QMessageBox QLabel{
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="mainpage_1">
        <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -830,7 +830,7 @@ Forgot Password</string>
            </sizepolicy>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="widget_2">
            <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -1928,6 +1928,7 @@ Forgot Password</string>
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="map_builder"/>
      </widget>
     </item>
    </layout>

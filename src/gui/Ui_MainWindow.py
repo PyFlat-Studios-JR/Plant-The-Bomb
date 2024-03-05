@@ -849,6 +849,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5.addWidget(self.frame_10)
 
         self.stackedWidget.addWidget(self.main)
+        self.map_builder = QWidget()
+        self.map_builder.setObjectName(u"map_builder")
+        self.stackedWidget.addWidget(self.map_builder)
 
         self.horizontalLayout.addWidget(self.stackedWidget)
 
@@ -856,8 +859,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
-        self.stackedWidget_2.setCurrentIndex(2)
+        self.stackedWidget.setCurrentIndex(5)
+        self.stackedWidget_2.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(1)
 
 
