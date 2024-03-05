@@ -166,7 +166,7 @@ class player(entity.entity):
             self.curses[key] = max(0, self.curses[key]-1)
     def afterupdate(self):
         self.has_moved = False
-    def move(self, dx, dy):
+    def move(self, dx, dy,has_teleported = False):
         if (abs(dx)+abs(dy)):
             self.has_moved = True
         nx = self.x+dx
@@ -186,8 +186,9 @@ class player(entity.entity):
                 self.world.blocks[nx][ny] = self
                 self.world.blocks[nx-dx][ny-dy] = replacement
                 STATCTX.set("blocks_walked", 1)
-                self.world.sl.event(scripts.trevent("on_step", self.x,self.y))
-                self.world.sl.event(scripts.trevent("on_collect", self.x,self.y))
+                if not has_teleported:
+                    self.world.sl.event(scripts.trevent("on_step", self.x,self.y))
+                    self.world.sl.event(scripts.trevent("on_collect", self.x,self.y))
         return True
     def getCurseTime(self):
         mxt = 0

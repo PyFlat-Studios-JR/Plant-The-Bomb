@@ -187,7 +187,7 @@ class scriptLoader():
         #9: player (y)
         it = [0, self.world.player.health, self.world.player.item_maxbombs, self.world.player.range, self.world.player.item_dynamite, self.world.player.item_timebombs, self.world.player.damage, self.world.player.item_nukes,self.world.player.x,self.world.player.y]
         self.ram[adress] = it[item]
-        self.world.p.paint_inv()
+        self.world.player.repaint_inventory()
     def set_global(self,adress,item):
         if item == 1:
             self.world.player.health = self.ram[adress]
@@ -286,7 +286,7 @@ class scriptLoader():
         y = self.ram[y]
         vx = x - x0
         vy = y - y0
-        self.world.player.move(vx,vy)
+        self.world.player.move(vx,vy,True)
     def download_ram(self, slot):
         self.ram[slot] = [0]*65536
     def load_to_nest(self, location, index, source):
