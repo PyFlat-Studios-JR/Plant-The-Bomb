@@ -324,9 +324,9 @@ class MainWindow(QWidget):
 
     def update_current_block(self):
         if self.texture_left >= 0: self.ui.current_left_block.setPixmap(QPixmap(self.textures[self.texture_left]))
-        else: self.ui.current_left_block.setPixmap(QPixmap("icons/delete.png").scaled(20, 20))
+        else: self.ui.current_left_block.setPixmap(QPixmap("src/mapBuilder/icons//delete.png").scaled(20, 20))
         if self.texture_right >= 0: self.ui.current_right_block.setPixmap(QPixmap(self.textures[self.texture_right]))
-        else: self.ui.current_right_block.setPixmap(QPixmap("icons/delete.png").scaled(20, 20))
+        else: self.ui.current_right_block.setPixmap(QPixmap("src/mapBuilder/icons//delete.png").scaled(20, 20))
 
 
     def place(self, x, y, texture_idx, god_mode=False, damage=None, health=None):
