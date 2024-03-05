@@ -32,7 +32,7 @@ class MainWindow(QMainWindow):
         QMainWindow.__init__(self)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.ui.map_builder = main.MainWindow(mw=self)
+        self.ui.test = main.MainWindow(mw=self)
         self.ui.stackedWidget.setCurrentIndex(0)
         self.ui.stackedWidget_2.setCurrentIndex(0)
         self.ui.tabWidget.setCurrentIndex(0)
@@ -79,6 +79,7 @@ class MainWindow(QMainWindow):
 
     def style_gui(self):
         self.setStyleSheet(open("src/gui/style.qss").read())
+        #self.ui.test.setStyleSheet(open("src/mapBuilder/style.qss").read())
 
         self.ui.frame_6.setGraphicsEffect(QGraphicsOpacityEffect(self.ui.frame_6))
         self.ui.frame_6.graphicsEffect().setOpacity(0.8)
