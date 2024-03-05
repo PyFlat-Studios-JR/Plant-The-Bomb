@@ -20,6 +20,8 @@ class trigger():
         self.used = False
         self.igpos = igpos
         self.line = line
+        if self.posx == self.posy == 0 and not self.igpos:
+            self.igpos = True
     def _collect(self, event):
         if self.event == event.code:
             if not self.used:
@@ -181,7 +183,9 @@ class scriptLoader():
         #5: player (timed_bombs)
         #6: player (damage)
         #7: player (nukes)
-        it = [0, self.world.player.health, self.world.player.item_maxbombs, self.world.player.range, self.world.player.item_dynamite, self.world.player.item_timebombs, self.world.player.damage, self.world.player.item_nukes]
+        #8: player (x)
+        #9: player (y)
+        it = [0, self.world.player.health, self.world.player.item_maxbombs, self.world.player.range, self.world.player.item_dynamite, self.world.player.item_timebombs, self.world.player.damage, self.world.player.item_nukes,self.world.player.x,self.world.player.y]
         self.ram[adress] = it[item]
         self.world.p.paint_inv()
     def set_global(self,adress,item):
@@ -200,6 +204,8 @@ class scriptLoader():
             self.world.player.damage = self.ram[adress]
         if item == 7:
             self.world.player.item_nukes = self.ram[adress]
+        if item == 8 or item == 9:
+            print("[WARN] Player coordinates are read-only! Use tp instead!!!")
         self.world.player.repaint_inventory()
     def win(self):
         self.world.winf()
