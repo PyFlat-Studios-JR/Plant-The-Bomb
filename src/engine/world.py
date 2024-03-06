@@ -50,7 +50,7 @@ class world():
         self.ticker.timeout.connect(self.tick)
         self.paused = False
         self.endstate_is_won = False
-        self.win.pr.ui.quit_button.clicked.connect(lambda: self.make_sth(bypass=True))
+        self.win.pr.ui.quit_button.clicked.connect(lambda: self.loose(isquit=True))
         #self.win.pr.ui.quit_button.clickable(True)
         self.win.pr.ui.pause_button.clicked.connect(self.pauseunpause)
         if ACCOUNTS.user_content == None:
@@ -87,7 +87,7 @@ class world():
         if not isquit:
             self.make_sth()
         else:
-            self.loose_win()
+            self.make_sth(bypass=True)
     def setFlag(self, flag, val):
         self.flags[flag] = val
     def winf(self):
@@ -161,9 +161,11 @@ class world():
     def make_sth(self, bypass=False):
         restart_function = self.restart
         main_screen_function = self.win.pr.ui.normal_level_select.call_page
-        if bypass: main_screen_function(); return
+        if bypass: main_screen_function(); self.win.world=None; return
         widget = ResultScreen(self.win, not self.endstate_is_won, restart_function, main_screen_function)
         self.win.layout().addWidget(widget.widget)
+        self.win.pr.ui.quit_button.setEnabled(False)
+        self.win.pr.ui.pause_button.setEnabled(False)
 
     def paintEvent(self, painter: QPainter): #do the initialization from elsewhere :)
         self.background.paintEvent(painter) #draw background

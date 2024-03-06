@@ -56,5 +56,7 @@ class ResultScreen(QObject):
         elif sender_button.text() == "Main Menu":
             self.main()
             self.win.world = None
+        self.win.pr.ui.quit_button.setEnabled(True)
+        self.win.pr.ui.pause_button.setEnabled(True)
         self.widget.deleteLater()
 
