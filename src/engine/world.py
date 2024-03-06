@@ -8,6 +8,7 @@ import src.engine.background as background
 import src.engine.enemy as enemy
 import src.engine.textureLib as textureLib
 import src.accountManager.accounts as accounts
+from src.gui.ResultScreen import ResultScreen
 #from src.gui.ScreenCapture import ScreenRecorder
 
 from src.compressor import compressor
@@ -49,7 +50,7 @@ class world():
         self.ticker.timeout.connect(self.tick)
         self.paused = False
         self.endstate_is_won = False
-        self.win.pr.ui.quit_button.clicked.connect(lambda: self.loose(True))
+        self.win.pr.ui.quit_button.clicked.connect(lambda: self.make_sth(bypass=True))
         #self.win.pr.ui.quit_button.clickable(True)
         self.win.pr.ui.pause_button.clicked.connect(self.pauseunpause)
         if ACCOUNTS.user_content == None:
@@ -155,30 +156,12 @@ class world():
         self.sl.event(scripts.trevent("on_tick",0,0))
         #print(time.time()-start)
 
-    def loose_win(self):
-        old_layout = self.win.layout()
-        if old_layout is not None:
-            while old_layout.count():
-                item = old_layout.takeAt(0)
-                widget = item.widget()
-                if widget is not None:
-                    widget.deleteLater()
-
-        self.win.world = None
-
-        self.win.pr.ui.normal_level_select.call_page()
-
-    def make_sth(self):
-        if self.win.layout() is None:
-            layout = QVBoxLayout(self.win)
-            self.win.setLayout(layout)
-        else:
-            layout = self.win.layout()
-
-        widget = QPushButton("GG, You Win" if self.endstate_is_won else "OH NO, You Lost", self.win)
-        widget.clicked.connect(self.loose_win)
-
-        layout.addWidget(widget)
+    def make_sth(self, bypass=False):
+        restart_function = None
+        main_screen_function = self.win.pr.ui.normal_level_select.call_page
+        if bypass: main_screen_function(); return
+        widget = ResultScreen(self.win, not self.endstate_is_won, restart_function, main_screen_function)
+        self.win.layout().addWidget(widget.widget)
 
     def paintEvent(self, painter: QPainter): #do the initialization from elsewhere :)
         self.background.paintEvent(painter) #draw background

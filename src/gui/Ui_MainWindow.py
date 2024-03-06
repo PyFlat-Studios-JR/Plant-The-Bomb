@@ -726,6 +726,10 @@ class Ui_MainWindow(object):
         self.game_widget = gameWindow(self.frame_10)
         self.game_widget.setObjectName(u"game_widget")
         self.game_widget.setMinimumSize(QSize(500, 500))
+        self.verticalLayout_19 = QVBoxLayout(self.game_widget)
+        self.verticalLayout_19.setSpacing(0)
+        self.verticalLayout_19.setObjectName(u"verticalLayout_19")
+        self.verticalLayout_19.setContentsMargins(0, 0, 0, 0)
 
         self.horizontalLayout_6.addWidget(self.game_widget)
 
@@ -856,7 +860,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(3)
+        self.stackedWidget.setCurrentIndex(4)
         self.stackedWidget_2.setCurrentIndex(2)
         self.tabWidget.setCurrentIndex(1)
 
