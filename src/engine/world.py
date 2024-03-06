@@ -12,9 +12,8 @@ from src.gui.ResultScreen import ResultScreen
 #from src.gui.ScreenCapture import ScreenRecorder
 
 from src.compressor import compressor
-from PySide6.QtGui import QPainter, QColor, QRadialGradient, QBrush
+from PySide6.QtGui import QPainter, QColor
 from PySide6.QtCore import QTimer
-from PySide6.QtWidgets import QPushButton, QVBoxLayout
 import src.accountManager.statregister as stats
 import src.engine.scripts as scripts
 SCTX = stats.getStatContext()
@@ -85,9 +84,9 @@ class world():
         #self.win.pr.ui.normal_level_select.call_page()
         self.win.update()
         if not isquit:
-            self.make_sth()
+            self.show_end_screen()
         else:
-            self.make_sth(bypass=True)
+            self.show_end_screen(bypass=True)
     def setFlag(self, flag, val):
         self.flags[flag] = val
     def winf(self):
@@ -107,7 +106,7 @@ class world():
         #self.win.world = None
         #self.win.pr.ui.normal_level_select.call_page()
         self.win.update()
-        self.make_sth()
+        self.show_end_screen()
     def load_file(self, file):
         c = compressor()
         c.load(file)
@@ -158,7 +157,7 @@ class world():
         self.sl.event(scripts.trevent("on_tick",0,0))
         #print(time.time()-start)
 
-    def make_sth(self, bypass=False):
+    def show_end_screen(self, bypass=False):
         restart_function = self.restart
         main_screen_function = self.win.pr.ui.normal_level_select.call_page
         if bypass: main_screen_function(); self.win.world=None; return
