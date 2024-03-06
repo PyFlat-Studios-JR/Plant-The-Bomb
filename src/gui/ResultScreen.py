@@ -9,12 +9,10 @@ class ResultScreen(QObject):
         self.main = main
         self.text = "Game Over!" if loose else "GG, You Win!"
         self.color = "red" if loose else "green"
-
         self.widget = QWidget(parent)
         self.widget.setObjectName("no_obj")# Create a QWidget to hold the layout
         self.widget.setStyleSheet("QWidget#no_obj{background-color: none;}")
         self.widget.setLayout(self.create_layout())
-
     def create_layout(self):
         main_layout = QVBoxLayout()
         main_layout.setAlignment(Qt.AlignVCenter)
@@ -57,7 +55,6 @@ class ResultScreen(QObject):
             self.restart()
         elif sender_button.text() == "Main Menu":
             self.main()
-
-        self.win.world = None
+            self.win.world = None
         self.widget.deleteLater()
 

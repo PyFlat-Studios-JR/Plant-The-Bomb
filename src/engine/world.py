@@ -58,6 +58,8 @@ class world():
         #self.recorder = ScreenRecorder(self.win.pr)
         #self.recorder.start_recording()
         self.ticker.start(50)
+    def restart(self):
+        self.win.initworld(self.active_level)
     def pauseunpause(self):
         self.paused = not self.paused
         if self.paused:
@@ -157,7 +159,7 @@ class world():
         #print(time.time()-start)
 
     def make_sth(self, bypass=False):
-        restart_function = None
+        restart_function = self.restart
         main_screen_function = self.win.pr.ui.normal_level_select.call_page
         if bypass: main_screen_function(); return
         widget = ResultScreen(self.win, not self.endstate_is_won, restart_function, main_screen_function)
