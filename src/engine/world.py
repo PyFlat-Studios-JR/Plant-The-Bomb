@@ -22,7 +22,13 @@ ACCOUNTS = accounts.getAccountContext()
 
 
 class world():
-    def __init__(self, application, file):
+    def __init__(self, application, file=None, bytedata=None):
+        if file and bytedata:
+            print("[WARN] The application attempted to load a map from file and bytedata at the same time! This will default to file load!")
+        if file:
+            pass
+        else:
+            self.bytes = bytedata
         enemy.enemy._reset_enemies()
         self.blocks = [[block.air(self) for x in range (25)] for y in range (25)] #very good world right now :)
         self.background = background.background(textureLib.textureLib.getTexture(27))
@@ -44,7 +50,10 @@ class world():
         self.runtime = 0
         self.draw_later = []
         self.texts = []
-        self.load_file(file)
+        if not file:
+            self.load_bytes(self.bytes)
+        else:
+            self.load_file(file)
         self.ticker = QTimer()
         self.ticker.timeout.connect(self.tick)
         self.paused = False
@@ -105,10 +114,13 @@ class world():
         #self.win.pr.ui.normal_level_select.call_page()
         self.win.update()
         self.make_sth()
-    def load_file(self, file):
+    def load_bytes(self, bytes):
         c = compressor()
-        c.load(file)
+        c.mode = 1
+        c.data = bytes
         c.decompress()
+        self.load(c)
+    def load(self, c):
         res, s, self.texts = c.get_data()
         #print(self.texts)
         for x in range (len(res["world"])):
@@ -130,6 +142,11 @@ class world():
                         self.blocks[x][y] = enemy.enemy(self, (x,y),blockdata["objectData"]["health"],blockdata["objectData"]["id2"])
         self.sl = scripts.scriptLoader(self, s)
         self.sl.event(scripts.trevent("on_init",0,0))
+    def load_file(self, file):
+        c = compressor()
+        c.load(file)
+        c.decompress()
+        self.load(c)
     def handle_uiupdate(self):
         self.win.pr.ui.time_label.setText("Time {}:{}:{}:{}.{}".format(*self.win.api_get_runtime()))
         ct = self.player.getCurseTime()
